@@ -2,11 +2,38 @@
 
 **Who this is for:** Everyone on the demo team, including stakeholders like Bryan, whether you write code or not.
 
-**What this is:** Short explanations of the ideas we will keep hearing about. No setup steps, no commands — just concepts.
+**What this is:** Short explanations of the ideas we will keep hearing about (concepts), plus a short **local setup** for anyone using the repo in Cursor. The numbered “Concept” sections below are concept-only.
 
 **Companion doc:** For the full technical blueprint, see [project-architecture-and-plan.md](project-architecture-and-plan.md).
 
 **Repo map:** For what each folder is for (`schemas/`, `fixtures/`, `knowledge-objects/`, etc.) and why those exist before Phase 1, see [REPO-LAYOUT.md](REPO-LAYOUT.md).
+
+## Local setup (everyone)
+
+**Prerequisites:** [Node.js](https://nodejs.org/) **20 or newer** (LTS is fine). **npm** ships with Node; you do not need Yarn or pnpm for this repo.
+
+**What you get:** Installing dependencies pulls TypeScript, Jest, and the KO corpus validator so you can build, run tests, and validate knowledge objects locally. Each teammate runs install on their own machine; the lockfile keeps versions aligned.
+
+1. **Clone or pull** this repository (same copy everyone else uses on GitHub).
+2. **Open the repo in Cursor:** **File → Open Folder…** and choose the **Sherpa** root (the folder that contains `package.json`).
+3. **Install dependencies** — in the integrated terminal (or any shell), **cd** to that root, then:
+   ```bash
+   npm install
+   ```
+4. **Sanity checks** (optional but recommended after install or before a PR):
+   ```bash
+   npm run build          # TypeScript compile
+   npm test               # serializer / fixture tests
+   npm run validate:kos   # KO corpus + examples (when editing knowledge-objects/)
+   ```
+
+**When to run `npm install` again:** After `package-lock.json` changes (e.g. someone added or upgraded a dependency), or on a fresh clone.
+
+**Do not commit** `node_modules/` — it is listed in `.gitignore`. Commit changes to `package.json` / `package-lock.json` only when the team intentionally changes dependencies.
+
+**More detail:** Folder layout, scripts, and how `schemas/`, `fixtures/`, and `knowledge-objects/` fit together — [REPO-LAYOUT.md](REPO-LAYOUT.md). Phase 1 checklist and commands — [PHASE1-READINESS.md](PHASE1-READINESS.md).
+
+---
 
 ### Two ways to practice (product direction)
 
