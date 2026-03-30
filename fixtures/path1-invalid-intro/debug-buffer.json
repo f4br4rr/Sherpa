@@ -1,0 +1,24 @@
+{
+  "_fixtureNote": "§5: Path 1 rows in debug with turnIndex null; debugOnly suggested in doc. reason is implementation vocabulary, not specified in architecture doc.",
+  "debugBuffer": [
+    {
+      "messageId": "msg-001",
+      "authorRole": "technician",
+      "content": "hey what's up",
+      "timestamp": "2026-03-27T12:00:00.000Z",
+      "turnIndex": null,
+      "debugOnly": true,
+      "reason": "invalid_intro_attempt"
+    },
+    {
+      "messageId": "msg-002",
+      "authorRole": "end_user",
+      "appendedDuringIntro": true,
+      "content": "Hi, I'm a customer with a network issue. Can you help?",
+      "timestamp": "2026-03-27T12:00:01.000Z",
+      "turnIndex": null,
+      "debugOnly": true,
+      "reason": "persona_a_intro_recovery"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "_fixtureNote": "§5 Removal 1 + §8: all four technician rows remain in scored transcript; turnIndex 0..3. Per §6, graded is not part of minimum message shape — omit here. Evaluator may attach grading metadata in a separate pass.",
+  "exportSchemaVersion": "1.0",
+  "transcript": [
+    {
+      "messageId": "msg-101",
+      "authorRole": "technician",
+      "content": "Hello, I'm Alex your GHD technician. How can I help you today?",
+      "timestamp": "2026-03-27T12:10:00.000Z",
+      "turnIndex": 0
+    },
+    {
+      "messageId": "msg-102",
+      "authorRole": "technician",
+      "content": "asdfjkl;",
+      "timestamp": "2026-03-27T12:10:05.000Z",
+      "turnIndex": 1
+    },
+    {
+      "messageId": "msg-103",
+      "authorRole": "technician",
+      "content": "???",
+      "timestamp": "2026-03-27T12:10:10.000Z",
+      "turnIndex": 2
+    },
+    {
+      "messageId": "msg-104",
+      "authorRole": "technician",
+      "content": "hhhhhhh",
+      "timestamp": "2026-03-27T12:10:15.000Z",
+      "turnIndex": 3
+    }
+  ]
+}

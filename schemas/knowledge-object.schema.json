@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ghd-bot.local/schemas/knowledge-object.schema.json",
+  "title": "Knowledge Object (KO)",
+  "description": "Canonical KO shape per project-architecture-and-plan.md — Data schema blueprint.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "ko_number",
+    "subject",
+    "configuration_item",
+    "state",
+    "description",
+    "ts_steps",
+    "internal_information"
+  ],
+  "properties": {
+    "ko_number": {
+      "type": "string",
+      "pattern": "^KO[0-9]+$",
+      "description": "Stable id, e.g. KO77812; unique across corpus (enforced by validate script)."
+    },
+    "persona": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional ticket header display name."
+    },
+    "subject": { "type": "string", "minLength": 1 },
+    "configuration_item": { "type": "string", "minLength": 1 },
+    "state": {
+      "type": "string",
+      "enum": ["Draft", "Published"]
+    },
+    "description": { "type": "string", "minLength": 1 },
+    "ts_steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step", "title", "action"],
+        "properties": {
+          "step": { "type": "integer", "minimum": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "action": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "internal_information": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Evaluator ground truth; empty string treated as incomplete KO in runtime — do not ship empty in Phase 1."
+    },
+    "contributor_notes": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "device": { "type": "string", "minLength": 1 },
+    "os": { "type": "string", "minLength": 1 },
+    "rubric": {
+      "type": "object",
+      "description": "Written ATS Drill only; optional free-form object until rubric sub-schema is frozen."
+    }
+  }
+}

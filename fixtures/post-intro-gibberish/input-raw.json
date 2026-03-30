@@ -1,0 +1,29 @@
+{
+  "_fixtureNote": "Post-intro live session; invalid intro path complete. Gibberish strings per §8 examples (keyboard mash / non-token).",
+  "messages": [
+    {
+      "messageId": "msg-101",
+      "authorRole": "technician",
+      "content": "Hello, I'm Alex your GHD technician. How can I help you today?",
+      "timestamp": "2026-03-27T12:10:00.000Z"
+    },
+    {
+      "messageId": "msg-102",
+      "authorRole": "technician",
+      "content": "asdfjkl;",
+      "timestamp": "2026-03-27T12:10:05.000Z"
+    },
+    {
+      "messageId": "msg-103",
+      "authorRole": "technician",
+      "content": "???",
+      "timestamp": "2026-03-27T12:10:10.000Z"
+    },
+    {
+      "messageId": "msg-104",
+      "authorRole": "technician",
+      "content": "hhhhhhh",
+      "timestamp": "2026-03-27T12:10:15.000Z"
+    }
+  ]
+}

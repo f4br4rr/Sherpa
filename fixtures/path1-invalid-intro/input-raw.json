@@ -1,0 +1,24 @@
+{
+  "_fixtureNote": "Pre-serialization session messages; turnIndex may be absent on live rows.",
+  "messages": [
+    {
+      "messageId": "msg-001",
+      "authorRole": "technician",
+      "content": "hey what's up",
+      "timestamp": "2026-03-27T12:00:00.000Z"
+    },
+    {
+      "messageId": "msg-002",
+      "authorRole": "end_user",
+      "appendedDuringIntro": true,
+      "content": "Hi, I'm a customer with a network issue. Can you help?",
+      "timestamp": "2026-03-27T12:00:01.000Z"
+    },
+    {
+      "messageId": "msg-003",
+      "authorRole": "technician",
+      "content": "Hello, I'm Alex your GHD technician. How can I help you today?",
+      "timestamp": "2026-03-27T12:00:05.000Z"
+    }
+  ]
+}

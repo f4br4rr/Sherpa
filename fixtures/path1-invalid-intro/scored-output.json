@@ -1,0 +1,13 @@
+{
+  "_fixtureNote": "Partial demo-shaped slice per §6: exportSchemaVersion + scored canonical transcript only. No graded on messages (not in §6 minimum shape). No appendedDuringIntro in scored JSON (FIX 2).",
+  "exportSchemaVersion": "1.0",
+  "transcript": [
+    {
+      "messageId": "msg-003",
+      "authorRole": "technician",
+      "content": "Hello, I'm Alex your GHD technician. How can I help you today?",
+      "timestamp": "2026-03-27T12:00:05.000Z",
+      "turnIndex": 0
+    }
+  ]
+}

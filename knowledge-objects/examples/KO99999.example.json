@@ -1,0 +1,21 @@
+{
+  "ko_number": "KO99999",
+  "persona": "Example - Finance",
+  "subject": "Example symptom title (replace with real content)",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "Short symptom summary the technician would see as Issue Description.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "First step title",
+      "action": "What the technician should try; replace with real instructions."
+    },
+    {
+      "step": 2,
+      "title": "Second step title",
+      "action": "Further troubleshooting detail."
+    }
+  ],
+  "internal_information": "Ground truth for evaluator: root cause, escalations, caveats — non-empty in Phase 1."
+}

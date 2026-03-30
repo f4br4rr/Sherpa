@@ -1,0 +1,25 @@
+{
+  "_fixtureNote": "Spec-backed orchestration/UI rules from project-architecture-and-plan.md §8 (gibberish) and B7 (hint presentation). No 'max once per 3-turn window' in the architecture doc — do not treat that as spec unless added to the plan.",
+  "sourceSections": [
+    "§8 Runtime behavioral rules — Gibberish (live phase)",
+    "§8 — UI hint window (B7)"
+  ],
+  "rules": [
+    {
+      "id": "gibberish-no-persona-a",
+      "text": "Do not invoke Persona A for a post-intro technician turn classified as empty/gibberish (no synthetic customer reply for that message)."
+    },
+    {
+      "id": "gibberish-scored-turnindex",
+      "text": "The technician gibberish row is included in the scored export; turnIndex increments in the scored transcript sequence (Removal 1 / §8)."
+    },
+    {
+      "id": "ui-hint-b7",
+      "text": "Surface a non-blocking toast or inline banner for gibberish/empty hint copy; auto-dismiss after a few seconds (~3–5s default); do not permanently lock the composer."
+    }
+  ],
+  "proposedProductPolicy": {
+    "_comment": "Optional throttling (e.g. max hints per N turns) is not defined in the architecture document. Add here only after PM/architecture update.",
+    "hintThrottle": null
+  }
+}
