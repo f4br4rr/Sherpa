@@ -72,6 +72,8 @@ Run from repo root: **`npm run validate:kos`**.
 |------|---------|
 | `serializeExportTranscript.ts` | **Reference implementation** of the §5 split: builds scored `transcript` + `debugBuffer` from raw session messages (pluggable intro validator). |
 | `serializeExportTranscript.test.ts` | **Jest** tests that load `fixtures/` and assert output matches goldens. |
+| `pickDisplayName.ts` | **`resolveTicketDisplayName` / `pickSyntheticDisplayName`** — when a KO has no `persona`, ticket header **`displayName`** = random first + random last from shipped lists (`node:crypto` `randomInt`). Phase 2 app should reuse or port this module. |
+| `pickDisplayName.test.ts` | **Jest** tests for persona trim vs synthetic names. |
 
 **Why before Phase 1:** Optional spike so the contract is **executable**, not only documentation. The real app may move or replace this module later.
 

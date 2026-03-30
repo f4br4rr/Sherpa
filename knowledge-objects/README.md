@@ -11,7 +11,7 @@
 
 - Follow **`schemas/knowledge-object.schema.json`** and [Validation rules](../project-architecture-and-plan.md#validation-rules-for-humans-and-later-automation) in the architecture doc.
 - Use **only documented fields** on each KO unless the team extends the schema by agreement (extra keys are allowed by the schema but may be ignored at runtime).
-- **`persona`** is **optional** in the schema but **recommended** for realistic ticket headers.
+- **`persona`** is **optional** in the schema but **recommended** for realistic ticket headers. If omitted, the desktop app sets the header name from **random given + family** lists (`src/pickDisplayName.ts` in the repo).
 - **`ko_number`** must be **unique** across all files under **`corpus/`** (enforced by `npm run validate:kos`).
 - **Target (Phase 1):** **40** KOs under **`corpus/`** — **10** each Mac, Windows, Zoom, Office Apps (enforce split via folders and/or PR review; not automated). Prefer **generic, demo-safe** issues — see [KO generation strategy](../project-architecture-and-plan.md#ko-generation-strategy--phase-1-corpus-40-mock-records).
 

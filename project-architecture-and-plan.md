@@ -275,7 +275,7 @@ This flow mirrors a **real Help Desk** rhythm: ticket context exists **before** 
 - On click, the app **randomly selects** one KO from the corpus (or from a filtered subset by domain/difficulty in later phases) and **binds** that KO as the **scenario source of truth** for symptoms, acceptable resolution path, and grading.
 - The app composes a **mock ticket header** displayed **above** the empty chat:
   - **Ticket number:** Display the bound KO’s **`ko_number`** (e.g. KO77812). Synthetic **`ticketId`** (SIM-…) is stored in **TicketContext** only — **not** shown here.
-  - **Persona name (`displayName`):** KO’s **`persona`** field if present; otherwise **one random draw** (uniform, **with replacement** across sessions) from a **hardcoded list of 10 generic full names** shipped with the app — e.g. `Alex Rivera`, `Jordan Lee`, `Sam Patel`, `Taylor Brooks`, `Morgan Chen`, `Casey Nguyen`, `Riley Foster`, `Jamie Ortiz`, `Drew Gallagher`, `Avery Kim` (implementation may adjust strings; **exactly 10** stable options for predictable demos).
+  - **Persona name (`displayName`):** KO’s **`persona`** field if present (non-empty after trim); otherwise **two independent random draws** at scenario start — one **given name** and one **family name** from separate **curated lists** shipped with the app (`First` + space + `Last`, e.g. `Priya Nakamura`). Lists are maintained in **`src/pickDisplayName.ts`** in this repo as the reference implementation (`SYNTHETIC_FIRST_NAMES`, `SYNTHETIC_LAST_NAMES`, `pickSyntheticDisplayName` / `resolveTicketDisplayName`). **New combination each session** when `persona` is absent; **stable for the duration of that session** once chosen.
   - **Issue Description** (UI label; field **`issueSummary`**): one line derived from KO `subject` / `description`, edited for end-user tone if needed.
 
 ### Empty chat and technician speaks first
@@ -395,7 +395,7 @@ Each Knowledge Object is a single JSON document with the following fields:
 | Field                  | Intent                                                                                                                                |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `ko_number`            | Stable identifier (string), e.g. `KO77812`. Used in evidence trails and scoring references.                                           |
-| `persona`              | **Optional.** Synthetic end-user display label for the ticket header, e.g. `Karen - Accounting` (first name + department). If omitted, the app picks a name from the **fallback list** (see [Session initiation and persona flow](#session-initiation-and-persona-flow)). |
+| `persona`              | **Optional.** Synthetic end-user display label for the ticket header, e.g. `Karen - Accounting` (first name + department). If omitted or whitespace-only, the app composes **`displayName`** from **random given name + random family name** (see [Session initiation and persona flow](#session-initiation-and-persona-flow)). |
 | `subject`              | Short human title of the issue.                                                                                                       |
 | `configuration_item`   | Logical CI label, e.g. `Zoom (Windows)`, `Microsoft 365 (Excel)`, `macOS`.                                                            |
 | `state`                | Lifecycle for mock data; default `Published` for usable KOs.                                                                          |
@@ -435,7 +435,7 @@ The JSON below uses **one fictional Zoom-related symptom** only to show **field 
 ### Validation rules (for humans and later automation)
 
 - `ko_number` unique across **production** KOs (all `.json` under **`knowledge-objects/corpus/`** — see [Repository layout (conceptual)](#repository-layout-conceptual)).
-- `persona` optional; when present, non-empty string; used as **`ticketHeader.displayName`** unless overridden by product rules.
+- `persona` optional; when present, non-empty string after trim; used as **`ticketHeader.displayName`**. When absent or whitespace-only, **`displayName`** is **random given + family** (see [Session initiation and persona flow](#session-initiation-and-persona-flow)).
 - `contributor_notes` optional (post-MVP); string, free-form, max 500 chars; enrichment audit trail; not required for published demo KOs; not used at runtime.
 - `ts_steps` sorted by `step`, contiguous starting at 1, no duplicates.
 - `state` constrained to a small enum (e.g. `Draft` | `Published` — demo can use `Published` only).
@@ -483,7 +483,7 @@ Phase 1 scenarios should be **reproducible on typical corporate laptops** used i
 4. **Validate** — Schema checklist (required fields, step order, uniqueness).
 5. **Dedupe** — Merge near-duplicates; differentiate by **root cause** or **trigger**.
 6. **Tag for scoring** — Optional metadata (difficulty, correct root cause keyword, escalation threshold) to support automated rubrics later.
-7. **`persona`** — Optional; add realistic **name + department** strings for richer ticket headers when missing from seed data.
+7. **`persona`** — Optional; add realistic **name + department** strings for richer ticket headers. If skipped, the app still supplies **`displayName`** via **random first + last** (see `src/pickDisplayName.ts`).
 
 ### Quality guardrails
 
@@ -501,7 +501,7 @@ Session state is **first-class** because scoring and mentorship must reflect **w
 ### 0. Scenario and initiation state (binds a session to one KO)
 
 - **`boundKoNumber` / `scenarioId`:** Set when **Start Random Scenario** completes — immutable for that session unless the user **abandons** (see [Abandon and reset behavior](#abandon-and-reset-behavior)); a new **Start Random Scenario** after abandon starts a **fresh** binding.
-- **`ticketHeader`:** `{ koNumber, displayName, issueSummary }` — **`koNumber`** = bound KO’s **`ko_number`** (matches **`boundKoNumber`**). **`displayName`** from **`persona` || fallback RNG** (stable for the session). **`issueSummary`** is the one-line Issue Description. Shown in UI and passed into prompts as **immutable context** for Persona A (symptom hints only at the UI level; Persona A still discovers detail through dialogue). Synthetic **`ticketId`** in **TicketContext** is **not** header UI.
+- **`ticketHeader`:** `{ koNumber, displayName, issueSummary }` — **`koNumber`** = bound KO’s **`ko_number`** (matches **`boundKoNumber`**). **`displayName`** from **trimmed `persona`** if non-empty, else **`pickSyntheticDisplayName()`** (two-list combinator; stable for the session). **`issueSummary`** is the one-line Issue Description. Shown in UI and passed into prompts as **immutable context** for Persona A (symptom hints only at the UI level; Persona A still discovers detail through dialogue). Synthetic **`ticketId`** in **TicketContext** is **not** header UI.
 - **`phase`:** `null` \| `awaiting_tech_intro` \| `live` \| `evaluation` \| `abandoned` \| `closed`
   - `null` = outside the named enum; used only when the session store is cleared (no active session).
   - The named enum (`awaiting_tech_intro` … `closed`) applies only to active sessions. **Happy path:** `awaiting_tech_intro` → `live` → `evaluation` → `closed`. An **abandon** may set `abandoned` (short-lived, for teardown or logging) **then** clears state back to **idle** (no `closed` scorecard). Gates whether Persona A may reply (no replies before first technician message when `awaiting_tech_intro`).
@@ -955,7 +955,7 @@ The [Flexibility guardrail (not rote step-matching)](#flexibility-guardrail-not-
 | Phase       | Focus                                 | Outcome                                                                |
 | ----------- | ------------------------------------- | ---------------------------------------------------------------------- |
 | **Phase 1** | KO mock data                          | **40** validated JSON KOs (**10** per domain: Mac, Windows, Zoom, Office Apps) + schema validators agreed; **policy-neutral / demo-safe** scope per [KO generation strategy](#ko-generation-strategy--phase-1-corpus-40-mock-records) |
-| **Phase 2** | Desktop app shell                     | Electron app with tray/menubar; **Start Random Scenario** (with **abandon** on superseding start), ticket header (**`persona`** or 10-name fallback), **dual-persona** chat styling, technician-first empty chat; **“End Session / Grade Me”** + **“I’m stuck — mentor hint”** (labels may vary)                  |
+| **Phase 2** | Desktop app shell                     | Electron app with tray/menubar; **Start Random Scenario** (with **abandon** on superseding start), ticket header (**`persona`** or **random given + family** from `src/pickDisplayName.ts`), **dual-persona** chat styling, technician-first empty chat; **“End Session / Grade Me”** + **“I’m stuck — mentor hint”** (labels may vary)                  |
 | **Phase 3** | MCP server base                       | **`get_ko` + optional `search_kb`**, **mentor-only** wiring; **EvidenceEvents** for replay/audit              |
 | **Phase 4** | AI validation                         | **Closed-book** UX; **Persona A / B** prompts; **KO-only evaluator** for MVP (**`get_ko`**; no Exa required for scores); **FMNO**; **End Session / Grade Me** + **I’m stuck** wired to Persona B; end-to-end scenario; **Exa adjudication post-MVP** |
 | **Phase 5** | UI integration and scoring refinement | Scorecards, polish, Windows pass, demo freeze                          |

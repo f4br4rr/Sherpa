@@ -36,6 +36,7 @@ Use when **desktop app / MCP / scenario loading** work begins. This section reco
 | **On-disk shape** | **One KO per file.** Canonical fields: **`schemas/knowledge-object.schema.json`**. |
 | **Identity** | **`ko_number`** is unique across the whole **`corpus/`** tree; random scenario and binding should use it. |
 | **CI** | Keep **`npm run validate:kos`** and **`npm test`** green on PRs that touch KOs or loaders. |
+| **Ticket header name** | If KO **`persona`** is missing or whitespace-only, set **`displayName`** via **`resolveTicketDisplayName`** in **`src/pickDisplayName.ts`** (random first + last; stable for the session). |
 
 **Practical first step:** Implement a small loader that enumerates **`corpus/`**, parses JSON, and supports lookup by **`ko_number`** — then wire **Start Random Scenario** to that list (per architecture).
 
