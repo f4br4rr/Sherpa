@@ -2,6 +2,7 @@
 /**
  * Phase 1 production KOs: all .json under knowledge-objects/corpus/ (recursive).
  * - JSON Schema, duplicate ko_number (within corpus only), contiguous ts_steps
+ *   (A max step count per KO may be documented for authors — not enforced by this script.)
  *
  * Examples: all .json under knowledge-objects/examples/ (recursive).
  * - Schema + ts_steps only (illustrative ids; not part of corpus uniqueness)

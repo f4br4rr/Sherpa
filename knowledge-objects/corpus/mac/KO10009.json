@@ -1,25 +1,22 @@
 {
   "ko_number": "KO10009",
   "subject": "Office printer shows offline on Mac only",
-  "configuration_item": "macOS",
+  "configuration_item": "macOS (Apple Silicon)",
   "state": "Published",
   "description": "Printer works for colleagues on Windows; this Mac shows printer offline in Print dialog.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Ping and queue",
-      "action": "Print another printer or PDF to isolate; open CUPS queue and clear stuck jobs."
-    },
-    {
-      "step": 2,
-      "title": "Remove and re-add",
-      "action": "System Settings → Printers & Scanners — remove printer, add by IP or correct driver (AirPrint vs vendor)."
-    },
-    {
-      "step": 3,
-      "title": "Driver update",
-      "action": "Install latest vendor driver; avoid duplicate queue names from migration."
-    }
+    { "step": 1, "title": "Open print queue", "action": "System Settings → Printers & Scanners → printer → Open Print Queue." },
+    { "step": 2, "title": "Clear paused and jobs", "action": "Uncheck Pause Printer; delete all queued jobs." },
+    { "step": 3, "title": "Print to PDF", "action": "Any app File → Print → PDF → Save as PDF — confirms local print pipeline." },
+    { "step": 4, "title": "Ping printer IP", "action": "If IP printer: Terminal ping -c 4 printer_ip — no reply means network not driver." },
+    { "step": 5, "title": "Remove printer", "action": "Printers & Scanners → Remove Printer / Delete Printer." },
+    { "step": 6, "title": "Add by IP", "action": "Add → IP → address; Protocol IPP or LPD per admin; queue name if needed." },
+    { "step": 7, "title": "Driver choice", "action": "Secure AirPrint or vendor PPD; avoid duplicate queue names post-migration." },
+    { "step": 8, "title": "Auth preset", "action": "Print dialog — select preset with user code or accounting if required." },
+    { "step": 9, "title": "UNC to LPD mapping", "action": "Ask print admin for lpd:// or ipp:// URL equivalent to Windows shared queue." },
+    { "step": 10, "title": "Reset printing system", "action": "Control-click list → Reset printing system — removes all printers; re-add only needed." },
+    { "step": 11, "title": "CUPS log", "action": "Escalate with /var/log/cups/error_log snippet if still offline." },
+    { "step": 12, "title": "Universal driver", "action": "Install latest vendor driver package labeled Apple Silicon or Universal." }
   ],
-  "internal_information": "Wrong driver, IP change, or paused queue. LPD vs IPP path matters on some networks."
+  "internal_information": "IP wrong, paused queue, IPP vs LPD, auth. CUPS same on Apple Silicon with Universal drivers."
 }

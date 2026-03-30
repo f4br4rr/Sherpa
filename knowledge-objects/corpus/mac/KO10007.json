@@ -1,25 +1,20 @@
 {
   "ko_number": "KO10007",
   "subject": "App cannot be opened because it is damaged",
-  "configuration_item": "macOS",
+  "configuration_item": "macOS (Apple Silicon)",
   "state": "Published",
   "description": "Downloaded internal tool shows Gatekeeper 'damaged' dialog; user cannot launch.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Re-download",
-      "action": "Delete app, download fresh copy from approved source, verify checksum if published."
-    },
-    {
-      "step": 2,
-      "title": "Quarantine attribute",
-      "action": "If policy allows: xattr -dr com.apple.quarantine /path/to/App.app in Terminal (document approval)."
-    },
-    {
-      "step": 3,
-      "title": "Privacy & Security",
-      "action": "System Settings → Privacy & Security — if app blocked, use Open Anyway once after explicit user intent."
-    }
+    { "step": 1, "title": "Trash incomplete app", "action": "Move app to Trash; empty Trash of that item only." },
+    { "step": 2, "title": "Re-download from approved source", "action": "Download again; verify size/checksum if published; drag to Applications before first launch." },
+    { "step": 3, "title": "Quarantine inspect", "action": "Terminal: xattr -l /Applications/App.app — note com.apple.quarantine." },
+    { "step": 4, "title": "Quarantine remove if approved", "action": "Security-approved only: xattr -dr com.apple.quarantine /Applications/App.app — document ticket." },
+    { "step": 5, "title": "Gatekeeper Open Anyway", "action": "System Settings → Privacy & Security — Open Anyway after failed launch if offered." },
+    { "step": 6, "title": "Right-click Open", "action": "Control-click app → Open → Open to record explicit user intent once." },
+    { "step": 7, "title": "Rosetta for x86 binary", "action": "If app is Intel-only on Apple Silicon, install Rosetta when prompted; do not frame as Intel Mac repair." },
+    { "step": 8, "title": "codesign verify", "action": "Terminal: codesign -dv --verbose=4 /Applications/App.app — note Authority." },
+    { "step": 9, "title": "spctl assessment", "action": "spctl -a -vv /Applications/App.app — capture assessment for security team." },
+    { "step": 10, "title": "PKG reinstall", "action": "If distributed as PKG, reinstall via PKG rather than drag-copy." }
   ],
-  "internal_information": "Quarantine flag or incomplete download. Do not bypass Gatekeeper for unknown binaries. Security team for unsigned builds."
+  "internal_information": "Quarantine, partial download, unsigned build. Rosetta is Apple Silicon compatibility, not Intel hardware troubleshooting."
 }

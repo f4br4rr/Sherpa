@@ -5,21 +5,17 @@
   "state": "Published",
   "description": "Headphones expected; sound goes to laptop speakers or HDMI monitor after undock/redock.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Select output",
-      "action": "Quick Settings → volume — choose correct playback device; set as default in Sound settings."
-    },
-    {
-      "step": 2,
-      "title": "Disable exclusivity",
-      "action": "Sound → device Properties — disable 'Allow applications to take exclusive control' test."
-    },
-    {
-      "step": 3,
-      "title": "Driver",
-      "action": "Update audio and dock drivers from OEM; firmware update on dock if available."
-    }
+    { "step": 1, "title": "Quick Settings output", "action": "Volume flyout → choose headphones or intended device." },
+    { "step": 2, "title": "Sound output page", "action": "Settings → System → Sound → Output — select and Test." },
+    { "step": 3, "title": "Set default", "action": "mmsys.cpl Playback — Set as Default and Default Communication." },
+    { "step": 4, "title": "Show disabled devices", "action": "mmsys.cpl — enable all to see hidden endpoints." },
+    { "step": 5, "title": "Disable wrong default", "action": "Temporarily disable unused playback device to stop auto-switch." },
+    { "step": 6, "title": "Exclusive mode off", "action": "Device Properties → Advanced — uncheck exclusive control — test." },
+    { "step": 7, "title": "Communications ducking", "action": "Sounds → Communications → Do nothing — test." },
+    { "step": 8, "title": "Dock undock cycle", "action": "Undock, wait, redock — observe default drift." },
+    { "step": 9, "title": "OEM audio driver", "action": "Update Realtek/OEM bundle from PC maker." },
+    { "step": 10, "title": "Dock firmware", "action": "Update Thunderbolt dock firmware." },
+    { "step": 11, "title": "Teams devices", "action": "Teams → Settings → Devices — set speaker explicitly inside Teams." }
   ],
-  "internal_information": "Windows default device drift on hardware change. Teams also has its own device picker inside call settings."
+  "internal_information": "PnP reenumeration changes default; Teams has separate picker."
 }

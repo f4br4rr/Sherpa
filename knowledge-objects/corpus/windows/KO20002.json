@@ -5,21 +5,18 @@
   "state": "Published",
   "description": "VPN client shows connected; browser times out on intranet URLs that worked last week.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Split tunnel check",
-      "action": "Verify whether intranet routes are in VPN client routing table; disconnect/reconnect; try different VPN gateway."
-    },
-    {
-      "step": 2,
-      "title": "DNS",
-      "action": "ipconfig /flushdns; confirm VPN-assigned DNS; try intranet by IP if hostname fails."
-    },
-    {
-      "step": 3,
-      "title": "Browser cache",
-      "action": "Clear SSL state and cache; try InPrivate; rule out proxy extension blocking."
-    }
+    { "step": 1, "title": "VPN client routes", "action": "Open VPN statistics; confirm intranet subnets listed." },
+    { "step": 2, "title": "Disconnect reconnect", "action": "Disconnect 10 s; reconnect; try alternate gateway if offered." },
+    { "step": 3, "title": "DNS suffix", "action": "Confirm corporate DNS suffix search list on VPN adapter." },
+    { "step": 4, "title": "Test by IP", "action": "Browse internal server by IP — if works, DNS over VPN broken." },
+    { "step": 5, "title": "ipconfig /flushdns", "action": "Elevated CMD." },
+    { "step": 6, "title": "netsh winsock reset", "action": "If policy allows; reboot after." },
+    { "step": 7, "title": "Adapter metric", "action": "Ensure VPN routes beat split paths for corporate ranges." },
+    { "step": 8, "title": "Edge InPrivate", "action": "Rule out extensions." },
+    { "step": 9, "title": "Clear SSL state", "action": "Internet Options → Content → Clear SSL state." },
+    { "step": 10, "title": "Proxy settings", "action": "Settings → Network → Proxy — manual off unless PAC required." },
+    { "step": 11, "title": "Hotspot test", "action": "If allowed, non-VPN hotspot to compare (only for isolation)." },
+    { "step": 12, "title": "Escalation package", "action": "route print -4, ipconfig /all while VPN up for network team." }
   ],
-  "internal_information": "Split tunnel policy, stale DNS, or corporate cert issue. Network team if routing missing for all users."
+  "internal_information": "Split tunnel, DNS, SSL inspection, missing routes."
 }

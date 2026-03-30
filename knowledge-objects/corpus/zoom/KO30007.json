@@ -5,21 +5,16 @@
   "state": "Published",
   "description": "Host opened breakouts; user sees prompt but join fails or loops back to main room.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Accept prompt",
-      "action": "Click Join when prompt visible; check for second monitor showing prompt hidden behind windows."
-    },
-    {
-      "step": 2,
-      "title": "Update client",
-      "action": "Minimum Zoom version required for breakout features — force update."
-    },
-    {
-      "step": 3,
-      "title": "Rejoin meeting",
-      "action": "Leave meeting entirely, rejoin with link, ask host to reassign breakout."
-    }
+    { "step": 1, "title": "Click Join quickly", "action": "Prompt may time out." },
+    { "step": 2, "title": "Second monitor", "action": "Check hidden prompt on other display." },
+    { "step": 3, "title": "Alt+Tab", "action": "Find Zoom dialog behind fullscreen apps." },
+    { "step": 4, "title": "Single Zoom instance", "action": "Close browser duplicate join." },
+    { "step": 5, "title": "Update Zoom", "action": "Minimum version for breakout features." },
+    { "step": 6, "title": "Leave meeting", "action": "End for self completely." },
+    { "step": 7, "title": "Rejoin link", "action": "Fresh join." },
+    { "step": 8, "title": "Host reassign", "action": "Host closes breakouts and reopens; reassign user." },
+    { "step": 9, "title": "Webinar vs Meeting", "action": "Confirm license allows breakout for role." },
+    { "step": 10, "title": "Firewall rare", "action": "If main room works always — usually version or UI miss." }
   ],
-  "internal_information": "Version skew between host and attendee, or webinar license limits. Firewall blocking breakout signaling rare."
+  "internal_information": "Missed prompt, version skew, host workflow, role limits."
 }

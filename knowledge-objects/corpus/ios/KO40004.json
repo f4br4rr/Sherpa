@@ -5,21 +5,17 @@
   "state": "Published",
   "description": "User's wireless headset appears in Bluetooth list but pairing fails or headset connects then immediately disconnects.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Forget and re-pair",
-      "action": "Settings → Bluetooth → tap info icon next to the headset → Forget This Device; put headset back into pairing mode and reconnect."
-    },
-    {
-      "step": 2,
-      "title": "Restart Bluetooth stack",
-      "action": "Toggle Bluetooth off in Settings (not Control Center), wait 10 seconds, toggle back on; also restart the iPhone."
-    },
-    {
-      "step": 3,
-      "title": "Reset network settings",
-      "action": "Settings → General → Transfer or Reset iPhone → Reset → Reset Network Settings (clears all Bluetooth pairings, Wi-Fi passwords, and VPN configs)."
-    }
+    { "step": 1, "title": "Charge headset", "action": "Above 50%." },
+    { "step": 2, "title": "Forget device", "action": "Settings → Bluetooth → (i) → Forget This Device." },
+    { "step": 3, "title": "Reset headset pairing", "action": "Vendor button combo to clear multipoint list if documented." },
+    { "step": 4, "title": "Pairing mode", "action": "Hold button until LED pattern per manual." },
+    { "step": 5, "title": "Tap device on iPhone", "action": "Pair when appears." },
+    { "step": 6, "title": "Bluetooth toggle Settings", "action": "Off 15s On — not only Control Center." },
+    { "step": 7, "title": "Restart iPhone", "action": "Power cycle." },
+    { "step": 8, "title": "Move from interference", "action": "Away from router, microwave, USB-C hubs." },
+    { "step": 9, "title": "Personal Hotspot off", "action": "During pair test." },
+    { "step": 10, "title": "Reset Network Settings", "action": "Last resort before RMA headset." },
+    { "step": 11, "title": "Headset firmware", "action": "Update via vendor app on another device if available." }
   ],
-  "internal_information": "Bluetooth 5.x profiles can mismatch after firmware updates on either device. Confirm headset firmware is current. Some headsets limit number of saved pairings — clear old entries on the headset side too."
+  "internal_information": "Multipoint limit, bad firmware, iOS BT glitch, interference."
 }

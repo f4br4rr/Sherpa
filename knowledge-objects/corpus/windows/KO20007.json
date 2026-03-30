@@ -5,21 +5,19 @@
   "state": "Published",
   "description": "Workbook ~50k rows; applying filter hangs Excel for minutes; user fears data loss.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Calculation mode",
-      "action": "Formulas → Calculation Options — Manual temporarily; apply filter; recalculate once."
-    },
-    {
-      "step": 2,
-      "title": "Table and formats",
-      "action": "Convert range to Excel Table; remove excessive conditional formatting on entire columns."
-    },
-    {
-      "step": 3,
-      "title": "64-bit and repair",
-      "action": "Confirm 64-bit Office; Online Repair from Apps & Features if corruption suspected."
-    }
+    { "step": 1, "title": "Save copy", "action": "Save As new filename before experiments." },
+    { "step": 2, "title": "Manual calculation", "action": "Formulas → Calculation Options → Manual." },
+    { "step": 3, "title": "Apply filter", "action": "Apply AutoFilter or Table filter." },
+    { "step": 4, "title": "Calculate once", "action": "Formulas → Calculate Now." },
+    { "step": 5, "title": "Replace whole-column refs", "action": "Change A:A style refs to bounded ranges or Table columns." },
+    { "step": 6, "title": "Insert Table", "action": "Insert → Table with headers." },
+    { "step": 7, "title": "Conditional formatting trim", "action": "Manage Rules — scope to data rows only." },
+    { "step": 8, "title": "Data validation trim", "action": "Remove whole-column validation." },
+    { "step": 9, "title": "64-bit verify", "action": "File → Account → About Excel — 64-bit." },
+    { "step": 10, "title": "Disable graphics accel", "action": "File → Options → Advanced → Display — test." },
+    { "step": 11, "title": "COM add-ins", "action": "Disable nonessential Excel add-ins." },
+    { "step": 12, "title": "Online Repair", "action": "Settings → Apps → Microsoft 365 → Modify → Online Repair." },
+    { "step": 13, "title": "Power Query suggestion", "action": "For huge data suggest Data Model instead of sheet grid." }
   ],
-  "internal_information": "Volatile functions over big ranges, whole-column references, or graphics driver interaction. Power Query alternative for huge data."
+  "internal_information": "Volatile formulas, whole-column formats, GPU interaction with grid."
 }

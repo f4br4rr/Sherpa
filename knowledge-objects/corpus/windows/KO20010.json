@@ -5,21 +5,18 @@
   "state": "Published",
   "description": "After entering password, desktop takes 5+ minutes; eventually loads with all startup apps.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Startup apps",
-      "action": "Task Manager → Startup — disable non-essential high-impact items; reboot test."
-    },
-    {
-      "step": 2,
-      "title": "User profile on network",
-      "action": "If roaming profile — check size and sync errors; local profile test user to compare."
-    },
-    {
-      "step": 3,
-      "title": "Event Viewer",
-      "action": "Review Application and System log around logon time for group policy or script timeouts."
-    }
+    { "step": 1, "title": "Startup sort", "action": "Task Manager → Startup — sort by impact." },
+    { "step": 2, "title": "Disable batch 1", "action": "Disable half of high-impact non-Microsoft items; reboot; test." },
+    { "step": 3, "title": "Binary search", "action": "Narrow to single offending startup app." },
+    { "step": 4, "title": "Settings Startup apps", "action": "Settings → Apps → Startup." },
+    { "step": 5, "title": "Profile type", "action": "Check roaming/FSLogix — profile size on server." },
+    { "step": 6, "title": "Test local user", "action": "New local user login speed compare." },
+    { "step": 7, "title": "User profiles list", "action": "sysdm.cpl → Advanced → User Profiles — type and size." },
+    { "step": 8, "title": "Event Viewer Group Policy", "action": "Microsoft-Windows-GroupPolicy Operational log around logon." },
+    { "step": 9, "title": "System log", "action": "Disk and Service Control Manager errors at logon time." },
+    { "step": 10, "title": "gpresult", "action": "gpresult /h report.html — scripts, drive maps, printers." },
+    { "step": 11, "title": "Network path", "action": "Verify DC/DFS reachable at logon (Ethernet vs Wi-Fi)." },
+    { "step": 12, "title": "AV logon scan", "action": "Check if full scan at logon — vendor guidance." }
   ],
-  "internal_information": "GPO script mapping drives, AV scan at logon, or bloated profile. Desktop engineering for GPO changes."
+  "internal_information": "GPO scripts, bloated profile, FSLogix, AV, broken DFS at logon."
 }

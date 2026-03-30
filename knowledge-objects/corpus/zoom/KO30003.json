@@ -5,21 +5,17 @@
   "state": "Published",
   "description": "Camera LED on but others see black tile; preview in Zoom settings also black.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Select camera",
-      "action": "Zoom → Video — choose correct camera; turn off HD if bandwidth low."
-    },
-    {
-      "step": 2,
-      "title": "Close other apps",
-      "action": "Quit apps that may lock camera (other meeting tools, camera utilities)."
-    },
-    {
-      "step": 3,
-      "title": "Driver",
-      "action": "Device Manager — update/roll back camera driver; disable 'Enable GPU acceleration' in Zoom Video advanced."
-    }
+    { "step": 1, "title": "Camera dropdown", "action": "Zoom → Video → correct device." },
+    { "step": 2, "title": "HD off", "action": "If bandwidth or driver issue." },
+    { "step": 3, "title": "Mirror off", "action": "Reduce confusion while testing." },
+    { "step": 4, "title": "Close other apps", "action": "Teams, Webex, OBS, camera tools — Task Manager." },
+    { "step": 5, "title": "Windows Camera privacy", "action": "Settings → Camera → Zoom allowed." },
+    { "step": 6, "title": "USB replug", "action": "Different port." },
+    { "step": 7, "title": "Zoom video advanced", "action": "Toggle hardware acceleration for video." },
+    { "step": 8, "title": "Device Manager update", "action": "Cameras → update driver." },
+    { "step": 9, "title": "Roll back driver", "action": "If post-update regression." },
+    { "step": 10, "title": "Windows Camera app", "action": "If black there too — OS/driver not Zoom." },
+    { "step": 11, "title": "Reinstall Zoom", "action": "If Camera app OK." }
   ],
-  "internal_information": "Exclusive access conflict, bad driver, or GPU decode issue. Test with webcam in Camera app first."
+  "internal_information": "Exclusive access, GPU decode, bad driver."
 }

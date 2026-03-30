@@ -13,6 +13,7 @@ This page explains **top-level folders and key files** in this repo, including w
 | [project-architecture-and-plan.md](project-architecture-and-plan.md) | Single technical blueprint — behavior, phases, schemas described in prose. |
 | [team-pre-reads.md](team-pre-reads.md) | Short, non-technical overview for the wider team. |
 | [PHASE1-READINESS.md](PHASE1-READINESS.md) | Checklist: Phase 1 steps + exit criteria + **Handoff to Phase 2** (loader assumptions). |
+| [SME-SIGNOFF-PHASE1.md](SME-SIGNOFF-PHASE1.md) | Phase 1 **SME sign-off** record for the 40-KO corpus (links from exit criteria). |
 | [PHASES-PARALLEL-WORK.md](PHASES-PARALLEL-WORK.md) | All phases at a glance + **how six devs parallelize** without merge conflicts (lanes, DRIs, merge order). |
 | [REPO-LAYOUT.md](REPO-LAYOUT.md) | This file — map of folders. |
 
@@ -35,7 +36,7 @@ This page explains **top-level folders and key files** in this repo, including w
 | Path | Purpose |
 |------|---------|
 | `README.md` | Layout (`corpus/` vs `examples/`), field discipline, **40-KO** split, **policy-neutral** authoring, link to schema + architecture. |
-| `corpus/{mac,windows,zoom,ios}/` | **40** Phase 1 production KOs (**10** per folder); `KO1xxxx`–`KO4xxxx` ids. |
+| `corpus/{mac,windows,zoom,ios}/` | **40** Phase 1 production KOs (**10** per folder); `KO1xxxx`–`KO4xxxx` ids. Each KO may include **many** `ts_steps` (variable count, **≤ 15** per current authoring rule); **`mac/`** uses **Apple Silicon–scoped** scenarios — see [knowledge-objects/README.md](knowledge-objects/README.md) and [Validation rules](project-architecture-and-plan.md#validation-rules-for-humans-and-later-automation). |
 | `examples/KO99999.example.json` | Known-good example (illustrative id). |
 
 **Why before Phase 1:** Clear drop zone and example so authors do not invent their own on-disk layout.

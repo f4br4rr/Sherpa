@@ -5,21 +5,17 @@
   "state": "Published",
   "description": "Microphone works in other apps; Zoom shows mic unmuted but participants hear silence.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Zoom audio settings",
-      "action": "Zoom → Settings → Audio — pick correct mic; Test Mic; uncheck 'Automatically adjust microphone'."
-    },
-    {
-      "step": 2,
-      "title": "macOS input",
-      "action": "System Settings → Sound → Input — set correct device and input level while speaking."
-    },
-    {
-      "step": 3,
-      "title": "Restart audio",
-      "action": "Leave meeting, quit Zoom completely, rejoin; if Bluetooth headset, reconnect audio profile."
-    }
+    { "step": 1, "title": "Zoom mic dropdown", "action": "Settings → Audio → select input." },
+    { "step": 2, "title": "Test Mic meter", "action": "Speak; watch bar move." },
+    { "step": 3, "title": "Auto adjust off", "action": "Uncheck auto gain temporarily." },
+    { "step": 4, "title": "Meeting mute state", "action": "Confirm not host-muted." },
+    { "step": 5, "title": "macOS Microphone privacy", "action": "System Settings → Privacy & Security → Microphone → Zoom on." },
+    { "step": 6, "title": "Sound Input level", "action": "System Settings → Sound → Input — meter moves." },
+    { "step": 7, "title": "Bluetooth headset", "action": "Forget and re-pair if HFP stuck." },
+    { "step": 8, "title": "Original Sound off", "action": "Unless content requires it." },
+    { "step": 9, "title": "Leave meeting", "action": "Quit Zoom Cmd+Q; rejoin." },
+    { "step": 10, "title": "QuickTime test", "action": "New audio recording — if silent, macOS path not Zoom." },
+    { "step": 11, "title": "Reinstall Zoom", "action": "Fresh Apple Silicon build." }
   ],
-  "internal_information": "Wrong input device, Bluetooth profile stuck on HFP quality, or Zoom audio driver glitch. Reinstall Zoom if persistent."
+  "internal_information": "Wrong input, Bluetooth profile, TCC denial, Zoom audio cache."
 }

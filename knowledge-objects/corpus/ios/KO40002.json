@@ -5,21 +5,18 @@
   "state": "Published",
   "description": "Built-in Mail app shows no new messages; webmail on the same phone confirms unread mail exists in the inbox.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Check fetch schedule",
-      "action": "Settings → Mail → Accounts → Fetch New Data — ensure Push is on for the Exchange account, or set Fetch to every 15 minutes."
-    },
-    {
-      "step": 2,
-      "title": "Remove and re-add account",
-      "action": "Settings → Mail → Accounts → select Exchange account → Delete Account; re-add via Settings → Mail → Accounts → Add Account → Microsoft Exchange."
-    },
-    {
-      "step": 3,
-      "title": "Verify connectivity",
-      "action": "Open Safari and browse to Outlook Web Access URL to confirm credentials and network path are valid; check that Low Data Mode and Airplane Mode are off."
-    }
+    { "step": 1, "title": "Fetch New Data", "action": "Settings → Mail → Accounts → Fetch New Data — Push on globally." },
+    { "step": 2, "title": "Account Push", "action": "Set Exchange account to Push not Fetch." },
+    { "step": 3, "title": "Minimum fetch", "action": "If Push unavailable, Every 15 Minutes." },
+    { "step": 4, "title": "Low Data Mode off", "action": "Cellular → Data options." },
+    { "step": 5, "title": "Pull to refresh Mail", "action": "Read any password banner." },
+    { "step": 6, "title": "Re-enter password", "action": "Account settings if prompted." },
+    { "step": 7, "title": "Delete account", "action": "Settings → Mail → Accounts → Delete Account." },
+    { "step": 8, "title": "Restart phone", "action": "Optional clean state." },
+    { "step": 9, "title": "Add Exchange", "action": "Add Account → Microsoft Exchange — complete modern auth MFA." },
+    { "step": 10, "title": "Safari OWA test", "action": "Same credentials in browser — proves server path." },
+    { "step": 11, "title": "MDM", "action": "VPN & Device Management — note restrictions." },
+    { "step": 12, "title": "Mobility escalation", "action": "OAuth, conditional access, device compliance." }
   ],
-  "internal_information": "iOS Mail uses ActiveSync or modern auth depending on config. Account may silently fail if device certificate or OAuth token expires. Not an MDM issue if user can add account manually."
+  "internal_information": "Push disabled, token expired, Low Data, compliance block."
 }

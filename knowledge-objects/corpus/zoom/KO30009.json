@@ -5,21 +5,16 @@
   "state": "Published",
   "description": "User opens Zoom; cannot click Sign In; SSO path unavailable from UI.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Switch account type",
-      "action": "Sign In → ensure not stuck on 'Join a meeting' only view; use SSO domain field if provided."
-    },
-    {
-      "step": 2,
-      "title": "Repair install",
-      "action": "Apps & Features → Zoom → Modify/Repair; reboot."
-    },
-    {
-      "step": 3,
-      "title": "Clear credentials",
-      "action": "Sign out everywhere from zoom.us profile if accessible; remove stale credentials from Windows Credential Manager for Zoom."
-    }
+    { "step": 1, "title": "Window size", "action": "Maximize Zoom; fix HiDPI scaling test 100% temporarily." },
+    { "step": 2, "title": "SSO domain field", "action": "Enter company domain if visible." },
+    { "step": 3, "title": "Browser sign-in test", "action": "zoom.us sign-in works — confirms account." },
+    { "step": 4, "title": "Repair Zoom", "action": "Apps → Zoom → Modify Repair." },
+    { "step": 5, "title": "Reboot", "action": "After repair." },
+    { "step": 6, "title": "Standard user", "action": "Do not run Zoom as admin daily — test non-elevated." },
+    { "step": 7, "title": "Credential Manager", "action": "Remove stale zoom.us and IdP entries." },
+    { "step": 8, "title": "WebView2 runtime", "action": "Repair Edge WebView2 if SSO webview blank." },
+    { "step": 9, "title": "Reinstall MSI", "action": "Corporate package fresh." },
+    { "step": 10, "title": "Policy compare", "action": "Registry Zoom policy keys vs working PC." }
   ],
-  "internal_information": "Corrupt install or policy-restricted SSO. If SSO only and grayed, compare with working machine registry/policy."
+  "internal_information": "Corrupt UI, WebView2, policy lock, scaling clip, stale creds."
 }

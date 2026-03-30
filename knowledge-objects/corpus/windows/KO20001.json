@@ -5,21 +5,19 @@
   "state": "Published",
   "description": "Outlook desktop spins on 'Loading Profile' for ten-plus minutes after login.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "End Office processes",
-      "action": "Task Manager — end OUTLOOK.EXE, teams if integrated; relaunch Outlook."
-    },
-    {
-      "step": 2,
-      "title": "Safe mode",
-      "action": "Run outlook.exe /safe — if loads, disable add-ins one by one from File → Options → Add-ins."
-    },
-    {
-      "step": 3,
-      "title": "Recreate profile",
-      "action": "Control Panel → Mail → Show Profiles — new profile, add account; migrate PST if needed."
-    }
+    { "step": 1, "title": "End Outlook", "action": "Task Manager → Details → end OUTLOOK.EXE." },
+    { "step": 2, "title": "Related processes", "action": "End Lync/UcMapi if hung; close new Teams if it integrates MAPI." },
+    { "step": 3, "title": "Relaunch", "action": "Start Outlook fresh after 30 s." },
+    { "step": 4, "title": "Reboot if still hung", "action": "Restart Windows before deeper steps." },
+    { "step": 5, "title": "Safe Mode launch", "action": "Win+R outlook.exe /safe Enter." },
+    { "step": 6, "title": "Binary search add-ins", "action": "File → Options → Add-ins → COM Add-ins — disable half, restart Outlook, repeat." },
+    { "step": 7, "title": "Trust Center add-ins", "action": "Trust Center → Add-ins — review disabled or managed add-ins." },
+    { "step": 8, "title": "New Mail profile", "action": "Control Panel → Mail → Show Profiles → Add — create new profile." },
+    { "step": 9, "title": "Add account to new profile", "action": "Launch Outlook, choose new profile, add Microsoft 365 / Exchange." },
+    { "step": 10, "title": "Migrate PST if needed", "action": "File → Open & Export — import legacy PST after mail flows." },
+    { "step": 11, "title": "Rename old OST", "action": "With Outlook closed, rename .ost to .old for old profile to force rebuild — warn re-download." },
+    { "step": 12, "title": "ScanPST/OST tools", "action": "If approved, run Inbox Repair per Microsoft for PST path." },
+    { "step": 13, "title": "Capture builds", "action": "Note Office and Windows 11 build for engineering if all profiles fail." }
   ],
-  "internal_information": "Corrupt profile, add-in crash loop, or OST integrity. Scanpst/OST repair tools per Microsoft KB if supported."
+  "internal_information": "Profile corrupt, add-in loop, OST damage. Classic Outlook assumed unless tenant is new-Outlook-only."
 }

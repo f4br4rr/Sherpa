@@ -405,7 +405,7 @@ Each Knowledge Object is a single JSON document with the following fields:
 | `ko_number`            | Stable identifier (string), e.g. `KO77812`. Used in evidence trails and scoring references.                                                                                                                                                                                                                                     |
 | `persona`              | **Optional.** Synthetic end-user display label for the ticket header, e.g. `Karen - Accounting` (first name + department). If omitted or whitespace-only, the app composes `**displayName`** from **random given name + random family name** (see [Session initiation and persona flow](#session-initiation-and-persona-flow)). |
 | `subject`              | Short human title of the issue.                                                                                                                                                                                                                                                                                                 |
-| `configuration_item`   | Logical CI label, e.g. `Zoom (Windows)`, `Microsoft 365 (Excel)`, `macOS`.                                                                                                                                                                                                                                                      |
+| `configuration_item`   | Logical CI label, e.g. `Zoom (Windows)`, `Microsoft 365 (Excel)`, `macOS`. **Phase 1 corpus (this repo):** Mac folder KOs use **`macOS (Apple Silicon)`** so scenarios stay **Apple Silicon–only**; iOS KOs use labels such as **`iPhone (iOS)`** / **`iPhone (iOS Mail)`** (see [Technology filter — `getCategory`](#technology-filter--getcategory-canonical-module)).                                                                                                                                                                                                                                                      |
 | `state`                | Lifecycle for mock data; default `Published` for usable KOs.                                                                                                                                                                                                                                                                    |
 | `description`          | Symptom / scenario summary the technician would recognize.                                                                                                                                                                                                                                                                      |
 | `ts_steps`             | Ordered troubleshooting steps: `step` (number), `title`, `action` (instruction text).                                                                                                                                                                                                                                           |
@@ -420,7 +420,7 @@ Each Knowledge Object is a single JSON document with the following fields:
 
 ### Example instance (illustrative — not prescriptive content)
 
-The JSON below uses **one fictional Zoom-related symptom** only to show **field names, nesting, and typing**. It is **not** a template that every KO must follow, and it does **not** imply that this exact incident must appear in the final corpus. The Phase 1 library targets **40 distinct KOs** (**10** per domain: Mac, Windows, Zoom, iOS) with **policy-neutral, demo-safe** subjects (see [KO generation strategy](#ko-generation-strategy--phase-1-corpus-40-mock-records)).
+The JSON below uses **one fictional Zoom-related symptom** only to show **field names, nesting, and typing**. It is **not** a template that every KO must follow, and it does **not** imply that this exact incident must appear in the final corpus. **Production KOs** in `knowledge-objects/corpus/` typically include **many** `ts_steps` (granular troubleshooting — often on the order of **9–15** steps per article, as many as needed up to a **15-step cap** agreed for this repo); the single-step example below is **short for readability only**. The Phase 1 library targets **40 distinct KOs** (**10** per domain: Mac, Windows, Zoom, iOS) with **policy-neutral, demo-safe** subjects (see [KO generation strategy](#ko-generation-strategy--phase-1-corpus-40-mock-records)).
 
 ```json
 {
@@ -449,6 +449,8 @@ The JSON below uses **one fictional Zoom-related symptom** only to show **field 
 - `ts_steps` sorted by `step`, contiguous starting at 1, no duplicates.
 - `state` constrained to a small enum (e.g. `Draft` | `Published` — demo can use `Published` only).
 - `configuration_item` should map cleanly to one of the four domains: **Mac**, **Windows**, **Zoom**, **iOS** (allow compound labels like `Zoom (Windows)` but keep tagging consistent for filters).
+- **`ts_steps` length and style (Phase 1 production corpus):** Use **as many steps as needed** for a credible sequence (each `step` is one numbered item with `title` + `action`). **Cap:** **15** steps maximum per KO unless the team extends the rule. Prefer **clear, ordered actions**; avoid stuffing unrelated checks into one step. **JSON:** In `action` strings, **escape backslashes** (e.g. Windows paths — use `\\\\` for a literal backslash in JSON, or rephrase to avoid `\\` sequences that break parsing). **`npm run validate:kos`** checks **contiguous** `step` values starting at **1** and **no duplicate** `step` numbers — it does **not** enforce a maximum step count.
+- **Evaluator / MCP note:** Longer KOs increase **`get_ko`** payload size and the text surface for **leak-detection** guards (Persona A vs `ts_steps` / `internal_information`). Keep `internal_information` tight where possible; split `ts_steps` for clarity rather than one enormous paragraph per step.
 
 ### Repository layout (conceptual)
 
@@ -472,7 +474,7 @@ The JSON below uses **one fictional Zoom-related symptom** only to show **field 
 
 | Domain      | Count | Focus                                                                                                                                                                                                                                                                  |
 | ----------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mac         | 10    | **Generic desk issues:** slow performance, Wi‑Fi/peripherals, Safari or app slowness, login items/disk pressure–class symptoms (genericized). Avoid flows that **require** **Entra ID / Azure AD–specific** remediation as the **only** credible path.                 |
+| Mac         | 10    | **Apple Silicon Macs only** in Phase 1 corpus (`configuration_item` **`macOS (Apple Silicon)`**): generic desk issues — slow performance, Wi‑Fi/peripherals, Safari or app slowness, login items/disk pressure–class symptoms (genericized). **Do not** anchor steps on **Intel-only** workflows (e.g. legacy SMC/Intel-only firmware paths). Avoid flows that **require** **Entra ID / Azure AD–specific** remediation as the **only** credible path.                 |
 | Windows     | 10    | **Generic desk issues:** **slow performance**, **unable to add or use a local printer**, updates/driver checks that work on a **standard** corporate image, display/perf — avoid **Intune-only** or **domain-join–exclusive** fixes as the **sole** resolution.        |
 | Zoom        | 10    | Meetings, audio/video, **screen share / display quirks** (e.g. gray boxes), client reset/cache, reinstall-style steps — avoid scenarios where **SSO / Entra sign-in** is the **only** narrative unless a **parallel** guest or non–tenant-specific path is documented. |
 | iOS         | 10    | **iPhone/iPad common issues:** Wi-Fi drops, Mail sync, storage management, Bluetooth pairing, battery drain, AirDrop, notifications, screen rotation, messaging — avoid KOs that **only** resolve via **MDM/Intune** actions the trainee **cannot** perform in a demo. |
@@ -480,7 +482,7 @@ The JSON below uses **one fictional Zoom-related symptom** only to show **field 
 
 ### Corpus authoring scope (policy-neutral, demo-safe)
 
-Phase 1 scenarios should be **reproducible on typical corporate laptops** used in internal demos:
+Phase 1 scenarios should be **reproducible on typical corporate end-user devices** used in internal demos — **Mac and Windows laptops** plus **iPhone/iPad** for the **iOS** domain (not laptops only):
 
 - **Prefer** universal help-desk patterns (e.g. **slow performance**, **local printer problems**, **iOS device issues**, **Zoom video/share display issues**) with steps a technician can **attempt** without violating a locked-down image.
 - **Avoid** (or defer): KOs whose **primary** fix depends on **AAD/Entra join state**, **conditional access**, or **company policy–blocked** actions (e.g. steps that assume **full admin**, **MDM overrides**, or **tenant-only** portals the sim does not model).
@@ -491,7 +493,7 @@ Phase 1 scenarios should be **reproducible on typical corporate laptops** used i
 1. **Seed list** — SMEs produce **symptom-first** titles (what users actually say).
 2. **Draft** — LLM-assisted expansion into `description`, `ts_steps`, `internal_information` under strict schema; optional **Exa** or vendor docs for **research** during authoring (not shown to technicians during assessment).
 3. **Review** — Human sign-off on technical accuracy and **plausible distractors** (wrong-but-common steps).
-4. **Validate** — Schema checklist (required fields, step order, uniqueness).
+4. **Validate** — Schema checklist (required fields, `ts_steps` order and contiguity, uniqueness); run **`npm run validate:kos`** locally or in CI.
 5. **Dedupe** — Merge near-duplicates; differentiate by **root cause** or **trigger**.
 6. **Tag for scoring** — Optional metadata (difficulty, correct root cause keyword, escalation threshold) to support automated rubrics later.
 7. `**persona`** — Optional; add realistic **name + department** strings for richer ticket headers. If skipped, the app still supplies `**displayName`** via **random first + last** (see `src/pickDisplayName.ts`).
@@ -845,7 +847,9 @@ Single **canonical source file** (e.g. `categoryMap.ts`): **import everywhere**;
 - **Return type:** `"Mac" | "Windows" | "Zoom" | "iOS" | "Other"`.
 - KOs mapping to `**Other`** are **excluded** from Written Drill picker in v1 (**chat-only** until the map is extended).
 
-**Tests required** before ship (examples): `Zoom (Windows)` → Zoom; `macOS 14.4` → Mac; `iPhone (iOS)` / `iPad (iOS Mail)` → iOS; `password manager`, `Excellent tool`, `machine learning tool`, `twin display adapter` → Other.
+**Tests required** before ship (examples): `Zoom (Windows)` → Zoom; `macOS 14.4` → Mac; **`macOS (Apple Silicon)`** → Mac; `iPhone (iOS)` / `iPad (iOS Mail)` → iOS; `password manager`, `Excellent tool`, `machine learning tool`, `twin display adapter` → Other.
+
+**Phase 1 Chat Practice corpus (this repo):** Implementations of `getCategory` should classify the live `configuration_item` strings under `knowledge-objects/corpus/` (e.g. **`macOS (Apple Silicon)`**, **`Windows 11`**, **`Microsoft Teams (Windows)`**, **`Zoom (macOS)`**, **`iPhone (iOS)`**) into **Mac**, **Windows**, **Zoom**, or **iOS** per the rules above — add regression tests when new label patterns appear.
 
 ### Scoring (deterministic) — alignment with [ATS assessment matrix](#ats-assessment-matrix-simulator-rubric)
 

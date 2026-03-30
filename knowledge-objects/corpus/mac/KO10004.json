@@ -1,25 +1,20 @@
 {
   "ko_number": "KO10004",
   "subject": "External monitor not detected after dock reconnect",
-  "configuration_item": "macOS",
+  "configuration_item": "macOS (Apple Silicon)",
   "state": "Published",
   "description": "Laptop on USB-C dock; external display worked yesterday; today only built-in screen lights up.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Reseat connections",
-      "action": "Disconnect dock power and USB-C, wait 10s, reconnect direct to Mac first, then expand through dock."
-    },
-    {
-      "step": 2,
-      "title": "Detect displays",
-      "action": "System Settings → Displays — hold Option and click Detect Displays; try mirror vs extend."
-    },
-    {
-      "step": 3,
-      "title": "Safe resolution",
-      "action": "Choose scaled resolution or default for external display; avoid unsupported refresh rates on cheap adapters."
-    }
+    { "step": 1, "title": "Power-cycle dock", "action": "Unplug dock AC and Thunderbolt cable from Mac; wait 15 s." },
+    { "step": 2, "title": "Reconnect order", "action": "Plug dock AC until LED stable, then single TB/USB-C cable to Mac on the port documented for display bandwidth." },
+    { "step": 3, "title": "Direct cable test", "action": "If available, bypass dock with certified USB-C to DisplayPort cable Mac-to-monitor." },
+    { "step": 4, "title": "Detect Displays", "action": "System Settings → Displays → hold Option → Detect Displays. Try Gather Windows if dialog off-screen." },
+    { "step": 5, "title": "Mirror and resolution", "action": "Toggle mirror extend; pick Default resolution or safe scaled mode; avoid exotic refresh on cheap adapters." },
+    { "step": 6, "title": "Lid and clamshell", "action": "Open/close lid once; ensure AC power for clamshell per Apple guidance." },
+    { "step": 7, "title": "Reduce dock load", "action": "Disconnect non-essential USB devices from dock; some docks drop DP alt mode under load." },
+    { "step": 8, "title": "Sleep wake", "action": "Apple menu → Sleep then wake; or lock and unlock." },
+    { "step": 9, "title": "Firmware and cable", "action": "Update dock firmware from OEM; swap TB3/TB4 certified cable." },
+    { "step": 10, "title": "Vendor ticket data", "action": "Collect Mac model, macOS build, dock model, monitor EDID if known for escalation." }
   ],
-  "internal_information": "Cable/adapter failure common; EDID handshake on cheap dongles flaky. Dock firmware update from vendor if available."
+  "internal_information": "USB-C DP tunneling; flaky dongles; dock firmware. No discrete-GPU Intel narrative."
 }

@@ -5,21 +5,18 @@
   "state": "Published",
   "description": "Update downloads but fails install repeatedly; error code shown in Windows Update history.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Run troubleshooter",
-      "action": "Settings → System → Troubleshoot — Windows Update troubleshooter."
-    },
-    {
-      "step": 2,
-      "title": "Disk cleanup",
-      "action": "Cleanmgr — Windows Update Cleanup; restart; retry update."
-    },
-    {
-      "step": 3,
-      "title": "DISM and SFC",
-      "action": "Admin CMD: DISM /Online /Cleanup-Image /RestoreHealth then sfc /scannow — reboot and retry."
-    }
+    { "step": 1, "title": "Record hex error", "action": "Update history → failed KB → copy error code." },
+    { "step": 2, "title": "Windows Update troubleshooter", "action": "Settings → System → Troubleshoot → Other troubleshooters → Windows Update." },
+    { "step": 3, "title": "Disk cleanup", "action": "cleanmgr system files Windows Update Cleanup." },
+    { "step": 4, "title": "Reboot retry", "action": "Retry update." },
+    { "step": 5, "title": "Pause third-party AV", "action": "If policy allows during retry." },
+    { "step": 6, "title": "DISM RestoreHealth", "action": "Admin CMD: DISM /Online /Cleanup-Image /RestoreHealth." },
+    { "step": 7, "title": "SFC", "action": "sfc /scannow." },
+    { "step": 8, "title": "Reboot", "action": "After repairs." },
+    { "step": 9, "title": "Retry update", "action": "Again." },
+    { "step": 10, "title": "In-place repair", "action": "Same-edition Windows 11 ISO setup keep files and apps." },
+    { "step": 11, "title": "WSUS check", "action": "If managed updates — confirm KB not declined." },
+    { "step": 12, "title": "Logs", "action": "CBS.log dism.log for engineering." }
   ],
-  "internal_information": "Corrupt component store or third-party AV locking files. WSUS may block specific KB — check with desktop engineering."
+  "internal_information": "Component store, AV lock, low disk, bad delta."
 }

@@ -1,25 +1,22 @@
 {
   "ko_number": "KO10010",
   "subject": "Mac fan loud and sluggish during video calls",
-  "configuration_item": "macOS",
+  "configuration_item": "macOS (Apple Silicon)",
   "state": "Published",
   "description": "During Zoom/Meet laptop gets hot, fans ramp, UI stutters; happens on desk without bed blocking vents.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Activity Monitor",
-      "action": "Identify CPU hogs; quit unnecessary apps; close browser tabs with heavy video."
-    },
-    {
-      "step": 2,
-      "title": "Energy settings",
-      "action": "On battery vs power adapter — test on AC; disable high-power external displays temporarily."
-    },
-    {
-      "step": 3,
-      "title": "SMC reset guidance",
-      "action": "Per Apple steps for model (Intel vs Apple Silicon differ); clean vents if dusty."
-    }
+    { "step": 1, "title": "Activity Monitor CPU", "action": "Sort by % CPU; quit runaway apps and heavy browser tabs." },
+    { "step": 2, "title": "GPU History", "action": "Activity Monitor → Window → GPU History — correlate spikes with call." },
+    { "step": 3, "title": "Energy tab", "action": "Identify preventing sleep and high energy apps." },
+    { "step": 4, "title": "Thermal surface", "action": "Hard flat surface; never block hinge exhaust." },
+    { "step": 5, "title": "AC power", "action": "Use Apple adapter for sustained performance on supported models." },
+    { "step": 6, "title": "Low Power Mode", "action": "Settings → Battery — disable temporarily to test call quality." },
+    { "step": 7, "title": "Display load", "action": "Lower external resolution; test without ProMotion external if applicable." },
+    { "step": 8, "title": "Meeting settings", "action": "720p, no blur/virtual background, no 4K share." },
+    { "step": 9, "title": "GPU acceleration toggle", "action": "In meeting app advanced video settings test hardware accel on/off." },
+    { "step": 10, "title": "Post-update indexing", "action": "Allow 24–48 h after macOS upgrade for Photos/Spotlight to finish." },
+    { "step": 11, "title": "Software Update", "action": "Install pending macOS updates for thermal fixes." },
+    { "step": 12, "title": "Apple Diagnostics", "action": "If idle temps high with no apps: run diagnostics at boot; escalate hardware." }
   ],
-  "internal_information": "Thermal paste age on Intel, background indexer, or runaway process. Hardware service if idle temps abnormal."
+  "internal_information": "Apple Silicon thermals tied to GPU/video encode and indexing. No user SMC reset or Intel thermal paste narrative."
 }

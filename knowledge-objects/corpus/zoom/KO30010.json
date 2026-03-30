@@ -5,21 +5,16 @@
   "state": "Published",
   "description": "New meetings lack Zoom button; user manually pastes links from web scheduler.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Enable add-in",
-      "action": "Outlook → Get Add-ins — confirm Zoom for Outlook enabled; check Disabled Items."
-    },
-    {
-      "step": 2,
-      "title": "COM add-ins",
-      "action": "File → Options → Add-ins — manage COM add-ins — ensure Zoom Outlook Plugin checked."
-    },
-    {
-      "step": 3,
-      "title": "Repair Office",
-      "action": "Online Repair Microsoft 365; reinstall Zoom client with Outlook plugin option."
-    }
+    { "step": 1, "title": "Identify Outlook flavor", "action": "New Outlook toggle vs classic — add-in type differs." },
+    { "step": 2, "title": "Get Add-ins", "action": "Enable Zoom for Outlook store add-in." },
+    { "step": 3, "title": "COM add-ins", "action": "Classic: File → Options → Add-ins → COM — check Zoom Outlook Plugin." },
+    { "step": 4, "title": "Disabled Items", "action": "Re-enable Zoom if listed disabled." },
+    { "step": 5, "title": "Restart Outlook", "action": "After changes." },
+    { "step": 6, "title": "Office bitness", "action": "Match 32/64 plugin to Office installation." },
+    { "step": 7, "title": "Online Repair", "action": "Microsoft 365 Online Repair." },
+    { "step": 8, "title": "Reinstall Zoom with plugin", "action": "Custom install ensure Outlook integration checked if MSI offers." },
+    { "step": 9, "title": "Tenant standard", "action": "IT may mandate Teams-only — confirm policy." },
+    { "step": 10, "title": "Web scheduler workaround", "action": "zoom.us schedule paste link documented." }
   ],
-  "internal_information": "Click-to-Run vs MSI differences; new Outlook vs classic. Plugin deprecated in favor of cloud add-in in some tenants."
+  "internal_information": "New vs classic Outlook; web add-in vs COM; bitness; org policy."
 }

@@ -5,21 +5,18 @@
   "state": "Published",
   "description": "OneDrive cloud icon shows syncing forever; files not updating for collaborators.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Pause and resume",
-      "action": "OneDrive tray — Pause syncing 2 min → Resume; confirm free disk space on PC."
-    },
-    {
-      "step": 2,
-      "title": "Reset OneDrive",
-      "action": "Run %localappdata%\\Microsoft\\OneDrive\\onedrive.exe /reset — relinks after reboot per MS doc."
-    },
-    {
-      "step": 3,
-      "title": "Unlink and relink",
-      "action": "OneDrive Settings — unlink PC, sign in again; choose folders to sync selectively if large library."
-    }
+    { "step": 1, "title": "Pause resume", "action": "Tray → Pause 2 min → Resume." },
+    { "step": 2, "title": "Disk space", "action": "Settings → System → Storage — free several GB on OS drive." },
+    { "step": 3, "title": "Read sync error", "action": "OneDrive → Settings → sync error codes if shown." },
+    { "step": 4, "title": "Close locking apps", "action": "Close files open from OneDrive in Office." },
+    { "step": 5, "title": "Path length", "action": "Rename very long paths or move folder up tree." },
+    { "step": 6, "title": "Reset OneDrive", "action": "Quit OneDrive; Win+R %localappdata%\\Microsoft\\OneDrive\\onedrive.exe /reset Enter." },
+    { "step": 7, "title": "Reboot", "action": "If reset prompts restart." },
+    { "step": 8, "title": "Unlink PC", "action": "Settings → Account → Unlink; sign in again." },
+    { "step": 9, "title": "Selective sync", "action": "Choose folders — avoid syncing entire huge library on laptop." },
+    { "step": 10, "title": "KFM check", "action": "Backup → Manage Known Folder Move — no double mapping." },
+    { "step": 11, "title": "Office upload center", "action": "Clear pending uploads." },
+    { "step": 12, "title": "Logs", "action": "Collect OneDrive logs for escalation." }
   ],
-  "internal_information": "Long path, locked file, or corrupt cache. Path length >260 pre-Win10 long path fix. Known folder backup conflicts."
+  "internal_information": "Locked file, long path, KFM conflict, corrupt cache."
 }

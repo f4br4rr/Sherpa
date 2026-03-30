@@ -50,6 +50,8 @@
 
 If validator and fixtures are light, merge lanes (e.g. one person owns both) and assign **two KO domains** to another person with strict ID ranges.
 
+**Effort note:** Lanes are **10 articles per domain**, not equal hours. KOs differ in **`ts_steps` depth** (many granular steps per issue); plan SME review and scheduling accordingly.
+
 ### When Phase 1 is good enough to unblock app work (Phases 2–3 overlap)
 
 | Person | Primary track | Depends on | Notes |

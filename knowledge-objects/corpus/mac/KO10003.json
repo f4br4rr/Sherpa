@@ -1,25 +1,20 @@
 {
   "ko_number": "KO10003",
   "subject": "Wi-Fi shows connected but no internet",
-  "configuration_item": "macOS",
+  "configuration_item": "macOS (Apple Silicon)",
   "state": "Published",
   "description": "Menu bar shows Wi-Fi connected; browser and Teams fail to reach the internet.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Verify other devices",
-      "action": "Confirm phone or second laptop on same SSID reaches internet to rule out outage vs single machine."
-    },
-    {
-      "step": 2,
-      "title": "Renew DHCP and DNS",
-      "action": "System Settings → Network → Wi-Fi → Details → TCP/IP — Renew DHCP Lease. DNS: try 1.1.1.1 or 8.8.8.8 temporarily for test only."
-    },
-    {
-      "step": 3,
-      "title": "Remove and re-add Wi-Fi",
-      "action": "Forget network, reconnect with correct credentials; check for captive portal in browser."
-    }
+    { "step": 1, "title": "Outage vs one Mac", "action": "Confirm another device on same SSID reaches internet. If all fail, NOC issue." },
+    { "step": 2, "title": "Captive portal", "action": "Safari http://captive.apple.com or any http site to trigger portal login." },
+    { "step": 3, "title": "VPN split tunnel", "action": "Disconnect VPN; retest. Reconnect and compare routes if intranet-only break." },
+    { "step": 4, "title": "Renew DHCP", "action": "System Settings → Network → Wi-Fi → Details → TCP/IP → Renew DHCP Lease." },
+    { "step": 5, "title": "DNS test", "action": "Details → DNS — note servers; add temporary test resolver if policy allows. Terminal: dscacheutil -flushcache; sudo killall -HUP mDNSResponder." },
+    { "step": 6, "title": "Ping router and beyond", "action": "Terminal: ping router IP; ping 1.1.1.1. If router OK but no internet, upstream or DNS." },
+    { "step": 7, "title": "Forget and rejoin SSID", "action": "Forget network, reconnect with correct credentials; accept 802.1x cert if prompted." },
+    { "step": 8, "title": "Proxies", "action": "Details → Proxies — ensure no stale manual proxy; PAC URL must be reachable." },
+    { "step": 9, "title": "Service order", "action": "System Settings → Network → … → Set Service Order — Wi-Fi above unused VPN interfaces if needed." },
+    { "step": 10, "title": "New location", "action": "Network → … → Edit Locations → + add test location with defaults; switch to it and retest before full rebuild." }
   ],
-  "internal_information": "DHCP/DNS stale lease, captive portal, or VPN split-tunnel oddities. Corporate networks may need NOC if wide outage."
+  "internal_information": "DHCP, DNS, PAC, captive portal, VPN. Apple Silicon Wi-Fi same user flows as modern macOS."
 }

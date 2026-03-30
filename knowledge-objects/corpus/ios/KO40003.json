@@ -5,21 +5,18 @@
   "state": "Published",
   "description": "User sees 'Not Enough Storage' when trying to update apps or take photos; phone feels slow.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Review storage breakdown",
-      "action": "Settings → General → iPhone Storage — wait for bar to load; review list sorted by size and note largest apps or 'Other/System Data'."
-    },
-    {
-      "step": 2,
-      "title": "Offload unused apps",
-      "action": "Tap an unused large app → Offload App (keeps data, frees binary). For media-heavy apps like Photos, enable iCloud Photos or transfer to PC."
-    },
-    {
-      "step": 3,
-      "title": "Clear Safari and Messages data",
-      "action": "Settings → Safari → Clear History and Website Data; Settings → Messages → Keep Messages → 1 Year or 30 Days to auto-delete old threads."
-    }
+    { "step": 1, "title": "iPhone Storage open", "action": "Settings → General → iPhone Storage — wait for list." },
+    { "step": 2, "title": "Photos Recently Deleted", "action": "Empty album." },
+    { "step": 3, "title": "Delete large videos", "action": "From Camera roll." },
+    { "step": 4, "title": "Offload large apps", "action": "Tap app → Offload App." },
+    { "step": 5, "title": "Delete unused games", "action": "User approves." },
+    { "step": 6, "title": "iCloud Photos optimize", "action": "Settings → Photos → Optimize Storage with enough iCloud plan." },
+    { "step": 7, "title": "Safari data", "action": "Clear History and Website Data." },
+    { "step": 8, "title": "Messages retention", "action": "Keep Messages 1 Year or 30 Days." },
+    { "step": 9, "title": "Music offline", "action": "Remove downloaded songs not needed." },
+    { "step": 10, "title": "System Data", "action": "If huge — backup and restore discussion with support." },
+    { "step": 11, "title": "OTA vs Finder update", "action": "Computer update may need less transient free space." },
+    { "step": 12, "title": "Target free space", "action": "Aim well above update size plus buffer (~10–15% total)." }
   ],
-  "internal_information": "System Data bloat is common after multiple OTA updates; a backup-and-restore can reclaim space. Large 'Other' category may also be streaming caches from Music or Podcasts."
+  "internal_information": "OTA unpack, System Data, media hoarding. Low storage slows whole OS."
 }

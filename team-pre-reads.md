@@ -135,7 +135,7 @@ Severity is intentionally excluded from this product. Scenarios are presented wi
 }
 ```
 
-**How to read this:** Top-level fields describe the ticket/article. `ts_steps` is a **list** of steps; each step has its own `title` and `action`. This nesting is normal — programs walk the structure tree the same way every time.
+**How to read this:** Top-level fields describe the ticket/article. `ts_steps` is a **list** of steps; each step has its own `title` and `action`. The sample above is **short**; **production** articles in **`knowledge-objects/corpus/`** usually have **many steps** (detailed troubleshooting — often roughly **9–15** per KO). This nesting is normal — programs walk the structure tree the same way every time.
 
 ---
 

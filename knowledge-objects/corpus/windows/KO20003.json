@@ -5,21 +5,17 @@
   "state": "Published",
   "description": "After cumulative update, boot and login are much slower; disk light solid minutes.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Wait out maintenance",
-      "action": "Leave plugged in for an hour on AC; Windows may be finishing indexing or update cleanup."
-    },
-    {
-      "step": 2,
-      "title": "Storage sense and temp",
-      "action": "Settings → System → Storage — run cleanup; remove old Windows Update files if offered."
-    },
-    {
-      "step": 3,
-      "title": "Update rollback window",
-      "action": "If within 10 days and critical: Settings → Windows Update → Update history — uninstall latest quality update as test."
-    }
+    { "step": 1, "title": "Idle on AC", "action": "Leave powered 1–2 h to finish servicing/indexer." },
+    { "step": 2, "title": "Task Manager disk", "action": "Sort by disk; note TiWorker, SearchIndexer, System." },
+    { "step": 3, "title": "Storage cleanup", "action": "Settings → System → Storage → Temporary files." },
+    { "step": 4, "title": "cleanmgr", "action": "cleanmgr → system files → Windows Update Cleanup." },
+    { "step": 5, "title": "Free space target", "action": "Aim ≥15% on OS volume." },
+    { "step": 6, "title": "Startup apps trim", "action": "Task Manager → Startup — disable non-essential high impact in batches." },
+    { "step": 7, "title": "Apps Startup page", "action": "Settings → Apps → Startup." },
+    { "step": 8, "title": "Services review", "action": "Non-Microsoft third-party to Manual if policy allows." },
+    { "step": 9, "title": "Uninstall quality update", "action": "Within 10 days: Update history → Uninstall updates." },
+    { "step": 10, "title": "Event Viewer disk", "action": "System log for disk warnings during slow boot." },
+    { "step": 11, "title": "Feedback", "action": "If rollback fixes, report regression with build numbers." }
   ],
-  "internal_information": "Driver regression or indexer. Event Viewer for disk errors. Escalate if rollback fixes — file bug with build number."
+  "internal_information": "Indexer, servicing, driver regression. Rollback confirms correlation."
 }

@@ -10,10 +10,11 @@
 
 | Item | Location |
 |------|-----------|
-| Doc snapshot on Desktop (overwrite-safe) | `~/Desktop/ghd-docs-snapshot-20260328-150517/` — `project-architecture-and-plan.md`, `team-pre-reads.md`, `REPO-LAYOUT.md`, `PHASE1-READINESS.md`, `knowledge-objects-README.md` (= repo `knowledge-objects/README.md`), `fixtures-test-contract.md` (refresh after major doc edits) |
+| Optional local doc snapshot | A dated copy may exist under `~/Desktop/` (e.g. `ghd-docs-snapshot-*`). **Authoritative** sources are **this repository**; refresh or discard any Desktop copy after **major doc or corpus edits** so it does not contradict the repo. |
 | KO JSON Schema | `schemas/knowledge-object.schema.json` |
 | Corpus validator (schema + duplicate `ko_number` + `ts_steps` order) | `npm run validate:kos` → `scripts/validate-ko-corpus.mjs` |
 | Corpus drop zone + example | `knowledge-objects/README.md`, `knowledge-objects/corpus/` (production), `knowledge-objects/examples/KO99999.example.json` |
+| Phase 1 SME sign-off record | [SME-SIGNOFF-PHASE1.md](SME-SIGNOFF-PHASE1.md) |
 | Export / serializer goldens (Phase 2+ contract) | `fixtures/`, `fixtures/test-contract.md`, `src/serializeExportTranscript.ts` |
 | Git repo initialized | `.git/` (commit when the team is ready) |
 
@@ -22,7 +23,7 @@
 - [x] **40** production `.json` files under **`knowledge-objects/corpus/`** (target **10** per domain — `mac/`, `windows/`, `zoom/`, `ios/`).
 - [x] **`npm run validate:kos`** exits **0** (corpus + examples schema-valid; no duplicate `ko_number` in `corpus/`).
 - [x] **`npm test`** passes (serializer goldens unchanged or updated deliberately).
-- [ ] **SME sign-off** on corpus content (per team process).
+- [x] **SME sign-off** on corpus content — **recorded** in [SME-SIGNOFF-PHASE1.md](SME-SIGNOFF-PHASE1.md). Production KOs use **many granular `ts_steps` per article** (often **9–15** steps); sign-off covers **technical accuracy**, **demo-safety**, and **plausible ordering** across the full step list, not only `subject` / `description`. *Add printed name/role in that file if your org requires a named SME on file.*
 
 ---
 
@@ -37,6 +38,7 @@ Use when **desktop app / MCP / scenario loading** work begins. This section reco
 | **Identity** | **`ko_number`** is unique across the whole **`corpus/`** tree; random scenario and binding should use it. |
 | **CI** | Keep **`npm run validate:kos`** and **`npm test`** green on PRs that touch KOs or loaders. |
 | **Ticket header name** | If KO **`persona`** is missing or whitespace-only, set **`displayName`** via **`resolveTicketDisplayName`** in **`src/pickDisplayName.ts`** (random first + last; stable for the session). |
+| **`ts_steps` shape** | **Variable length** per KO (as many steps as needed, **≤ 15** per current team rule). Validator enforces **contiguous** `step` numbers from **1** and schema compliance — see [Validation rules](project-architecture-and-plan.md#validation-rules-for-humans-and-later-automation) in the architecture doc. |
 
 **Practical first step:** Implement a small loader that enumerates **`corpus/`**, parses JSON, and supports lookup by **`ko_number`** — then wire **Start Random Scenario** to that list (per architecture).
 

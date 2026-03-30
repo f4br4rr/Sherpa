@@ -1,25 +1,19 @@
 {
   "ko_number": "KO10006",
   "subject": "Repeated keychain prompts for mail or Wi-Fi password",
-  "configuration_item": "macOS",
+  "configuration_item": "macOS (Apple Silicon)",
   "state": "Published",
   "description": "User asked to approve keychain access many times per day for Mail or network login.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Keychain First Aid (legacy) / sync",
-      "action": "Keychain Access — verify login keychain unlocked; check for duplicate Wi-Fi entries."
-    },
-    {
-      "step": 2,
-      "title": "Re-save password",
-      "action": "Remove saved network or mail account password, re-enter once, allow keychain save."
-    },
-    {
-      "step": 3,
-      "title": "New keychain if corrupted",
-      "action": "If prompts persist after re-save, backup export critical items; create fresh login keychain per Apple guidance."
-    }
+    { "step": 1, "title": "Unlock login keychain", "action": "Keychain Access → login keychain — if locked, unlock with login password." },
+    { "step": 2, "title": "Search duplicates", "action": "Keychain Access search for SSID or mail server hostname; delete obvious duplicate password items after identifying correct one (export first if unsure)." },
+    { "step": 3, "title": "Mail re-auth", "action": "Mail → Settings → Accounts — remove account if allowed, quit Mail, add account fresh, save password when prompted Always Allow." },
+    { "step": 4, "title": "Wi-Fi re-save", "action": "Forget SSID, rejoin, enter password once, confirm Remember." },
+    { "step": 5, "title": "iCloud Keychain toggle", "action": "System Settings → Apple ID → iCloud → Passwords and Keychain — brief off/on with user awareness of sync pause." },
+    { "step": 6, "title": "Third-party password apps", "action": "Disable browser password manager extensions temporarily to test conflicts." },
+    { "step": 7, "title": "Login password change mismatch", "action": "If password recently changed, user may need to update keychain password when macOS prompts at login." },
+    { "step": 8, "title": "MDM check", "action": "If keychain controls grayed, escalate MDM restriction." },
+    { "step": 9, "title": "New keychain last resort", "action": "After backup of critical items, create new default keychain per Apple doc — disruptive, schedule with user." }
   ],
-  "internal_information": "Corrupt keychain or mismatched account password. iCloud Keychain conflicts less common; escalate if MDM profile blocks keychain repair."
+  "internal_information": "Duplicates, unlock state, post-password-change mismatch, MDM. No legacy Keychain First Aid UI dependency."
 }

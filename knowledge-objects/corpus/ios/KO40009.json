@@ -5,21 +5,18 @@
   "state": "Published",
   "description": "Screen stays in portrait even when user rotates phone sideways; rotation lock icon may or may not appear in status bar.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Check orientation lock",
-      "action": "Swipe down from top-right corner (or up from bottom on older models) to open Control Center; tap the rotation lock icon so it is not highlighted."
-    },
-    {
-      "step": 2,
-      "title": "Test in a known-good app",
-      "action": "Open Safari or Photos and rotate the device; some apps (like Phone or Home Screen) do not support landscape, so the lock may appear app-specific."
-    },
-    {
-      "step": 3,
-      "title": "Restart and calibrate",
-      "action": "Force restart the iPhone (Volume Up, Volume Down, hold Side button); if gyroscope feels wrong, open Compass app to trigger sensor recalibration."
-    }
+    { "step": 1, "title": "Control Center", "action": "Open CC from correct gesture for model." },
+    { "step": 2, "title": "Portrait lock icon", "action": "Tap off — not highlighted." },
+    { "step": 3, "title": "Home Screen rotate test", "action": "Note many iPhones do not rotate Home — expected." },
+    { "step": 4, "title": "Safari rotate", "action": "Landscape should work if lock off." },
+    { "step": 5, "title": "Photos rotate", "action": "Confirm hardware rotation." },
+    { "step": 6, "title": "Display Zoom", "action": "Settings → Display → Display Zoom — try Standard vs Zoomed." },
+    { "step": 7, "title": "Remove folio keyboard", "action": "If magnet holds portrait." },
+    { "step": 8, "title": "Case test", "action": "Remove thick case." },
+    { "step": 9, "title": "Force restart", "action": "Volume up, down, hold side." },
+    { "step": 10, "title": "Compass", "action": "If erratic motion — gyro suspect." },
+    { "step": 11, "title": "iOS update", "action": "Software Update." },
+    { "step": 12, "title": "Hardware service", "action": "If no software cause — accelerometer/gyro fault." }
   ],
-  "internal_information": "Orientation lock is a simple toggle but users often confuse it with mute switch on older iPads. Display Zoom mode on some models disables landscape on Home Screen. Rarely a gyroscope hardware fault."
+  "internal_information": "Zoomed display, app no-landscape, lock confusion, sensor fault."
 }

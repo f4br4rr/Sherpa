@@ -5,21 +5,19 @@
   "state": "Published",
   "description": "User does not hear or see alerts for new Outlook emails; opening the app manually shows unread messages that arrived minutes ago.",
   "ts_steps": [
-    {
-      "step": 1,
-      "title": "Check notification settings",
-      "action": "Settings → Notifications → Outlook — ensure Allow Notifications is on; set Alert Style to Banners or Alerts; enable Sounds and Badges."
-    },
-    {
-      "step": 2,
-      "title": "Check Focus mode",
-      "action": "Settings → Focus — if a Focus mode (e.g. Do Not Disturb, Work) is active, add Outlook to the allowed apps list or disable the Focus temporarily to test."
-    },
-    {
-      "step": 3,
-      "title": "Reinstall Outlook",
-      "action": "Delete Outlook app, restart iPhone, reinstall from App Store, sign in; this resets the push notification token with Apple's push service."
-    }
+    { "step": 1, "title": "Notifications Outlook", "action": "Settings → Notifications → Outlook — Allow On." },
+    { "step": 2, "title": "Lock Screen Banners", "action": "Enable delivery surfaces." },
+    { "step": 3, "title": "Sounds Badges", "action": "On per user preference." },
+    { "step": 4, "title": "In-app Outlook notifications", "action": "Outlook gear → notifications per folder if offered." },
+    { "step": 5, "title": "Focus allow", "action": "Focus → allow Outlook or disable Focus test." },
+    { "step": 6, "title": "Scheduled Summary", "action": "Ensure not delaying to summary only." },
+    { "step": 7, "title": "Background App Refresh", "action": "Global and Outlook on." },
+    { "step": 8, "title": "Low Power Mode off", "action": "Battery." },
+    { "step": 9, "title": "Cellular data Outlook", "action": "Settings → Cellular — Outlook allowed." },
+    { "step": 10, "title": "Delete Outlook app", "action": "Remove app." },
+    { "step": 11, "title": "Restart iPhone", "action": "Fresh APNs token path." },
+    { "step": 12, "title": "Reinstall sign in", "action": "App Store → Outlook → install." },
+    { "step": 13, "title": "Microsoft service health", "action": "Check tenant incidents." }
   ],
-  "internal_information": "Outlook for iOS uses its own push infrastructure via Microsoft servers, not native Exchange push. A stale APNs token after an iOS update is a common cause. Low Power Mode can also defer notifications."
+  "internal_information": "APNs token, Focus, Low Power Mode, Microsoft push path, Background App Refresh off."
 }
