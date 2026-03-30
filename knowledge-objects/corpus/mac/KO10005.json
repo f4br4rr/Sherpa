@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO10005",
+  "subject": "Time Machine backup failed with sparse error message",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "Time Machine reports backup could not complete; user needs data protected before travel.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Check disk space",
+      "action": "On backup volume ensure free space ≥ estimated backup size; thin old snapshots if UI allows."
+    },
+    {
+      "step": 2,
+      "title": "Run First Aid",
+      "action": "Disk Utility — First Aid on backup volume and internal volume (if policy allows)."
+    },
+    {
+      "step": 3,
+      "title": "Exclude large transient folders",
+      "action": "Time Machine Options — exclude caches or VM images that balloon; run backup again."
+    }
+  ],
+  "internal_information": "Corrupt sparsebundle, full disk, or APFS snapshot issues. May need new backup disk if hardware failing."
+}

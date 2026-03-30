@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO10006",
+  "subject": "Repeated keychain prompts for mail or Wi-Fi password",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "User asked to approve keychain access many times per day for Mail or network login.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Keychain First Aid (legacy) / sync",
+      "action": "Keychain Access — verify login keychain unlocked; check for duplicate Wi-Fi entries."
+    },
+    {
+      "step": 2,
+      "title": "Re-save password",
+      "action": "Remove saved network or mail account password, re-enter once, allow keychain save."
+    },
+    {
+      "step": 3,
+      "title": "New keychain if corrupted",
+      "action": "If prompts persist after re-save, backup export critical items; create fresh login keychain per Apple guidance."
+    }
+  ],
+  "internal_information": "Corrupt keychain or mismatched account password. iCloud Keychain conflicts less common; escalate if MDM profile blocks keychain repair."
+}

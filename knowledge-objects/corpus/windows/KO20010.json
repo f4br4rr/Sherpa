@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO20010",
+  "subject": "Login after boot very slow with spinning cursor",
+  "configuration_item": "Windows 11",
+  "state": "Published",
+  "description": "After entering password, desktop takes 5+ minutes; eventually loads with all startup apps.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Startup apps",
+      "action": "Task Manager → Startup — disable non-essential high-impact items; reboot test."
+    },
+    {
+      "step": 2,
+      "title": "User profile on network",
+      "action": "If roaming profile — check size and sync errors; local profile test user to compare."
+    },
+    {
+      "step": 3,
+      "title": "Event Viewer",
+      "action": "Review Application and System log around logon time for group policy or script timeouts."
+    }
+  ],
+  "internal_information": "GPO script mapping drives, AV scan at logon, or bloated profile. Desktop engineering for GPO changes."
+}

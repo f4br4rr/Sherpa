@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO30006",
+  "subject": "Local recording conversion stuck at 0%",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "Meeting recorded to disk; double-click recording shows converting progress never advances.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Disk space",
+      "action": "Ensure drive with recordings has free space ≥ 2× recording size."
+    },
+    {
+      "step": 2,
+      "title": "Run as admin once",
+      "action": "Quit Zoom; launch Zoom as administrator; open Recording tab and convert again."
+    },
+    {
+      "step": 3,
+      "title": "Manual merge",
+      "action": "If double_click_to_convert files exist, use Zoom's documented zTscoder or support for broken recording recovery."
+    }
+  ],
+  "internal_information": "Antivirus locking temp files, corrupt recording, or missing codec. Cloud recording alternative for critical meetings."
+}

@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO30003",
+  "subject": "Zoom video is black in meeting",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "Camera LED on but others see black tile; preview in Zoom settings also black.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Select camera",
+      "action": "Zoom → Video — choose correct camera; turn off HD if bandwidth low."
+    },
+    {
+      "step": 2,
+      "title": "Close other apps",
+      "action": "Quit apps that may lock camera (other meeting tools, camera utilities)."
+    },
+    {
+      "step": 3,
+      "title": "Driver",
+      "action": "Device Manager — update/roll back camera driver; disable 'Enable GPU acceleration' in Zoom Video advanced."
+    }
+  ],
+  "internal_information": "Exclusive access conflict, bad driver, or GPU decode issue. Test with webcam in Camera app first."
+}

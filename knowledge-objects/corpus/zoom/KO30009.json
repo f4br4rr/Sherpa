@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO30009",
+  "subject": "Zoom sign-in button grayed out",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "User opens Zoom; cannot click Sign In; SSO path unavailable from UI.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Switch account type",
+      "action": "Sign In → ensure not stuck on 'Join a meeting' only view; use SSO domain field if provided."
+    },
+    {
+      "step": 2,
+      "title": "Repair install",
+      "action": "Apps & Features → Zoom → Modify/Repair; reboot."
+    },
+    {
+      "step": 3,
+      "title": "Clear credentials",
+      "action": "Sign out everywhere from zoom.us profile if accessible; remove stale credentials from Windows Credential Manager for Zoom."
+    }
+  ],
+  "internal_information": "Corrupt install or policy-restricted SSO. If SSO only and grayed, compare with working machine registry/policy."
+}

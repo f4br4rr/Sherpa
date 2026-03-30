@@ -1,0 +1,26 @@
+{
+  "ko_number": "KO20002",
+  "persona": "Casey - Finance",
+  "subject": "VPN connected but internal websites do not load",
+  "configuration_item": "Windows 11",
+  "state": "Published",
+  "description": "VPN client shows connected; browser times out on intranet URLs that worked last week.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Split tunnel check",
+      "action": "Verify whether intranet routes are in VPN client routing table; disconnect/reconnect; try different VPN gateway."
+    },
+    {
+      "step": 2,
+      "title": "DNS",
+      "action": "ipconfig /flushdns; confirm VPN-assigned DNS; try intranet by IP if hostname fails."
+    },
+    {
+      "step": 3,
+      "title": "Browser cache",
+      "action": "Clear SSL state and cache; try InPrivate; rule out proxy extension blocking."
+    }
+  ],
+  "internal_information": "Split tunnel policy, stale DNS, or corporate cert issue. Network team if routing missing for all users."
+}

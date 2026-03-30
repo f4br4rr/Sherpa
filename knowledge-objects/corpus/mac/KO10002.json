@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO10002",
+  "subject": "Bluetooth mouse keeps disconnecting",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "Wireless mouse drops connection several times per day; works again after toggle or reboot.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Power and distance",
+      "action": "Replace or recharge batteries; move receiver/USB closer; remove metal objects between mouse and Mac."
+    },
+    {
+      "step": 2,
+      "title": "Re-pair the device",
+      "action": "System Settings → Bluetooth — remove device, put mouse in pairing mode, pair again."
+    },
+    {
+      "step": 3,
+      "title": "Reset Bluetooth module (user-safe)",
+      "action": "Toggle Bluetooth off/on; if still failing, restart Mac and test on a clean user session if available."
+    }
+  ],
+  "internal_information": "Hardware battery/low signal vs Bluetooth plist issues. Third-party USB hubs can interfere. Swap mouse if under warranty if pattern persists on multiple Macs."
+}

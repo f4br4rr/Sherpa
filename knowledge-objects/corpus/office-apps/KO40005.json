@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40005",
+  "subject": "Teams shows older messages after reinstall",
+  "configuration_item": "Microsoft Teams",
+  "state": "Published",
+  "description": "User reinstalled Teams; chat history appears truncated compared to web.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Wait for sync",
+      "action": "Leave Teams open on good network for 30–60 minutes; scroll up to trigger load."
+    },
+    {
+      "step": 2,
+      "title": "Correct tenant",
+      "action": "Confirm signed into same work account; not personal Teams on same machine."
+    },
+    {
+      "step": 3,
+      "title": "Clear cache",
+      "action": "Quit Teams; delete Teams cache folders per Microsoft doc; sign in fresh."
+    }
+  ],
+  "internal_information": "Chat service vs local cache. Retention policies may legitimately hide old threads. Compare Teams web."
+}

@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO30008",
+  "subject": "Echo or feedback heard by other participants",
+  "configuration_item": "Zoom (macOS)",
+  "state": "Published",
+  "description": "Remote participants report echo when this user speaks; user uses laptop mic and speakers.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Headphones",
+      "action": "Use wired headset or headphones to break acoustic loop; mute when not speaking."
+    },
+    {
+      "step": 2,
+      "title": "Original sound off",
+      "action": "Disable 'Original Sound' and stereo if not needed; lower speaker volume."
+    },
+    {
+      "step": 3,
+      "title": "Multiple devices",
+      "action": "Ensure user not joined twice from phone and laptop in same room."
+    }
+  ],
+  "internal_information": "Classic loopback from speaker-to-mic. Room with two laptops in same meeting causes howling."
+}

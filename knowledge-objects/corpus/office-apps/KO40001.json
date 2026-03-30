@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40001",
+  "subject": "Word cannot open attachment from Outlook",
+  "configuration_item": "Microsoft 365 (Word)",
+  "state": "Published",
+  "description": "Double-click .docx from Outlook preview shows error or blank; save-as works sometimes.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Trust Center",
+      "action": "Word → Options → Trust Center — Protected View — test uncheck 'Enable Protected View for Outlook attachments' (policy permitting)."
+    },
+    {
+      "step": 2,
+      "title": "Copy locally",
+      "action": "Save attachment to Desktop, open from there; unblock file if marked blocked in Properties."
+    },
+    {
+      "step": 3,
+      "title": "Repair Office",
+      "action": "Online Repair; ensure Word and Outlook same channel build."
+    }
+  ],
+  "internal_information": "Protected View, file block registry, or DLP agent locking temp. Security policy may forbid disabling Protected View."
+}

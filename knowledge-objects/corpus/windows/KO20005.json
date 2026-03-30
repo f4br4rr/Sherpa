@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO20005",
+  "subject": "Microsoft Teams camera not available in meeting",
+  "configuration_item": "Microsoft Teams (Windows)",
+  "state": "Published",
+  "description": "Teams meeting shows no camera or black preview; Camera app works on same PC.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Teams device settings",
+      "action": "Teams → Settings → Devices — select correct camera; test preview; fully quit Teams and relaunch."
+    },
+    {
+      "step": 2,
+      "title": "Privacy camera",
+      "action": "Settings → Privacy & security → Camera — allow desktop apps and Teams specifically."
+    },
+    {
+      "step": 3,
+      "title": "Driver rollback",
+      "action": "Device Manager — imaging devices — update or roll back driver if issue began after update."
+    }
+  ],
+  "internal_information": "Teams cache vs driver. Clear Teams cache per Microsoft guidance if policy allows. Hardware swap last resort."
+}

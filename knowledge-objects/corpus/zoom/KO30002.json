@@ -1,0 +1,26 @@
+{
+  "ko_number": "KO30002",
+  "persona": "Morgan - Sales",
+  "subject": "No one can hear me in Zoom",
+  "configuration_item": "Zoom (macOS)",
+  "state": "Published",
+  "description": "Microphone works in other apps; Zoom shows mic unmuted but participants hear silence.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Zoom audio settings",
+      "action": "Zoom → Settings → Audio — pick correct mic; Test Mic; uncheck 'Automatically adjust microphone'."
+    },
+    {
+      "step": 2,
+      "title": "macOS input",
+      "action": "System Settings → Sound → Input — set correct device and input level while speaking."
+    },
+    {
+      "step": 3,
+      "title": "Restart audio",
+      "action": "Leave meeting, quit Zoom completely, rejoin; if Bluetooth headset, reconnect audio profile."
+    }
+  ],
+  "internal_information": "Wrong input device, Bluetooth profile stuck on HFP quality, or Zoom audio driver glitch. Reinstall Zoom if persistent."
+}

@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO20004",
+  "subject": "Print jobs stuck; others cannot print to shared printer",
+  "configuration_item": "Windows 11",
+  "state": "Published",
+  "description": "Queue on print server shows error; restarting user's PC did not clear server-side jobs.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Local queue",
+      "action": "On user PC open printer queue — cancel all documents; restart Print Spooler service locally."
+    },
+    {
+      "step": 2,
+      "title": "Server queue (if permitted)",
+      "action": "Clear stuck job on shared queue; restart spooler on print server during change window if policy allows."
+    },
+    {
+      "step": 3,
+      "title": "Driver mismatch",
+      "action": "Reinstall printer with correct universal driver; remove duplicate printers pointing to same share."
+    }
+  ],
+  "internal_information": "Corrupt driver on server or bad PCL job. Print server team owns spooler restart in many orgs."
+}

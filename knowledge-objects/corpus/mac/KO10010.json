@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO10010",
+  "subject": "Mac fan loud and sluggish during video calls",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "During Zoom/Meet laptop gets hot, fans ramp, UI stutters; happens on desk without bed blocking vents.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Activity Monitor",
+      "action": "Identify CPU hogs; quit unnecessary apps; close browser tabs with heavy video."
+    },
+    {
+      "step": 2,
+      "title": "Energy settings",
+      "action": "On battery vs power adapter — test on AC; disable high-power external displays temporarily."
+    },
+    {
+      "step": 3,
+      "title": "SMC reset guidance",
+      "action": "Per Apple steps for model (Intel vs Apple Silicon differ); clean vents if dusty."
+    }
+  ],
+  "internal_information": "Thermal paste age on Intel, background indexer, or runaway process. Hardware service if idle temps abnormal."
+}

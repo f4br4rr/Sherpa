@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO10007",
+  "subject": "App cannot be opened because it is damaged",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "Downloaded internal tool shows Gatekeeper 'damaged' dialog; user cannot launch.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Re-download",
+      "action": "Delete app, download fresh copy from approved source, verify checksum if published."
+    },
+    {
+      "step": 2,
+      "title": "Quarantine attribute",
+      "action": "If policy allows: xattr -dr com.apple.quarantine /path/to/App.app in Terminal (document approval)."
+    },
+    {
+      "step": 3,
+      "title": "Privacy & Security",
+      "action": "System Settings → Privacy & Security — if app blocked, use Open Anyway once after explicit user intent."
+    }
+  ],
+  "internal_information": "Quarantine flag or incomplete download. Do not bypass Gatekeeper for unknown binaries. Security team for unsigned builds."
+}

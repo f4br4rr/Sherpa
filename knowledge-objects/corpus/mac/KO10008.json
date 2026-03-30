@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO10008",
+  "subject": "Screen recording permission missing for conferencing app",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "User cannot share screen in video app; macOS says screen recording not allowed.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Grant Screen Recording",
+      "action": "System Settings → Privacy & Security → Screen Recording — enable for the conferencing app; quit and reopen app."
+    },
+    {
+      "step": 2,
+      "title": "Accessibility",
+      "action": "If app also needs control: Accessibility list — add app, toggle on, restart app."
+    },
+    {
+      "step": 3,
+      "title": "Restart macOS",
+      "action": "Full restart after toggles; some macOS versions cache permission state incorrectly."
+    }
+  ],
+  "internal_information": "TCC database issues rare; usually missing toggles. MDM may restrict — user cannot self-fix if grayed out."
+}

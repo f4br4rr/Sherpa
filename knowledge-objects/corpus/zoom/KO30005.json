@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO30005",
+  "subject": "Virtual background does not appear",
+  "configuration_item": "Zoom (macOS)",
+  "state": "Published",
+  "description": "User selects virtual background; video shows only blur or original room.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Requirements",
+      "action": "Confirm machine meets Zoom virtual background requirements; green screen option if CPU weak."
+    },
+    {
+      "step": 2,
+      "title": "Permissions",
+      "action": "macOS Camera access for Zoom granted; no other app using camera exclusively."
+    },
+    {
+      "step": 3,
+      "title": "Replace image",
+      "action": "Use provided Zoom backgrounds first; custom image under 2MB and correct format (PNG/JPG)."
+    }
+  ],
+  "internal_information": "Apple Silicon vs Intel feature parity changes over time. Corporate policy may disable virtual backgrounds."
+}

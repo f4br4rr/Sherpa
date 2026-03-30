@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO30001",
+  "subject": "Cannot join Zoom meeting — generic connection error",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "Clicking meeting link shows error before video starts; browser join also fails.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Check Zoom status page",
+      "action": "Verify Zoom operational; test from mobile data hotspot to rule out corporate firewall."
+    },
+    {
+      "step": 2,
+      "title": "Update client",
+      "action": "Zoom → Check for Updates; reinstall from zoom.us if version very old."
+    },
+    {
+      "step": 3,
+      "title": "Proxy and SSL",
+      "action": "Zoom Settings → Network — configure corporate proxy if required; IT may need allowlist for Zoom domains."
+    }
+  ],
+  "internal_information": "Firewall/proxy blocking WebSocket or UDP. SSL inspection breaking Zoom. Compare guest vs corp network."
+}

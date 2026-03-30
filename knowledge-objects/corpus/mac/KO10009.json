@@ -1,0 +1,26 @@
+{
+  "ko_number": "KO10009",
+  "persona": "Riley - HR",
+  "subject": "Office printer shows offline on Mac only",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "Printer works for colleagues on Windows; this Mac shows printer offline in Print dialog.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Ping and queue",
+      "action": "Print another printer or PDF to isolate; open CUPS queue and clear stuck jobs."
+    },
+    {
+      "step": 2,
+      "title": "Remove and re-add",
+      "action": "System Settings → Printers & Scanners — remove printer, add by IP or correct driver (AirPrint vs vendor)."
+    },
+    {
+      "step": 3,
+      "title": "Driver update",
+      "action": "Install latest vendor driver; avoid duplicate queue names from migration."
+    }
+  ],
+  "internal_information": "Wrong driver, IP change, or paused queue. LPD vs IPP path matters on some networks."
+}

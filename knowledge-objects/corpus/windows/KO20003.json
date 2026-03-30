@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO20003",
+  "subject": "PC slow after recent Windows update",
+  "configuration_item": "Windows 11",
+  "state": "Published",
+  "description": "After cumulative update, boot and login are much slower; disk light solid minutes.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Wait out maintenance",
+      "action": "Leave plugged in for an hour on AC; Windows may be finishing indexing or update cleanup."
+    },
+    {
+      "step": 2,
+      "title": "Storage sense and temp",
+      "action": "Settings → System → Storage — run cleanup; remove old Windows Update files if offered."
+    },
+    {
+      "step": 3,
+      "title": "Update rollback window",
+      "action": "If within 10 days and critical: Settings → Windows Update → Update history — uninstall latest quality update as test."
+    }
+  ],
+  "internal_information": "Driver regression or indexer. Event Viewer for disk errors. Escalate if rollback fixes — file bug with build number."
+}

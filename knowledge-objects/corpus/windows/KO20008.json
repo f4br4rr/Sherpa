@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO20008",
+  "subject": "Windows Update fails with generic error code",
+  "configuration_item": "Windows 11",
+  "state": "Published",
+  "description": "Update downloads but fails install repeatedly; error code shown in Windows Update history.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Run troubleshooter",
+      "action": "Settings → System → Troubleshoot — Windows Update troubleshooter."
+    },
+    {
+      "step": 2,
+      "title": "Disk cleanup",
+      "action": "Cleanmgr — Windows Update Cleanup; restart; retry update."
+    },
+    {
+      "step": 3,
+      "title": "DISM and SFC",
+      "action": "Admin CMD: DISM /Online /Cleanup-Image /RestoreHealth then sfc /scannow — reboot and retry."
+    }
+  ],
+  "internal_information": "Corrupt component store or third-party AV locking files. WSUS may block specific KB — check with desktop engineering."
+}

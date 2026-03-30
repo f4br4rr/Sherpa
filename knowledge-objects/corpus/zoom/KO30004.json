@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO30004",
+  "subject": "Screen share freezes for attendees",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "Host shares PowerPoint; attendees see frozen slide while host sees live updates.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Share content type",
+      "action": "Use 'Share Screen' → specific window vs full screen; try Optimize for video clip off for static slides."
+    },
+    {
+      "step": 2,
+      "title": "Network",
+      "action": "Host on wired if possible; lower resolution; disable 'Use TCP connection for screen sharing' test in advanced."
+    },
+    {
+      "step": 3,
+      "title": "Update and graphics",
+      "action": "Update Zoom and GPU drivers; disable second monitor temporarily as test."
+    }
+  ],
+  "internal_information": "UDP loss, GPU overload, or dual-monitor DPI scaling bugs. Zoom support articles on sharing modes."
+}

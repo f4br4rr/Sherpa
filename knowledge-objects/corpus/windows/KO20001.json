@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO20001",
+  "subject": "Outlook stuck on Loading Profile",
+  "configuration_item": "Windows 11",
+  "state": "Published",
+  "description": "Outlook desktop spins on 'Loading Profile' for ten-plus minutes after login.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "End Office processes",
+      "action": "Task Manager — end OUTLOOK.EXE, teams if integrated; relaunch Outlook."
+    },
+    {
+      "step": 2,
+      "title": "Safe mode",
+      "action": "Run outlook.exe /safe — if loads, disable add-ins one by one from File → Options → Add-ins."
+    },
+    {
+      "step": 3,
+      "title": "Recreate profile",
+      "action": "Control Panel → Mail → Show Profiles — new profile, add account; migrate PST if needed."
+    }
+  ],
+  "internal_information": "Corrupt profile, add-in crash loop, or OST integrity. Scanpst/OST repair tools per Microsoft KB if supported."
+}

@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40007",
+  "subject": "Cannot open shared cloud link — permission error",
+  "configuration_item": "Microsoft 365 (SharePoint)",
+  "state": "Published",
+  "description": "Browser shows access denied or sign-in loop when opening colleague's OneDrive link.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Incognito test",
+      "action": "Open link in private window; sign in with work account explicitly."
+    },
+    {
+      "step": 2,
+      "title": "Request access",
+      "action": "Use 'Request access' on error page; owner re-shares with correct org."
+    },
+    {
+      "step": 3,
+      "title": "Correct link type",
+      "action": "Ensure 'people in org' vs 'specific people' matches recipient; link not expired."
+    }
+  ],
+  "internal_information": "Guest vs member, cross-tenant sharing disabled, or link scoped to wrong email. Not Entra-only fix path — generic sharing UX."
+}

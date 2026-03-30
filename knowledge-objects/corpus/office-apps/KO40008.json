@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40008",
+  "subject": "Outlook stuck in Working Offline",
+  "configuration_item": "Microsoft 365 (Outlook)",
+  "state": "Published",
+  "description": "Send/Receive shows Working Offline; user cannot toggle back online from ribbon.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Send Receive tab",
+      "action": "Send/Receive → Work Offline — click to disable offline mode."
+    },
+    {
+      "step": 2,
+      "title": "Connection state",
+      "action": "Outlook bottom status bar — click 'Disconnected' if shown; check airplane mode."
+    },
+    {
+      "step": 3,
+      "title": "OST repair",
+      "action": "Create new Outlook profile if toggle broken due to corrupt profile flags."
+    }
+  ],
+  "internal_information": "Accidental Work Offline, Exchange unreachable, or corrupt profile. Cached mode vs online mode test."
+}

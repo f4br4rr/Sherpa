@@ -1,0 +1,31 @@
+{
+  "ko_number": "KO10001",
+  "persona": "Jordan - Marketing",
+  "subject": "Safari cannot open most websites",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "User reports Safari spins or shows 'cannot connect' on multiple sites; other browsers not tried.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Confirm scope",
+      "action": "Ask if the issue affects all sites or specific URLs; try apple.com and a second known-good site."
+    },
+    {
+      "step": 2,
+      "title": "Check date, time, and DNS",
+      "action": "Verify System Settings → General → Date & Time (set time automatically on). Try toggling Wi-Fi off and on."
+    },
+    {
+      "step": 3,
+      "title": "Clear Safari data for the site",
+      "action": "Safari → Settings → Privacy → Manage Website Data — remove data for affected domain and retry."
+    },
+    {
+      "step": 4,
+      "title": "Test without extensions",
+      "action": "Safari → Settings → Extensions — disable all temporarily; relaunch Safari and retest."
+    }
+  ],
+  "internal_information": "Common causes: incorrect system time, DNS hiccup, corrupt website data, or a misbehaving extension. Escalate if isolated to corporate proxy only after confirming other apps work."
+}

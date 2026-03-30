@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO10004",
+  "subject": "External monitor not detected after dock reconnect",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "Laptop on USB-C dock; external display worked yesterday; today only built-in screen lights up.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Reseat connections",
+      "action": "Disconnect dock power and USB-C, wait 10s, reconnect direct to Mac first, then expand through dock."
+    },
+    {
+      "step": 2,
+      "title": "Detect displays",
+      "action": "System Settings → Displays — hold Option and click Detect Displays; try mirror vs extend."
+    },
+    {
+      "step": 3,
+      "title": "Safe resolution",
+      "action": "Choose scaled resolution or default for external display; avoid unsupported refresh rates on cheap adapters."
+    }
+  ],
+  "internal_information": "Cable/adapter failure common; EDID handshake on cheap dongles flaky. Dock firmware update from vendor if available."
+}

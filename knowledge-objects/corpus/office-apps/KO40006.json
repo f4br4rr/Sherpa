@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40006",
+  "subject": "OneNote section will not sync — conflict marker",
+  "configuration_item": "Microsoft 365 (OneNote)",
+  "state": "Published",
+  "description": "Yellow warning on section; edits not appearing on other devices.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Open conflict page",
+      "action": "Follow link to conflict copies; merge content manually into master page."
+    },
+    {
+      "step": 2,
+      "title": "Notebook settings",
+      "action": "File → Info — check notebook sync status; which account owns notebook."
+    },
+    {
+      "step": 3,
+      "title": "Close and reopen",
+      "action": "Close notebook, reopen from SharePoint/OneDrive location; update OneNote app."
+    }
+  ],
+  "internal_information": "Simultaneous edit on large attachment page. Old OneNote 2016 vs UWP vs for Windows 10+ differences."
+}

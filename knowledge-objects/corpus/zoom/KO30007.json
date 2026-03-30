@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO30007",
+  "subject": "Cannot join assigned breakout room",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "Host opened breakouts; user sees prompt but join fails or loops back to main room.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Accept prompt",
+      "action": "Click Join when prompt visible; check for second monitor showing prompt hidden behind windows."
+    },
+    {
+      "step": 2,
+      "title": "Update client",
+      "action": "Minimum Zoom version required for breakout features — force update."
+    },
+    {
+      "step": 3,
+      "title": "Rejoin meeting",
+      "action": "Leave meeting entirely, rejoin with link, ask host to reassign breakout."
+    }
+  ],
+  "internal_information": "Version skew between host and attendee, or webinar license limits. Firewall blocking breakout signaling rare."
+}

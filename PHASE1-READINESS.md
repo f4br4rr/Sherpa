@@ -19,9 +19,9 @@
 
 ## Phase 1 exit criteria (definition of done)
 
-- [ ] **40** production `.json` files under **`knowledge-objects/corpus/`** (target **10** per domain — use subfolders or PR checklist).
-- [ ] **`npm run validate:kos`** exits **0** (corpus + examples schema-valid; no duplicate `ko_number` in `corpus/`).
-- [ ] **`npm test`** passes (serializer goldens unchanged or updated deliberately).
+- [x] **40** production `.json` files under **`knowledge-objects/corpus/`** (target **10** per domain — `mac/`, `windows/`, `zoom/`, `office-apps/`).
+- [x] **`npm run validate:kos`** exits **0** (corpus + examples schema-valid; no duplicate `ko_number` in `corpus/`).
+- [x] **`npm test`** passes (serializer goldens unchanged or updated deliberately).
 - [ ] **SME sign-off** on corpus content (per team process).
 
 ---

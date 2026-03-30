@@ -1,0 +1,26 @@
+{
+  "ko_number": "KO30010",
+  "persona": "Taylor - Legal",
+  "subject": "Outlook add-in does not show Zoom meeting in calendar",
+  "configuration_item": "Zoom (Outlook)",
+  "state": "Published",
+  "description": "New meetings lack Zoom button; user manually pastes links from web scheduler.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Enable add-in",
+      "action": "Outlook → Get Add-ins — confirm Zoom for Outlook enabled; check Disabled Items."
+    },
+    {
+      "step": 2,
+      "title": "COM add-ins",
+      "action": "File → Options → Add-ins — manage COM add-ins — ensure Zoom Outlook Plugin checked."
+    },
+    {
+      "step": 3,
+      "title": "Repair Office",
+      "action": "Online Repair Microsoft 365; reinstall Zoom client with Outlook plugin option."
+    }
+  ],
+  "internal_information": "Click-to-Run vs MSI differences; new Outlook vs classic. Plugin deprecated in favor of cloud add-in in some tenants."
+}

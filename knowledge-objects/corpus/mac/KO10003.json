@@ -1,0 +1,26 @@
+{
+  "ko_number": "KO10003",
+  "persona": "Sam - Remote",
+  "subject": "Wi-Fi shows connected but no internet",
+  "configuration_item": "macOS",
+  "state": "Published",
+  "description": "Menu bar shows Wi-Fi connected; browser and Teams fail to reach the internet.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Verify other devices",
+      "action": "Confirm phone or second laptop on same SSID reaches internet to rule out outage vs single machine."
+    },
+    {
+      "step": 2,
+      "title": "Renew DHCP and DNS",
+      "action": "System Settings → Network → Wi-Fi → Details → TCP/IP — Renew DHCP Lease. DNS: try 1.1.1.1 or 8.8.8.8 temporarily for test only."
+    },
+    {
+      "step": 3,
+      "title": "Remove and re-add Wi-Fi",
+      "action": "Forget network, reconnect with correct credentials; check for captive portal in browser."
+    }
+  ],
+  "internal_information": "DHCP/DNS stale lease, captive portal, or VPN split-tunnel oddities. Corporate networks may need NOC if wide outage."
+}
