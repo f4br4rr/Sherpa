@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40010",
+  "subject": "iPhone not receiving text messages (SMS/iMessage)",
+  "configuration_item": "iPhone (iOS Messages)",
+  "state": "Published",
+  "description": "User reports missed texts — some contacts' messages never arrive while iMessages from other iPhone users work fine.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Check message settings",
+      "action": "Settings → Messages — ensure iMessage is toggled on; tap Send & Receive and confirm the correct phone number and Apple ID are checked."
+    },
+    {
+      "step": 2,
+      "title": "Verify cellular and blocked contacts",
+      "action": "Confirm cellular signal is present (not Wi-Fi only); Settings → Messages → Blocked Contacts — ensure the missing sender is not on the block list."
+    },
+    {
+      "step": 3,
+      "title": "Reset messaging stack",
+      "action": "Toggle iMessage off, restart iPhone, toggle iMessage back on; if SMS specifically fails, remove and reseat SIM card (or reset eSIM activation for eSIM-only models)."
+    }
+  ],
+  "internal_information": "SMS requires active cellular registration; iMessage requires Apple ID activation. Users switching from Android may need to deregister iMessage on Apple's site. Carrier filtering can silently drop messages."
+}

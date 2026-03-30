@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40001",
+  "subject": "iPhone Wi-Fi keeps disconnecting or forgets saved network",
+  "configuration_item": "iPhone (iOS)",
+  "state": "Published",
+  "description": "User reports iPhone drops Wi-Fi every few minutes or saved corporate network disappears from the list after locking the screen.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Forget and rejoin",
+      "action": "Settings → Wi-Fi → tap info icon on the network → Forget This Network; rejoin and re-enter credentials."
+    },
+    {
+      "step": 2,
+      "title": "Reset network settings",
+      "action": "Settings → General → Transfer or Reset iPhone → Reset → Reset Network Settings (warns: removes all saved Wi-Fi passwords)."
+    },
+    {
+      "step": 3,
+      "title": "Disable Wi-Fi Assist and VPN",
+      "action": "Settings → Cellular → scroll to bottom → turn off Wi-Fi Assist; disable or disconnect any active VPN profile and retest."
+    }
+  ],
+  "internal_information": "Common after iOS upgrades that change Wi-Fi stack behavior. Router band-steering (2.4 vs 5 GHz) and lease times can also cause drops. Check if issue is network-wide or device-specific."
+}

@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40007",
+  "subject": "AirDrop not discovering nearby devices",
+  "configuration_item": "iPhone (iOS AirDrop)",
+  "state": "Published",
+  "description": "User tries to AirDrop a photo to a nearby colleague's iPhone but neither device sees the other in the share sheet.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Enable discoverability",
+      "action": "Both devices: Settings → General → AirDrop → set to 'Everyone for 10 Minutes' (or 'Contacts Only' if both in each other's contacts); ensure Bluetooth and Wi-Fi are on."
+    },
+    {
+      "step": 2,
+      "title": "Disable Personal Hotspot",
+      "action": "Settings → Personal Hotspot → toggle off on both devices; Personal Hotspot uses the same radios and blocks AirDrop discovery."
+    },
+    {
+      "step": 3,
+      "title": "Toggle airplane mode",
+      "action": "Turn Airplane Mode on, wait 5 seconds, turn off; this resets Wi-Fi and Bluetooth radios. Retry AirDrop from the share sheet."
+    }
+  ],
+  "internal_information": "AirDrop uses a combination of Bluetooth LE for discovery and peer-to-peer Wi-Fi for transfer. Firewall or content restriction profiles can disable AirDrop but that is a policy setting, not a device bug."
+}

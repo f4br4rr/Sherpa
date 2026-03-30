@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40005",
+  "subject": "iPhone keyboard lagging or freezing in apps",
+  "configuration_item": "iPhone (iOS Keyboard)",
+  "state": "Published",
+  "description": "Typing in Messages, Mail, or other apps shows noticeable delay between keypress and character appearing; sometimes keyboard dismisses itself mid-sentence.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Close background apps",
+      "action": "Swipe up from bottom (or double-click Home) to open app switcher; swipe away all apps, then reopen the affected app and test typing."
+    },
+    {
+      "step": 2,
+      "title": "Reset keyboard dictionary",
+      "action": "Settings → General → Transfer or Reset iPhone → Reset → Reset Keyboard Dictionary; this clears learned words but does not affect other data."
+    },
+    {
+      "step": 3,
+      "title": "Disable third-party keyboards",
+      "action": "Settings → General → Keyboard → Keyboards — remove any third-party keyboard (e.g. Gboard, SwiftKey) temporarily to test with the default Apple keyboard."
+    }
+  ],
+  "internal_information": "Third-party keyboards with full-access permissions can leak memory or conflict with iOS predictive engine. Low storage can also cause keyboard lag — check iPhone Storage first if device is nearly full."
+}

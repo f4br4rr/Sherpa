@@ -112,7 +112,7 @@ An **API** (Application Programming Interface) is a **structured way for program
 
 Our **mock ServiceNow** knowledge articles are **Knowledge Objects (KOs)** stored as JSON. Each KO is one “article” with a number, title, configuration item, state, description, troubleshooting steps, internal notes, and **optionally** a **`persona`** string (fake **name and department** for the ticket header).
 
-**Example shape** (illustrative only): The **Zoom / gray boxes** scenario below is **made-up sample text** to teach what JSON looks like. It is **not** the only kind of issue we will ship — the real project uses **many different KOs** (Mac, Windows, Zoom, Office Apps) with their own subjects and steps. Your real files will replace this content with reviewed articles.
+**Example shape** (illustrative only): The **Zoom / gray boxes** scenario below is **made-up sample text** to teach what JSON looks like. It is **not** the only kind of issue we will ship — the real project uses **many different KOs** (Mac, Windows, Zoom, iOS) with their own subjects and steps. Your real files will replace this content with reviewed articles.
 
 Severity is intentionally excluded from this product. Scenarios are presented without severity framing.
 
@@ -179,7 +179,7 @@ In the app, those voices should **look different** in the UI (for example **diff
 We are building a **desktop app** with a **menu bar / system tray** presence and a **chat console** — not “only a website” — for several practical reasons:
 
 - **It feels like a real technician tool** — something you keep at hand while working, not another browser tab lost in the noise.
-- **Local-first knowledge** — our **Phase 1** mock ServiceNow articles (**40** JSON KOs, **10** per core area: Mac, Windows, Zoom, Office Apps) ship as files in the repo under **`knowledge-objects/corpus/`** (templates stay in **`knowledge-objects/examples/`** — see [REPO-LAYOUT.md](REPO-LAYOUT.md)). At runtime they live **on the machine** with the app; **MCP** exposes them in a **controlled** way. Scenarios aim to be **generic and demo-safe** (see the architecture doc’s **KO generation strategy**).
+- **Local-first knowledge** — our **Phase 1** mock ServiceNow articles (**40** JSON KOs, **10** per core area: Mac, Windows, Zoom, iOS) ship as files in the repo under **`knowledge-objects/corpus/`** (templates stay in **`knowledge-objects/examples/`** — see [REPO-LAYOUT.md](REPO-LAYOUT.md)). At runtime they live **on the machine** with the app; **MCP** exposes them in a **controlled** way. Scenarios aim to be **generic and demo-safe** (see the architecture doc’s **KO generation strategy**).
 - **Clear demo story** — “Practice incidents that **start like a real ticket** (random scenario + header), **you open the chat** with **no runbook search**, the **customer** stays in character, the **mentor** grades against the **bound internal article** (**MVP**), with **Exa and off-KO fairness** as a **later** upgrade, and optional **learning links after** the grade when we add them.”
 - **Less premature platform complexity** — A full cloud-hosted product means accounts, hosting bills, compliance conversations, and DevOps work we do not need for **v1**.
 

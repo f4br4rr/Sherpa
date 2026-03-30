@@ -15,7 +15,7 @@
 
 | Phase | Focus | Main outcome |
 | ----- | ----- | ------------ |
-| **1** | KO mock data | **40** validated JSON KOs (**10** each: Mac, Windows, Zoom, Office Apps) plus agreed schema validators |
+| **1** | KO mock data | **40** validated JSON KOs (**10** each: Mac, Windows, Zoom, iOS) plus agreed schema validators |
 | **2** | Desktop app shell | Electron: tray, **Start Random Scenario**, ticket header, dual-persona chat UI, **End Session** / **I’m stuck** (UI plus session shell) |
 | **3** | MCP server base | **`get_ko`** plus optional **`search_kb`**, mentor-only wiring, **EvidenceEvents** |
 | **4** | AI validation | Closed-book UX, Persona A/B prompts, KO-only evaluator, FMNO, end-to-end chat scenario; Exa adjudication post-MVP |
@@ -44,7 +44,7 @@
 | **Mac KOs** | 1 | 10 KOs | Own `ko_number` list; PRs touch only assigned files under `knowledge-objects/corpus/` |
 | **Windows KOs** | 1 | 10 KOs | Same |
 | **Zoom KOs** | 1 | 10 KOs | Same |
-| **Office Apps KOs** | 1 | 10 KOs | Same |
+| **iOS KOs** | 1 | 10 KOs | Same |
 | **Schema / validator / CI** | 1 | `schemas/`, `scripts/validate-ko-corpus.mjs`, CI | **DRI merges**; KO authors do not change schema without review |
 | **Fixtures / serializer / docs** | 1 | `fixtures/`, `src/`, export docs | **DRI** for `serializeExportTranscript` and golden fixtures |
 

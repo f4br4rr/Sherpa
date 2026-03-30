@@ -2,7 +2,7 @@
 
 **Later phases:** Detailed scope and sequencing for Phases 2–6 live in [project-architecture-and-plan.md — Phased roadmap](project-architecture-and-plan.md#phased-roadmap). For **parallel work across six developers** (lanes, owners, merge order), see [PHASES-PARALLEL-WORK.md](PHASES-PARALLEL-WORK.md). This file stays **Phase 1 only**; separate phase-specific checklists can be added when each phase starts so we do not duplicate or drift from the architecture doc.
 
-**Phase 1 goal (roadmap):** **40** validated JSON KOs (**10** each: Mac, Windows, Zoom, Office Apps) + **agreed** schema validators. Scenarios are **policy-neutral / demo-safe** (no AAD-only or policy-blocked **primary** fixes) — see [project-architecture-and-plan.md — KO generation strategy](project-architecture-and-plan.md#ko-generation-strategy--phase-1-corpus-40-mock-records).
+**Phase 1 goal (roadmap):** **40** validated JSON KOs (**10** each: Mac, Windows, Zoom, iOS) + **agreed** schema validators. Scenarios are **policy-neutral / demo-safe** (no AAD-only or policy-blocked **primary** fixes) — see [project-architecture-and-plan.md — KO generation strategy](project-architecture-and-plan.md#ko-generation-strategy--phase-1-corpus-40-mock-records).
 
 **Folder map for the whole repo:** [REPO-LAYOUT.md](REPO-LAYOUT.md) (also linked from [team-pre-reads.md](team-pre-reads.md)).
 
@@ -19,7 +19,7 @@
 
 ## Phase 1 exit criteria (definition of done)
 
-- [x] **40** production `.json` files under **`knowledge-objects/corpus/`** (target **10** per domain — `mac/`, `windows/`, `zoom/`, `office-apps/`).
+- [x] **40** production `.json` files under **`knowledge-objects/corpus/`** (target **10** per domain — `mac/`, `windows/`, `zoom/`, `ios/`).
 - [x] **`npm run validate:kos`** exits **0** (corpus + examples schema-valid; no duplicate `ko_number` in `corpus/`).
 - [x] **`npm test`** passes (serializer goldens unchanged or updated deliberately).
 - [ ] **SME sign-off** on corpus content (per team process).
@@ -63,8 +63,8 @@ npm test               # serializer golden tests (unchanged)
 | Mac | 10 |
 | Windows | 10 |
 | Zoom | 10 |
-| Office Apps | 10 |
+| iOS | 10 |
 
-**Authoring filter:** Generic desk issues (e.g. slow performance, local printer, Excel/Zoom slowness or display quirks); avoid Entra/AAD-only or Intune/policy-blocked **sole** resolution paths — see architecture **Corpus authoring scope (policy-neutral, demo-safe)**.
+**Authoring filter:** Generic desk issues (e.g. slow performance, local printer, Wi-Fi/Bluetooth problems, Zoom display quirks, iOS device troubleshooting); avoid Entra/AAD-only or Intune/policy-blocked **sole** resolution paths — see architecture **Corpus authoring scope (policy-neutral, demo-safe)**.
 
 See architecture doc **KO generation strategy — Distribution**.

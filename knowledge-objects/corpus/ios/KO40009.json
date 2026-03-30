@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40009",
+  "subject": "iPhone screen rotation locked — grayed out in Control Center",
+  "configuration_item": "iPhone (iOS Display)",
+  "state": "Published",
+  "description": "Screen stays in portrait even when user rotates phone sideways; rotation lock icon may or may not appear in status bar.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Check orientation lock",
+      "action": "Swipe down from top-right corner (or up from bottom on older models) to open Control Center; tap the rotation lock icon so it is not highlighted."
+    },
+    {
+      "step": 2,
+      "title": "Test in a known-good app",
+      "action": "Open Safari or Photos and rotate the device; some apps (like Phone or Home Screen) do not support landscape, so the lock may appear app-specific."
+    },
+    {
+      "step": 3,
+      "title": "Restart and calibrate",
+      "action": "Force restart the iPhone (Volume Up, Volume Down, hold Side button); if gyroscope feels wrong, open Compass app to trigger sensor recalibration."
+    }
+  ],
+  "internal_information": "Orientation lock is a simple toggle but users often confuse it with mute switch on older iPads. Display Zoom mode on some models disables landscape on Home Screen. Rarely a gyroscope hardware fault."
+}

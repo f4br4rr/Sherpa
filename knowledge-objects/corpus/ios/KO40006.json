@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40006",
+  "subject": "iPhone battery draining rapidly after update",
+  "configuration_item": "iPhone (iOS)",
+  "state": "Published",
+  "description": "Battery drops from 100 % to under 50 % within a few hours of normal use; started right after the latest iOS update.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Check Battery Usage",
+      "action": "Settings → Battery — review Last 24 Hours and Last 10 Days; identify apps with unusually high screen-on or background time."
+    },
+    {
+      "step": 2,
+      "title": "Disable Background App Refresh",
+      "action": "Settings → General → Background App Refresh — turn off for apps that do not need real-time updates; consider turning off entirely and re-enabling selectively."
+    },
+    {
+      "step": 3,
+      "title": "Force restart",
+      "action": "Press and quickly release Volume Up, then Volume Down, then press and hold Side button until Apple logo appears; allow post-update indexing to finish (may take 24–48 hours)."
+    }
+  ],
+  "internal_information": "Spotlight re-indexing and Photos face-scan after an OTA update cause heavy CPU use for 1–2 days. If drain persists beyond 48 hours, check Battery Health for degraded capacity. Not an MDM issue."
+}

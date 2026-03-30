@@ -35,7 +35,7 @@ This page explains **top-level folders and key files** in this repo, including w
 | Path | Purpose |
 |------|---------|
 | `README.md` | Layout (`corpus/` vs `examples/`), field discipline, **40-KO** split, **policy-neutral** authoring, link to schema + architecture. |
-| `corpus/{mac,windows,zoom,office-apps}/` | **40** Phase 1 production KOs (**10** per folder); `KO1xxxx`–`KO4xxxx` ids. |
+| `corpus/{mac,windows,zoom,ios}/` | **40** Phase 1 production KOs (**10** per folder); `KO1xxxx`–`KO4xxxx` ids. |
 | `examples/KO99999.example.json` | Known-good example (illustrative id). |
 
 **Why before Phase 1:** Clear drop zone and example so authors do not invent their own on-disk layout.

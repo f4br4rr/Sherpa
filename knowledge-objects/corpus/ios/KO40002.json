@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40002",
+  "subject": "Mail app not syncing Exchange mailbox",
+  "configuration_item": "iPhone (iOS Mail)",
+  "state": "Published",
+  "description": "Built-in Mail app shows no new messages; webmail on the same phone confirms unread mail exists in the inbox.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Check fetch schedule",
+      "action": "Settings → Mail → Accounts → Fetch New Data — ensure Push is on for the Exchange account, or set Fetch to every 15 minutes."
+    },
+    {
+      "step": 2,
+      "title": "Remove and re-add account",
+      "action": "Settings → Mail → Accounts → select Exchange account → Delete Account; re-add via Settings → Mail → Accounts → Add Account → Microsoft Exchange."
+    },
+    {
+      "step": 3,
+      "title": "Verify connectivity",
+      "action": "Open Safari and browse to Outlook Web Access URL to confirm credentials and network path are valid; check that Low Data Mode and Airplane Mode are off."
+    }
+  ],
+  "internal_information": "iOS Mail uses ActiveSync or modern auth depending on config. Account may silently fail if device certificate or OAuth token expires. Not an MDM issue if user can add account manually."
+}

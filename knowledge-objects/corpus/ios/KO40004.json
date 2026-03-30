@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40004",
+  "subject": "Bluetooth not pairing with headset",
+  "configuration_item": "iPhone (iOS Bluetooth)",
+  "state": "Published",
+  "description": "User's wireless headset appears in Bluetooth list but pairing fails or headset connects then immediately disconnects.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Forget and re-pair",
+      "action": "Settings → Bluetooth → tap info icon next to the headset → Forget This Device; put headset back into pairing mode and reconnect."
+    },
+    {
+      "step": 2,
+      "title": "Restart Bluetooth stack",
+      "action": "Toggle Bluetooth off in Settings (not Control Center), wait 10 seconds, toggle back on; also restart the iPhone."
+    },
+    {
+      "step": 3,
+      "title": "Reset network settings",
+      "action": "Settings → General → Transfer or Reset iPhone → Reset → Reset Network Settings (clears all Bluetooth pairings, Wi-Fi passwords, and VPN configs)."
+    }
+  ],
+  "internal_information": "Bluetooth 5.x profiles can mismatch after firmware updates on either device. Confirm headset firmware is current. Some headsets limit number of saved pairings — clear old entries on the headset side too."
+}

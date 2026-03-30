@@ -1,0 +1,25 @@
+{
+  "ko_number": "KO40008",
+  "subject": "Outlook push notifications not arriving on iPhone",
+  "configuration_item": "iPhone (Outlook for iOS)",
+  "state": "Published",
+  "description": "User does not hear or see alerts for new Outlook emails; opening the app manually shows unread messages that arrived minutes ago.",
+  "ts_steps": [
+    {
+      "step": 1,
+      "title": "Check notification settings",
+      "action": "Settings → Notifications → Outlook — ensure Allow Notifications is on; set Alert Style to Banners or Alerts; enable Sounds and Badges."
+    },
+    {
+      "step": 2,
+      "title": "Check Focus mode",
+      "action": "Settings → Focus — if a Focus mode (e.g. Do Not Disturb, Work) is active, add Outlook to the allowed apps list or disable the Focus temporarily to test."
+    },
+    {
+      "step": 3,
+      "title": "Reinstall Outlook",
+      "action": "Delete Outlook app, restart iPhone, reinstall from App Store, sign in; this resets the push notification token with Apple's push service."
+    }
+  ],
+  "internal_information": "Outlook for iOS uses its own push infrastructure via Microsoft servers, not native Exchange push. A stale APNs token after an iOS update is a common cause. Low Power Mode can also defer notifications."
+}
