@@ -8,6 +8,8 @@
 
 **Repo map:** For what each folder is for (`schemas/`, `fixtures/`, `knowledge-objects/`, etc.) and why those exist before Phase 1, see [REPO-LAYOUT.md](REPO-LAYOUT.md).
 
+**Developers (parallel work):** Phases 1–6, dependency order, and how **six people** can split work without contradictions — [PHASES-PARALLEL-WORK.md](PHASES-PARALLEL-WORK.md).
+
 ## Local setup (everyone)
 
 **Prerequisites:** [Node.js](https://nodejs.org/) **20 or newer** (LTS is fine). **npm** ships with Node; you do not need Yarn or pnpm for this repo.

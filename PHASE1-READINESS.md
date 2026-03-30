@@ -1,6 +1,6 @@
 # Phase 1 readiness checklist
 
-**Later phases:** Detailed scope and sequencing for Phases 2–6 live in [project-architecture-and-plan.md — Phased roadmap](project-architecture-and-plan.md#phased-roadmap). This file stays **Phase 1 only**; separate phase-specific checklists can be added when each phase starts so we do not duplicate or drift from the architecture doc.
+**Later phases:** Detailed scope and sequencing for Phases 2–6 live in [project-architecture-and-plan.md — Phased roadmap](project-architecture-and-plan.md#phased-roadmap). For **parallel work across six developers** (lanes, owners, merge order), see [PHASES-PARALLEL-WORK.md](PHASES-PARALLEL-WORK.md). This file stays **Phase 1 only**; separate phase-specific checklists can be added when each phase starts so we do not duplicate or drift from the architecture doc.
 
 **Phase 1 goal (roadmap):** **40** validated JSON KOs (**10** each: Mac, Windows, Zoom, Office Apps) + **agreed** schema validators. Scenarios are **policy-neutral / demo-safe** (no AAD-only or policy-blocked **primary** fixes) — see [project-architecture-and-plan.md — KO generation strategy](project-architecture-and-plan.md#ko-generation-strategy--phase-1-corpus-40-mock-records).
 

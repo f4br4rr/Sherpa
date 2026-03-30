@@ -13,6 +13,7 @@ This page explains **top-level folders and key files** in this repo, including w
 | [project-architecture-and-plan.md](project-architecture-and-plan.md) | Single technical blueprint — behavior, phases, schemas described in prose. |
 | [team-pre-reads.md](team-pre-reads.md) | Short, non-technical overview for the wider team. |
 | [PHASE1-READINESS.md](PHASE1-READINESS.md) | Checklist: Phase 1 steps + exit criteria + **Handoff to Phase 2** (loader assumptions). |
+| [PHASES-PARALLEL-WORK.md](PHASES-PARALLEL-WORK.md) | All phases at a glance + **how six devs parallelize** without merge conflicts (lanes, DRIs, merge order). |
 | [REPO-LAYOUT.md](REPO-LAYOUT.md) | This file — map of folders. |
 
 ---
