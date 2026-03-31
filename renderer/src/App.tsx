@@ -9,7 +9,7 @@ type SessionPayload = {
   fmno: string;
 };
 
-type Phase = "idle" | "awaiting_tech_intro" | "live";
+type Phase = "idle" | "awaiting_tech_intro" | "live" | "scorecard";
 
 type TranscriptRole = "technician" | "customer" | "mentor";
 
@@ -19,10 +19,32 @@ type ChatRow = {
   content: string;
 };
 
-const STUB_CUSTOMER_OPEN =
-  "Okay — I'm listening. What would you like me to try first?";
+type EvaluationResult = {
+  atsScores: {
+    technicalKnowledge: number;
+    logicalThinking: number;
+    rootCause: number;
+  };
+  weightedScore: number;
+  outcomeLabel: "Pass" | "Needs Improvement";
+  coachingNotes: {
+    overall: string;
+    perFactor?: {
+      technicalKnowledge?: string;
+      logicalThinking?: string;
+      rootCause?: string;
+    };
+  };
+  learningBehavior: string;
+  gradingIntegrity: string;
+  demoExport: Record<string, unknown>;
+};
 
 const font = 'system-ui, -apple-system, "Segoe UI", sans-serif';
+
+function toTranscriptLines(rows: ChatRow[]): { role: TranscriptRole; content: string }[] {
+  return rows.map((r) => ({ role: r.role, content: r.content }));
+}
 
 export function App() {
   const [phase, setPhase] = useState<Phase>("idle");
@@ -30,11 +52,14 @@ export function App() {
   const [transcript, setTranscript] = useState<ChatRow[]>([]);
   const [draft, setDraft] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [scorecard, setScorecard] = useState<EvaluationResult | null>(null);
 
   const sessionActive = session !== null;
 
   const startRandomScenario = useCallback(async () => {
     setError(null);
+    setScorecard(null);
     if (sessionActive) {
       const ok = window.confirm(
         "Discard the current session and start a new random scenario? Progress is not saved.",
@@ -54,9 +79,9 @@ export function App() {
     }
   }, [sessionActive]);
 
-  const sendTechnicianMessage = useCallback(() => {
+  const sendTechnicianMessage = useCallback(async () => {
     const text = draft.trim();
-    if (!text || !session) return;
+    if (!text || !session || busy) return;
 
     const techRow: ChatRow = {
       id: crypto.randomUUID(),
@@ -64,41 +89,103 @@ export function App() {
       content: text,
     };
 
-    if (phase === "awaiting_tech_intro") {
+    const nextTranscript = [...transcript, techRow];
+    setTranscript(nextTranscript);
+    setDraft("");
+    setBusy(true);
+    setError(null);
+
+    try {
+      const { customerMessage, mentorNuclearMessage } = await window.app.chatPersonaTurn({
+        session,
+        transcript: toTranscriptLines(nextTranscript),
+      });
+
       const customerRow: ChatRow = {
         id: crypto.randomUUID(),
         role: "customer",
-        content: STUB_CUSTOMER_OPEN,
+        content: customerMessage,
       };
-      setTranscript((prev) => [...prev, techRow, customerRow]);
-      setPhase("live");
-    } else {
-      setTranscript((prev) => [...prev, techRow]);
-    }
-    setDraft("");
-  }, [draft, phase, session]);
+      let withCustomer = [...nextTranscript, customerRow];
 
-  const onEndSession = useCallback(() => {
-    window.alert(
-      "End Session / Grade Me — Phase 4 will run the evaluator here. Session cleared for now.",
-    );
+      if (mentorNuclearMessage?.trim()) {
+        withCustomer = [
+          ...withCustomer,
+          {
+            id: crypto.randomUUID(),
+            role: "mentor",
+            content: mentorNuclearMessage.trim(),
+          },
+        ];
+      }
+
+      setTranscript(withCustomer);
+      setPhase("live");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+      setTranscript(transcript);
+    } finally {
+      setBusy(false);
+    }
+  }, [draft, session, transcript, busy]);
+
+  const onEndSession = useCallback(async () => {
+    if (!session || busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await window.app.chatEvaluate({
+        session,
+        transcript: toTranscriptLines(transcript),
+      });
+      setScorecard(result);
+      setPhase("scorecard");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+      window.alert(
+        "Evaluation could not be completed. Check Ollama is running, or API keys in .env — see console logs.",
+      );
+      setSession(null);
+      setTranscript([]);
+      setPhase("idle");
+      setScorecard(null);
+    } finally {
+      setBusy(false);
+    }
+  }, [session, transcript, busy]);
+
+  const onStuck = useCallback(async () => {
+    if (!session || phase !== "live" || busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const { mentorMessage } = await window.app.chatMentorStuck({
+        session,
+        transcript: toTranscriptLines(transcript),
+      });
+      const hint: ChatRow = {
+        id: crypto.randomUUID(),
+        role: "mentor",
+        content: mentorMessage,
+      };
+      setTranscript((prev) => [...prev, hint]);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
+  }, [session, phase, transcript, busy]);
+
+  const dismissScorecard = useCallback(() => {
     setSession(null);
     setTranscript([]);
     setPhase("idle");
+    setScorecard(null);
     setDraft("");
   }, []);
 
-  const onStuck = useCallback(() => {
-    const hint: ChatRow = {
-      id: crypto.randomUUID(),
-      role: "mentor",
-      content:
-        "[Stub] Mentor hint — Phase 4 will call Persona B with full sentinel logic.",
-    };
-    setTranscript((prev) => [...prev, hint]);
-  }, []);
-
-  const stuckDisabled = phase !== "live";
+  const stuckDisabled = phase !== "live" || busy;
+  const sendDisabled = !sessionActive || !draft.trim() || busy;
 
   const header = useMemo(() => {
     if (!session) return null;
@@ -115,15 +202,58 @@ export function App() {
           <span style={{ margin: "0 0.5rem" }}>·</span>
           FMNO <strong>{session.fmno}</strong>
         </div>
-        <div style={{ fontWeight: 600, marginTop: "0.35rem" }}>
-          {session.displayName}
-        </div>
-        <div style={{ marginTop: "0.35rem", fontSize: "0.95rem" }}>
-          {session.issueSummary}
-        </div>
+        <div style={{ fontWeight: 600, marginTop: "0.35rem" }}>{session.displayName}</div>
+        <div style={{ marginTop: "0.35rem", fontSize: "0.95rem" }}>{session.issueSummary}</div>
       </header>
     );
   }, [session]);
+
+  if (phase === "scorecard" && scorecard && session) {
+    return (
+      <div style={{ fontFamily: font, height: "100vh", display: "flex", flexDirection: "column" }}>
+        <div style={{ padding: "1rem", flex: 1, overflow: "auto", maxWidth: 720, margin: "0 auto" }}>
+          <h2 style={{ marginTop: 0 }}>Session results</h2>
+          <p style={{ fontSize: "1.25rem" }}>
+            <strong>{scorecard.outcomeLabel}</strong>
+            <span style={{ marginLeft: "1rem", color: "#444" }}>
+              Weighted score: <strong>{scorecard.weightedScore.toFixed(2)}</strong> (Pass ≥ 4.0)
+            </span>
+          </p>
+          <p style={{ color: "#555" }}>
+            ATS — Technical: {scorecard.atsScores.technicalKnowledge} · Logical:{" "}
+            {scorecard.atsScores.logicalThinking} · Root cause: {scorecard.atsScores.rootCause}
+          </p>
+          <p style={{ fontSize: "0.85rem", color: "#666" }}>
+            Grading integrity: {scorecard.gradingIntegrity}
+          </p>
+          <h3>Coaching</h3>
+          <p style={{ whiteSpace: "pre-wrap" }}>{scorecard.coachingNotes.overall}</p>
+          <h3>Learning behavior</h3>
+          <p style={{ whiteSpace: "pre-wrap" }}>{scorecard.learningBehavior}</p>
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginTop: "1rem" }}>
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(
+                  JSON.stringify(scorecard.demoExport, null, 2),
+                );
+                window.alert("Demo export JSON copied to clipboard.");
+              } catch {
+                window.alert("Could not copy to clipboard.");
+              }
+            }}
+          >
+            Copy demo export JSON
+          </button>
+          <button type="button" onClick={dismissScorecard}>
+            Done
+          </button>
+        </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ fontFamily: font, height: "100vh", display: "flex", flexDirection: "column" }}>
@@ -137,20 +267,21 @@ export function App() {
           alignItems: "center",
         }}
       >
-        <button type="button" onClick={startRandomScenario}>
+        <button type="button" onClick={startRandomScenario} disabled={busy}>
           Start Random Scenario
         </button>
-        <button type="button" onClick={onEndSession} disabled={!sessionActive}>
+        <button type="button" onClick={onEndSession} disabled={!sessionActive || busy}>
           End Session / Grade Me
         </button>
         <button type="button" onClick={onStuck} disabled={stuckDisabled}>
           I’m stuck — mentor hint
         </button>
-        {stuckDisabled && sessionActive && (
+        {stuckDisabled && sessionActive && phase === "awaiting_tech_intro" && (
           <span style={{ fontSize: "0.8rem", color: "#666" }}>
-            (Enabled after your first message enters live chat.)
+            (Mentor hint unlocks after the first exchange.)
           </span>
         )}
+        {busy && <span style={{ fontSize: "0.85rem", color: "#666" }}>Working…</span>}
       </div>
 
       {header}
@@ -166,8 +297,8 @@ export function App() {
         {!sessionActive && (
           <p style={{ color: "#555" }}>
             Press <strong>Start Random Scenario</strong> to bind a random KO from{" "}
-            <code>knowledge-objects/corpus/</code> (examples never used). Close the window to
-            hide in the tray; use the tray icon to show again.
+            <code>knowledge-objects/corpus/</code>. For local Ollama use{" "}
+            <code>SHERPA_LLM_PROVIDER=ollama</code> — see <code>.env.example</code>.
           </p>
         )}
         {sessionActive && transcript.length === 0 && (
@@ -195,17 +326,13 @@ export function App() {
                 : "Start a scenario to chat"
             }
             value={draft}
-            disabled={!sessionActive}
+            disabled={!sessionActive || busy}
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") sendTechnicianMessage();
+              if (e.key === "Enter") void sendTechnicianMessage();
             }}
           />
-          <button
-            type="button"
-            onClick={sendTechnicianMessage}
-            disabled={!sessionActive || !draft.trim()}
-          >
+          <button type="button" onClick={() => void sendTechnicianMessage()} disabled={sendDisabled}>
             Send
           </button>
         </div>
@@ -240,9 +367,7 @@ function Bubble({ row }: { row: ChatRow }) {
           fontSize: "0.95rem",
         }}
       >
-        <div style={{ fontSize: "0.7rem", color: "#666", marginBottom: "0.25rem" }}>
-          {label}
-        </div>
+        <div style={{ fontSize: "0.7rem", color: "#666", marginBottom: "0.25rem" }}>{label}</div>
         {row.content}
       </div>
     </div>

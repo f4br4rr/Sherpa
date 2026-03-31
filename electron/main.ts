@@ -1,3 +1,4 @@
+import "./loadEnv.js";
 import {
   app,
   BrowserWindow,
@@ -15,8 +16,28 @@ import {
   type KoJson,
 } from "../src/corpus/loadCorpusIndex";
 import { setActiveSessionId } from "../src/evidence/activeSession";
+import { runMentorSentinel, runPersonaAReply } from "../src/llm/chatOrchestration";
+import { buildDemoExportV1 } from "../src/export/demoExportV1";
+import { runEvaluation } from "../src/llm/evaluator";
+import { isNuclearProposal } from "../src/llm/nuclear";
+import type { RandomSessionPayload, TranscriptLine } from "../src/llm/types.js";
 import { mentorGetKo, mentorSearchKb } from "../src/mentor/corpusMentorTools";
 import { resolveTicketDisplayName } from "../src/pickDisplayName";
+
+const sessionAbortControllers = new Map<string, AbortController>();
+
+function abortSessionOps(sessionId: string): void {
+  const prev = sessionAbortControllers.get(sessionId);
+  prev?.abort();
+  sessionAbortControllers.delete(sessionId);
+}
+
+function signalForSession(sessionId: string): AbortSignal {
+  abortSessionOps(sessionId);
+  const ac = new AbortController();
+  sessionAbortControllers.set(sessionId, ac);
+  return ac.signal;
+}
 
 /** Resolved at runtime: repo root when running `electron .` from development. */
 function distElectronPath(...segments: string[]) {
@@ -30,6 +51,9 @@ ipcMain.handle("corpus:list", async () => {
 
 ipcMain.handle("session:startRandom", async () => {
   const sessionId = randomUUID();
+  for (const id of sessionAbortControllers.keys()) {
+    abortSessionOps(id);
+  }
   setActiveSessionId(sessionId);
 
   const index = await loadCorpusIndex(defaultCorpusRoot());
@@ -76,6 +100,123 @@ ipcMain.handle(
         ? limit
         : undefined;
     return mentorSearchKb(query, lim);
+  },
+);
+
+ipcMain.handle(
+  "chat:personaTurn",
+  async (
+    _event,
+    payload: { session: RandomSessionPayload; transcript: TranscriptLine[] },
+  ) => {
+    const { session, transcript } = payload;
+    if (!session?.sessionId || typeof session.sessionId !== "string") {
+      throw new Error("chat:personaTurn: invalid session");
+    }
+    setActiveSessionId(session.sessionId);
+    const signal = signalForSession(session.sessionId);
+
+    try {
+      const lastTech = [...transcript].reverse().find((l) => l.role === "technician");
+      if (!lastTech) {
+        throw new Error("chat:personaTurn: transcript must include a technician message");
+      }
+
+      const technicianTurnCount = transcript.filter((l) => l.role === "technician").length;
+      const nuclearThisTurn = isNuclearProposal(lastTech.content);
+
+      const customerMessage = await runPersonaAReply({
+        session,
+        transcript,
+        personaAOptions: {
+          technicianProposedNuclear: nuclearThisTurn,
+          technicianTurnCount,
+        },
+        options: { signal },
+      });
+
+      let mentorNuclearMessage: string | undefined;
+      if (nuclearThisTurn) {
+        const afterCustomer: TranscriptLine[] = [
+          ...transcript,
+          { role: "customer", content: customerMessage },
+        ];
+        mentorNuclearMessage = await runMentorSentinel({
+          session,
+          transcript: afterCustomer,
+          kind: "nuclear",
+          options: { signal },
+        });
+      }
+
+      return { customerMessage, mentorNuclearMessage };
+    } finally {
+      sessionAbortControllers.delete(session.sessionId);
+    }
+  },
+);
+
+ipcMain.handle(
+  "chat:mentorStuck",
+  async (
+    _event,
+    payload: { session: RandomSessionPayload; transcript: TranscriptLine[] },
+  ) => {
+    const { session, transcript } = payload;
+    if (!session?.sessionId) throw new Error("chat:mentorStuck: invalid session");
+    setActiveSessionId(session.sessionId);
+    const signal = signalForSession(session.sessionId);
+    try {
+      const mentorMessage = await runMentorSentinel({
+        session,
+        transcript,
+        kind: "stuck",
+        options: { signal },
+      });
+      return { mentorMessage };
+    } finally {
+      sessionAbortControllers.delete(session.sessionId);
+    }
+  },
+);
+
+ipcMain.handle(
+  "chat:evaluate",
+  async (
+    _event,
+    payload: { session: RandomSessionPayload; transcript: TranscriptLine[] },
+  ) => {
+    const { session, transcript } = payload;
+    if (!session?.sessionId) throw new Error("chat:evaluate: invalid session");
+    setActiveSessionId(session.sessionId);
+    const signal = signalForSession(session.sessionId);
+
+    let ko: KoJson | null = null;
+    let getKoFailed = false;
+    try {
+      ko = (await mentorGetKo(session.ko_number)) as KoJson;
+    } catch {
+      getKoFailed = true;
+    }
+
+    try {
+      const evaluation = await runEvaluation({
+        session,
+        transcript,
+        ko,
+        getKoFailed,
+        options: { signal },
+      });
+      const demoExport = buildDemoExportV1({
+        sessionId: session.sessionId,
+        ko_number: session.ko_number,
+        transcript,
+        evaluation,
+      });
+      return { ...evaluation, demoExport };
+    } finally {
+      sessionAbortControllers.delete(session.sessionId);
+    }
   },
 );
 
