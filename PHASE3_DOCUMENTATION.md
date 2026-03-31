@@ -2,6 +2,8 @@
 
 **Purpose:** Reference for implementing Sherpa’s Phase 3 MCP work **after Phase 2 is complete** (desktop shell + session UX so tools and EvidenceEvents attach to real flows).
 
+**Corpus MCP (implemented):** Run **`npm run mcp:corpus`** from the repo root (stdio only), or **`npm run dev:mcp`** to start **Vite + Electron + corpus MCP** together for real-time testing alongside the desktop shell. Shared loader: **`src/corpus/loadCorpusIndex.ts`**. EvidenceEvents remain a **host** responsibility — see §5 below.
+
 **Canonical specs:** [project-architecture-and-plan.md](project-architecture-and-plan.md) (MCP, closed-book, Evidence trail), [PHASE-READINESS.md](PHASE-READINESS.md) (Phase 3 exit criteria), [REPO-LAYOUT.md](REPO-LAYOUT.md) (corpus paths).
 
 ---
@@ -108,14 +110,14 @@ From [PHASE-READINESS.md](PHASE-READINESS.md) — **Phase 3 — MCP server base*
 
 Use **one** `mcpServers` entry for Sherpa KO access, pointing at either the corpus or Snowflake implementation. Swap `command`, `args`, and `env` when changing backend — **do not** enable two competing KO servers in the same config.
 
-Illustrative shape (paths and commands to be finalized at implementation time):
+Example (corpus backend):
 
 ```json
 {
   "mcpServers": {
     "sherpa-ko": {
-      "command": "npx",
-      "args": ["tsx", "src/mcp/corpus-server.ts"],
+      "command": "npm",
+      "args": ["run", "mcp:corpus"],
       "cwd": "${workspaceFolder}",
       "env": {}
     }
@@ -123,16 +125,18 @@ Illustrative shape (paths and commands to be finalized at implementation time):
 }
 ```
 
+Set **`SHERPA_CORPUS_ROOT`** in `env` if the corpus is not at `knowledge-objects/corpus` under the workspace.
+
 ---
 
 ## 9. Implementation checklist (when Phase 2 is done)
 
-1. [ ] Add MCP dependencies per team choice (e.g. `@modelcontextprotocol/sdk`, runner such as `tsx` if using TypeScript).
-2. [ ] Implement corpus and/or Snowflake server with **shared** tool names and schemas where practical.
-3. [ ] Wire **EvidenceEvents** in the **Electron / orchestrator** layer for `get_ko` and `search_kb`.
-4. [ ] Enforce closed-book rules: **no** technician-facing MCP or KB browser during the graded attempt; mentor/orchestrator only.
-5. [ ] Run **`npm run validate:kos`** after any change that affects files under `knowledge-objects/corpus/`.
-6. [ ] Update checkboxes in [PHASE-READINESS.md](PHASE-READINESS.md) as items ship.
+1. [x] Add MCP dependencies (`@modelcontextprotocol/sdk`, `zod`, `tsx`); script **`npm run mcp:corpus`**.
+2. [x] Corpus MCP: **`get_ko`**, **`search_kb`** in **`src/mcp/corpus-server.ts`**; shared loader **`src/corpus/loadCorpusIndex.ts`**.
+3. [x] **EvidenceEvents** in the **Electron main** layer: **`src/evidence/types.ts`**, **`evidenceStore.ts`**, mentor tools **`src/mentor/corpusMentorTools.ts`**, IPC **`mentor:getKo`** / **`mentor:searchKb`** (not on `window.app`). Session id set on **`session:startRandom`** for correlation.
+4. [ ] Enforce closed-book rules: **no** technician-facing MCP or KB browser during the graded attempt; mentor/orchestrator only — **full** UX enforcement is Phase 4 per [PHASE-READINESS.md](PHASE-READINESS.md); preload already omits mentor tools.
+5. [ ] Run **`npm run validate:kos`** after any change that affects files under `knowledge-objects/corpus/` (ongoing CI discipline — Phase 1+).
+6. [x] Phase 3 **implementation summary** and **remaining / follow-ups** recorded in [PHASE-READINESS.md](PHASE-READINESS.md) under **Phase 3**.
 
 ---
 

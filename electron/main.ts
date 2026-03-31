@@ -6,9 +6,16 @@ import {
   nativeImage,
   Tray,
 } from "electron";
-import { randomInt } from "node:crypto";
-import fs from "node:fs/promises";
+import { randomInt, randomUUID } from "node:crypto";
 import path from "node:path";
+import {
+  corpusIndexToList,
+  defaultCorpusRoot,
+  loadCorpusIndex,
+  type KoJson,
+} from "../src/corpus/loadCorpusIndex";
+import { setActiveSessionId } from "../src/evidence/activeSession";
+import { mentorGetKo, mentorSearchKb } from "../src/mentor/corpusMentorTools";
 import { resolveTicketDisplayName } from "../src/pickDisplayName";
 
 /** Resolved at runtime: repo root when running `electron .` from development. */
@@ -16,65 +23,61 @@ function distElectronPath(...segments: string[]) {
   return path.join(process.cwd(), "dist-electron", ...segments);
 }
 
-function corpusRoot() {
-  return path.join(process.cwd(), "knowledge-objects", "corpus");
-}
-
-type CorpusKoRecord = {
-  ko_number: string;
-  subject?: string;
-  description?: string;
-  persona?: string;
-};
-
-async function collectCorpusJsonFiles(dir: string): Promise<string[]> {
-  const out: string[] = [];
-  const entries = await fs.readdir(dir, { withFileTypes: true });
-  for (const e of entries) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) out.push(...(await collectCorpusJsonFiles(p)));
-    else if (e.isFile() && e.name.endsWith(".json")) out.push(p);
-  }
-  return out;
-}
-
-async function loadAllCorpusKos(): Promise<CorpusKoRecord[]> {
-  const root = corpusRoot();
-  const files = await collectCorpusJsonFiles(root);
-  const kos: CorpusKoRecord[] = [];
-  for (const f of files) {
-    const raw = await fs.readFile(f, "utf8");
-    const j = JSON.parse(raw) as CorpusKoRecord;
-    if (j.ko_number) kos.push(j);
-  }
-  return kos;
-}
-
 ipcMain.handle("corpus:list", async () => {
-  const kos = await loadAllCorpusKos();
-  return kos
-    .map((k) => ({ ko_number: k.ko_number, subject: k.subject }))
-    .sort((a, b) => a.ko_number.localeCompare(b.ko_number));
+  const index = await loadCorpusIndex(defaultCorpusRoot());
+  return corpusIndexToList(index);
 });
 
 ipcMain.handle("session:startRandom", async () => {
-  const kos = await loadAllCorpusKos();
+  const sessionId = randomUUID();
+  setActiveSessionId(sessionId);
+
+  const index = await loadCorpusIndex(defaultCorpusRoot());
+  const kos = [...index.values()];
   if (kos.length === 0) {
     throw new Error("No Knowledge Objects found under knowledge-objects/corpus/");
   }
-  const pick = kos[randomInt(0, kos.length)];
-  const displayName = resolveTicketDisplayName(pick.persona);
+  const pick = kos[randomInt(0, kos.length)] as KoJson;
+  const persona =
+    typeof pick.persona === "string" ? pick.persona : undefined;
+  const displayName = resolveTicketDisplayName(persona);
+  const subject = typeof pick.subject === "string" ? pick.subject : "";
+  const description = typeof pick.description === "string" ? pick.description : "";
   const issueSummary =
-    pick.subject?.trim() || pick.description?.trim() || "(No issue summary)";
+    subject.trim() || description.trim() || "(No issue summary)";
+  const koNum = typeof pick.ko_number === "string" ? pick.ko_number : "";
   const fmno = String(randomInt(0, 100_000)).padStart(5, "0");
 
   return {
-    ko_number: pick.ko_number,
+    sessionId,
+    ko_number: koNum,
     displayName,
     issueSummary,
     fmno,
   };
 });
+
+/** Mentor/orchestrator only — not exposed on `window.app` (Persona A has no MCP). */
+ipcMain.handle("mentor:getKo", async (_event, ko_number: unknown) => {
+  if (typeof ko_number !== "string") {
+    throw new Error("mentor:getKo requires a string ko_number");
+  }
+  return mentorGetKo(ko_number);
+});
+
+ipcMain.handle(
+  "mentor:searchKb",
+  async (_event, query: unknown, limit?: unknown) => {
+    if (typeof query !== "string") {
+      throw new Error("mentor:searchKb requires a string query");
+    }
+    const lim =
+      typeof limit === "number" && Number.isFinite(limit)
+        ? limit
+        : undefined;
+    return mentorSearchKb(query, lim);
+  },
+);
 
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;

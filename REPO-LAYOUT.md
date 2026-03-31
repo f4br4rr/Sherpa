@@ -48,6 +48,7 @@ This page explains **top-level folders and key files** in this repo, including w
 | File | Purpose |
 |------|---------|
 | `validate-ko-corpus.mjs` | **`corpus/`** — schema, **duplicate `ko_number`** (within corpus), **contiguous `ts_steps.step`**. **`examples/`** — schema + `ts_steps` only (no corpus uniqueness). |
+| `run-electron.mjs` | Spawns the **Electron** binary with **`ELECTRON_RUN_AS_NODE` unset** so `require("electron")` resolves to the real API (see `npm run dev` / `start`). |
 
 Run from repo root: **`npm run validate:kos`**.
 
@@ -75,6 +76,10 @@ Run from repo root: **`npm run validate:kos`**.
 | `serializeExportTranscript.test.ts` | **Jest** tests that load `fixtures/` and assert output matches goldens. |
 | `pickDisplayName.ts` | **`resolveTicketDisplayName` / `pickSyntheticDisplayName`** — when a KO has no `persona`, ticket header **`displayName`** = random first + random last from shipped lists (`node:crypto` `randomInt`). Phase 2 app should reuse or port this module. |
 | `pickDisplayName.test.ts` | **Jest** tests for persona trim vs synthetic names. |
+| `corpus/loadCorpusIndex.ts` | **Shared corpus index** — loads `knowledge-objects/corpus/` (or **`SHERPA_CORPUS_ROOT`**), validates `ko_number`, dedupes; used by Electron **`session:startRandom`** / **`corpus:list`** and the corpus MCP server. |
+| `mcp/corpus-server.ts` | **Corpus MCP** (stdio): tools **`get_ko`**, **`search_kb`** — run via **`npm run mcp:corpus`** (Cursor / IDE MCP config). |
+| `evidence/types.ts`, `evidence/evidenceStore.ts`, `evidence/activeSession.ts` | **EvidenceEvent** shape (architecture §3), in-memory audit log, **session id** for correlation after **`session:startRandom`**. |
+| `mentor/corpusMentorTools.ts` | **`mentor:getKo`** / **`mentor:searchKb`** implementations with EvidenceEvents — used from **Electron main** IPC only (not `window.app`). |
 
 **Why before Phase 1:** Optional spike so the contract is **executable**, not only documentation. The real app may move or replace this module later.
 
@@ -84,7 +89,7 @@ Run from repo root: **`npm run validate:kos`**.
 
 | File | Purpose |
 |------|---------|
-| `package.json` | Scripts: **`npm test`** (serializer), **`npm run validate:kos`** (KO corpus), **`npm run dev`** / **`npm run build:desktop`** (Electron + React — Phase 2). |
+| `package.json` | Scripts: **`npm test`** (serializer), **`npm run validate:kos`** (KO corpus), **`npm run mcp:corpus`** (corpus MCP stdio), **`npm run dev`** / **`npm run build:desktop`** (Electron + React — Phase 2). |
 | `package-lock.json` | Locked dependency tree for reproducible installs. |
 | `tsconfig.json` | TypeScript settings for `src/`. |
 | `jest.config.cjs` | Jest + ESM + ts-jest for tests. |
@@ -111,6 +116,8 @@ npm install
 npm run validate:kos   # corpus/ (production) + examples/ (schema only)
 npm test               # serializer vs fixtures/
 npm run dev            # Electron + Vite (Phase 2 chat shell)
+npm run dev:mcp        # Same as dev + corpus MCP stdio (for Cursor testing alongside the app)
+npm run mcp:corpus     # Corpus MCP server (stdio) only
 ```
 
 ## `assets/`
@@ -125,7 +132,7 @@ npm run dev            # Electron + Vite (Phase 2 chat shell)
 
 | Path | Purpose |
 |------|---------|
-| [electron/](electron/) | **Main process** (`main.ts`): **Tray** + show/hide (close hides unless Quit), IPC **`corpus:list`** and **`session:startRandom`** over **`knowledge-objects/corpus/**/*.json`** only; bundles **`resolveTicketDisplayName`** from `src/pickDisplayName.ts` via esbuild. **Preload** (`preload.ts`): `contextBridge` → `window.app.listCorpusKos()`, **`startRandomSession`**. |
+| [electron/](electron/) | **Main process** (`main.ts`): **Tray** + show/hide (close hides unless Quit), IPC **`corpus:list`** and **`session:startRandom`** using **`src/corpus/loadCorpusIndex.ts`** (same index as **`npm run mcp:corpus`**); bundles **`resolveTicketDisplayName`** from `src/pickDisplayName.ts` via esbuild. **Preload** (`preload.ts`): `contextBridge` → `window.app.listCorpusKos()`, **`startRandomSession`**. |
 | [renderer/](renderer/) | **React + Vite** chat shell: **Start Random Scenario** (abandon confirm), ticket header (`ko_number`, `fmno`, `displayName`, `issueSummary`), dual bubbles (technician / customer / mentor stubs), technician-first empty state, **I’m stuck** (enabled in `live`) and **End Session / Grade Me** (stub alert + clear) until Phase 4 wiring. |
 | [vite.config.ts](vite.config.ts) | Vite root `renderer/`; production build → **`dist/renderer/`**. |
 | [scripts/build-electron.mjs](scripts/build-electron.mjs) | Bundles `electron/*.ts` → **`dist-electron/*.cjs`** (esbuild). |

@@ -3,6 +3,7 @@
 type CorpusListItem = { ko_number: string; subject?: string };
 
 type RandomSessionPayload = {
+  sessionId: string;
   ko_number: string;
   displayName: string;
   issueSummary: string;

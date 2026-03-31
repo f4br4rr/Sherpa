@@ -103,10 +103,34 @@ The table below is the **corpus contract** Phase 2+ should treat as binding unle
 
 ### Must complete for Phase 3
 
-- [ ] **`get_ko(bound_ko_number)`** (or equivalent read-by-id) serves KO JSON from the agreed corpus path; **reject path traversal**.
-- [ ] Optional **`search_kb`** (mentor/orchestrator only — **not** technician UI during graded attempt).
-- [ ] **EvidenceEvents** logged for tool calls (name, args, timestamp, results — per architecture [Evidence trail](project-architecture-and-plan.md#evidence-trail-closed-book-compatible) / closed-book policy).
-- [ ] **Persona A** remains **without** MCP tools.
+- [x] **`get_ko(bound_ko_number)`** (or equivalent read-by-id) serves KO JSON from the agreed corpus path; **reject path traversal** — corpus MCP (`npm run mcp:corpus`) + main-process **`mentor:getKo`** (`src/mentor/corpusMentorTools.ts`).
+- [x] Optional **`search_kb`** (mentor/orchestrator only — **not** technician UI during graded attempt) — corpus MCP + **`mentor:searchKb`** IPC (not exposed on `window.app`).
+- [x] **EvidenceEvents** logged for tool calls (name, args, timestamp, results — per architecture [Evidence trail](project-architecture-and-plan.md#evidence-trail-closed-book-compatible) / closed-book policy) — **`src/evidence/`** in-memory store; appended when **`mentor:getKo`** / **`mentor:searchKb`** run (stdio MCP remains separate unless bridged).
+- [x] **Persona A** remains **without** MCP tools — preload exposes only **`listCorpusKos`** / **`startRandomSession`**.
+
+### Phase 3 — implementation summary (repo state)
+
+Detailed reference: [PHASE3_DOCUMENTATION.md](PHASE3_DOCUMENTATION.md). High level:
+
+| Area | Implemented |
+|------|-------------|
+| **Corpus loading** | Shared **`src/corpus/loadCorpusIndex.ts`** for Electron (**`corpus:list`**, **`session:startRandom`**) and tooling; optional **`SHERPA_CORPUS_ROOT`**. |
+| **Corpus MCP (stdio)** | **`npm run mcp:corpus`** → **`src/mcp/corpus-server.ts`** with **`get_ko`** and **`search_kb`** (Cursor / IDE). Optional **`npm run dev:mcp`** runs Vite + Electron + corpus MCP together. |
+| **Mentor IPC (main process)** | **`mentor:getKo`** / **`mentor:searchKb`** invoke **`src/mentor/corpusMentorTools.ts`** — **not** exposed on **`window.app`** (technician / Persona A has no MCP surface). |
+| **EvidenceEvents** | **`src/evidence/types.ts`** (architecture §3 shape), **`evidenceStore.ts`** (in-memory append), **`activeSession.ts`** + **`sessionId`** returned from **`session:startRandom`** for correlation. Events append when mentor tools run in-process. |
+| **Electron launch** | **`scripts/run-electron.mjs`** unsets **`ELECTRON_RUN_AS_NODE`** so **`require("electron")`** resolves to the real API (see [REPO-LAYOUT.md](REPO-LAYOUT.md)). |
+
+### Phase 3 — remaining / follow-ups (optional or later phases)
+
+These are **not** all required to treat the Phase 3 **checklist rows above** as satisfied for internal milestones; several items are **product-hardening** or **Phase 4+** by design.
+
+| Item | Notes |
+|------|--------|
+| **stdio MCP ↔ EvidenceEvents** | The **corpus MCP** process does **not** write into the Electron **`evidenceStore`**. A future **bridge** (or always using in-app mentor tools) would unify audit logs. |
+| **Persistence** | Evidence is **in-memory** only; survives until app quit. **Disk / export attachment** aligns with Phase 4–5 (evaluator, demo export, `gradingIntegrity`). |
+| **Snowflake MCP** | Not built; [PHASE3_DOCUMENTATION.md](PHASE3_DOCUMENTATION.md) §7 remains the sketch when evaluating a DB-backed backend. |
+| **Full closed-book enforcement** | Preload omits mentor tools; **full** “no KB / Exa in technician UI” UX is **Phase 4** (see **Phase 4 — AI validation** below). |
+| **Orchestrator / LLM** | Wiring **Persona B** to call **`mentor:getKo`** / **`search_kb`** with **turnIndex** on events is **Phase 4+** (evaluator and sentinel paths). |
 
 ---
 

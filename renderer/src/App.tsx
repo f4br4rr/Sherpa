@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 
 /** Mirrors main-process `session:startRandom` payload (keep in sync with `electron/preload.ts`). */
 type SessionPayload = {
+  sessionId: string;
   ko_number: string;
   displayName: string;
   issueSummary: string;
