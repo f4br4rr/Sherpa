@@ -1,0 +1,20 @@
+{
+  "ko_number": "KO30006",
+  "subject": "Local recording conversion stuck at 0%",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "Meeting recorded to disk; double-click recording shows converting progress never advances.",
+  "ts_steps": [
+    { "step": 1, "title": "Free disk space", "action": "Recordings drive ≥ 3× recording size." },
+    { "step": 2, "title": "Shorten path", "action": "Move recordings out of deep Documents path if >260 chars." },
+    { "step": 3, "title": "Pause OneDrive", "action": "If Documents synced — pause during conversion." },
+    { "step": 4, "title": "Quit Zoom", "action": "Fully exit." },
+    { "step": 5, "title": "Run Zoom as administrator", "action": "One-time conversion retry." },
+    { "step": 6, "title": "AV exclusion", "action": "Temporarily exclude Zoom and recordings folder per security." },
+    { "step": 7, "title": "VC++ runtimes", "action": "Repair Microsoft Visual C++ redistributables if missing." },
+    { "step": 8, "title": "double_click_to_convert files", "action": "If present, follow Zoom recovery KB or support." },
+    { "step": 9, "title": "Repair install Zoom", "action": "MSI modify repair." },
+    { "step": 10, "title": "Cloud recording", "action": "Recommend for future critical meetings if licensed." }
+  ],
+  "internal_information": "Permissions, AV lock, OneDrive sync, corrupt recording end."
+}

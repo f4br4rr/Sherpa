@@ -1,0 +1,21 @@
+{
+  "ko_number": "KO10008",
+  "subject": "Screen recording permission missing for conferencing app",
+  "configuration_item": "macOS (Apple Silicon)",
+  "state": "Published",
+  "description": "User cannot share screen in video app; macOS says screen recording not allowed.",
+  "ts_steps": [
+    { "step": 1, "title": "Screen Recording toggle", "action": "System Settings → Privacy & Security → Screen Recording — enable app." },
+    { "step": 2, "title": "Add app if missing", "action": "Use + to add from Applications if list empty; launch app once to prompt." },
+    { "step": 3, "title": "Quit app fully", "action": "Cmd+Q conferencing app; relaunch; retry share." },
+    { "step": 4, "title": "Accessibility", "action": "Privacy & Security → Accessibility — add same app if control features required." },
+    { "step": 5, "title": "Microphone and Camera", "action": "While in Privacy settings, confirm Mic/Camera for same app." },
+    { "step": 6, "title": "Remove stale entries", "action": "Delete gray duplicate app paths from lists; re-add current binary." },
+    { "step": 7, "title": "Window vs display share", "action": "In meeting choose single window first to test TCC path." },
+    { "step": 8, "title": "Virtual displays", "action": "Disconnect Sidecar/Duet/DisplayLink temporarily." },
+    { "step": 9, "title": "Restart Mac", "action": "Some macOS builds cache TCC until reboot." },
+    { "step": 10, "title": "Reinstall client", "action": "Delete app and prefs per policy; reinstall latest Apple Silicon build." },
+    { "step": 11, "title": "MDM", "action": "If toggles grayed, policy blocks — escalate." }
+  ],
+  "internal_information": "TCC lists; MDM lock; duplicate paths. Apple Silicon only."
+}

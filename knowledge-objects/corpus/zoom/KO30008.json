@@ -1,0 +1,21 @@
+{
+  "ko_number": "KO30008",
+  "subject": "Echo or feedback heard by other participants",
+  "configuration_item": "Zoom (macOS)",
+  "state": "Published",
+  "description": "Remote participants report echo when this user speaks; user uses laptop mic and speakers.",
+  "ts_steps": [
+    { "step": 1, "title": "Wired headset", "action": "Best: USB-C or 3.5mm headset." },
+    { "step": 2, "title": "Bluetooth headset", "action": "Acceptable if stable A2DP/HFP handoff." },
+    { "step": 3, "title": "Lower speaker volume", "action": "Reduce acoustic loop gain." },
+    { "step": 4, "title": "Mute when silent", "action": "User habit during test." },
+    { "step": 5, "title": "Echo cancellation on", "action": "Zoom Audio settings." },
+    { "step": 6, "title": "Original Sound off", "action": "Unless music mode required." },
+    { "step": 7, "title": "Stereo off", "action": "Unless needed." },
+    { "step": 8, "title": "Duplicate join check", "action": "Phone + laptop same room — leave one." },
+    { "step": 9, "title": "Second laptop in room", "action": "Mute or move speakers." },
+    { "step": 10, "title": "macOS output device", "action": "Sound → Output matches intended playback." },
+    { "step": 11, "title": "Loopback software", "action": "Quit BlackHole/Soundflower unless intentional." }
+  ],
+  "internal_information": "Speaker-to-mic loop; duplicate devices; Bluetooth latency."
+}

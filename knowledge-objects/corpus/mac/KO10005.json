@@ -1,0 +1,19 @@
+{
+  "ko_number": "KO10005",
+  "subject": "Time Machine backup failed with sparse error message",
+  "configuration_item": "macOS (Apple Silicon)",
+  "state": "Published",
+  "description": "Time Machine reports backup could not complete; user needs data protected before travel.",
+  "ts_steps": [
+    { "step": 1, "title": "Capture error text", "action": "Time Machine settings → note exact failure message and time." },
+    { "step": 2, "title": "Free space on destination", "action": "Finder: confirm backup volume free space versus next backup size; NAS sparsebundle needs headroom." },
+    { "step": 3, "title": "First Aid internal disk", "action": "Disk Utility → Macintosh HD Data → First Aid — fix internal errors before trusting new backups." },
+    { "step": 4, "title": "First Aid backup volume", "action": "If direct-attached backup disk: First Aid on that volume. Network: use NAS admin tools instead." },
+    { "step": 5, "title": "Thin with exclusions", "action": "Time Machine → Options — exclude VMs, large caches, Docker images; run backup again." },
+    { "step": 6, "title": "Local snapshots", "action": "Optional Terminal: tmutil listlocalsnapshots / — thin with IT approval if bloated." },
+    { "step": 7, "title": "New backup destination", "action": "Add fresh APFS volume or new SMB share; point Time Machine; take full backup; verify." },
+    { "step": 8, "title": "NAS permissions", "action": "Confirm SMB/AFP settings per Apple Time Machine on NAS KB; user ACL read/write." },
+    { "step": 9, "title": "Sparsebundle corruption", "action": "If bundle corrupt and IT approves, archive old bundle read-only and start new bundle name on same NAS." }
+  ],
+  "internal_information": "Full disk, corrupt bundle, permissions. New destination often fastest recovery."
+}

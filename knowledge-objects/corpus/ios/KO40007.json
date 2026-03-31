@@ -1,0 +1,22 @@
+{
+  "ko_number": "KO40007",
+  "subject": "AirDrop not discovering nearby devices",
+  "configuration_item": "iPhone (iOS AirDrop)",
+  "state": "Published",
+  "description": "User tries to AirDrop a photo to a nearby colleague's iPhone but neither device sees the other in the share sheet.",
+  "ts_steps": [
+    { "step": 1, "title": "Both on Wi-Fi and Bluetooth", "action": "Control Center — not Airplane." },
+    { "step": 2, "title": "AirDrop Everyone 10 min", "action": "Settings → General → AirDrop — both devices." },
+    { "step": 3, "title": "Contacts Only path", "action": "If used — both signed into iCloud and in each other Contacts." },
+    { "step": 4, "title": "Personal Hotspot off", "action": "Both phones." },
+    { "step": 5, "title": "VPN off", "action": "Both — test AWDL path." },
+    { "step": 6, "title": "Distance", "action": "Within ~9 m; remove metal cases test." },
+    { "step": 7, "title": "Unlock/wake", "action": "Receivers awake." },
+    { "step": 8, "title": "Focus modes", "action": "Allow AirDrop or disable Focus test." },
+    { "step": 9, "title": "Airplane toggle", "action": "On 10s Off both devices." },
+    { "step": 10, "title": "Restart both", "action": "Power cycle." },
+    { "step": 11, "title": "Reset Network Settings", "action": "One device then other if still fail." },
+    { "step": 12, "title": "MDM", "action": "Verify profile does not disable AirDrop." }
+  ],
+  "internal_information": "Hotspot, VPN, AWDL, MDM, distance, Focus."
+}

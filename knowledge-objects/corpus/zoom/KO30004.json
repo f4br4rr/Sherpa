@@ -1,0 +1,21 @@
+{
+  "ko_number": "KO30004",
+  "subject": "Screen share freezes for attendees",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "Host shares PowerPoint; attendees see frozen slide while host sees live updates.",
+  "ts_steps": [
+    { "step": 1, "title": "Share window not full desktop", "action": "Pick PowerPoint window only." },
+    { "step": 2, "title": "Optimize for video clip", "action": "Off for static slides; on for embedded video." },
+    { "step": 3, "title": "Portion of screen", "action": "Advanced share option test." },
+    { "step": 4, "title": "Host wired Ethernet", "action": "Prefer cable over Wi-Fi." },
+    { "step": 5, "title": "Lower resolution", "action": "Share at 1080p or lower." },
+    { "step": 6, "title": "VPN off test", "action": "If allowed brief test." },
+    { "step": 7, "title": "UDP path", "action": "Network team confirms Zoom UDP not blocked." },
+    { "step": 8, "title": "GPU driver", "action": "Update from OEM." },
+    { "step": 9, "title": "Second monitor off", "action": "Test single display." },
+    { "step": 10, "title": "Zoom update", "action": "Latest client." },
+    { "step": 11, "title": "PDF share test", "action": "Export slides to PDF — if smooth, Office overlay issue." }
+  ],
+  "internal_information": "Packet loss, GPU, DPI, share mode choice."
+}

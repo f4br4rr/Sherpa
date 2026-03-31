@@ -1,0 +1,22 @@
+{
+  "ko_number": "KO20005",
+  "subject": "Microsoft Teams camera not available in meeting",
+  "configuration_item": "Microsoft Teams (Windows)",
+  "state": "Published",
+  "description": "Teams meeting shows no camera or black preview; Camera app works on same PC.",
+  "ts_steps": [
+    { "step": 1, "title": "Teams camera dropdown", "action": "Settings → Devices → pick camera." },
+    { "step": 2, "title": "Test preview", "action": "Run preview in Teams settings." },
+    { "step": 3, "title": "Quit Teams fully", "action": "Tray → Quit; relaunch." },
+    { "step": 4, "title": "GPU acceleration", "action": "General → disable GPU hardware acceleration — test." },
+    { "step": 5, "title": "Windows Camera privacy", "action": "Settings → Privacy & security → Camera — on for Teams and desktop apps." },
+    { "step": 6, "title": "Per-app camera", "action": "Ensure Teams toggle on in list." },
+    { "step": 7, "title": "Close other camera apps", "action": "Task Manager end competing apps." },
+    { "step": 8, "title": "Device Manager update", "action": "Cameras → Update driver." },
+    { "step": 9, "title": "Roll back driver", "action": "If regression after update." },
+    { "step": 10, "title": "USB port swap", "action": "Different USB port for external webcam." },
+    { "step": 11, "title": "Teams cache clear", "action": "Per Microsoft + IT policy delete Teams cache folders." },
+    { "step": 12, "title": "Hardware swap", "action": "Test another webcam." }
+  ],
+  "internal_information": "Teams vs Windows camera stack; new Teams WebView2 differences."
+}

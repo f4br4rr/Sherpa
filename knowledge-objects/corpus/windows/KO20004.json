@@ -1,0 +1,22 @@
+{
+  "ko_number": "KO20004",
+  "subject": "Print jobs stuck; others cannot print to shared printer",
+  "configuration_item": "Windows 11",
+  "state": "Published",
+  "description": "Queue on print server shows error; restarting user's PC did not clear server-side jobs.",
+  "ts_steps": [
+    { "step": 1, "title": "Open local queue", "action": "Settings → Bluetooth & devices → Printers & scanners → printer → Open queue." },
+    { "step": 2, "title": "Cancel jobs", "action": "Cancel all documents in queue." },
+    { "step": 3, "title": "Restart local spooler", "action": "services.msc → Print Spooler → Restart." },
+    { "step": 4, "title": "Clear spool folder if stuck", "action": "Stop spooler; delete files in Windows\\System32\\spool\\PRINTERS (elevated, policy); start spooler." },
+    { "step": 5, "title": "Server queue", "action": "If permitted: Print Management on server → cancel jobs → restart server spooler." },
+    { "step": 6, "title": "Server Event Viewer", "action": "If multiple printers fail, check server Application log." },
+    { "step": 7, "title": "Remove client printer", "action": "Remove printer on user PC." },
+    { "step": 8, "title": "Re-add connection", "action": "Add printer using shared queue path or IPP URL from admin." },
+    { "step": 9, "title": "Driver match", "action": "PCL6 vs PS universal per server team." },
+    { "step": 10, "title": "Remove duplicates", "action": "Delete extra queues pointing to same share." },
+    { "step": 11, "title": "Test page", "action": "Print local test page." },
+    { "step": 12, "title": "Document error", "action": "Capture stuck job error properties for server team." }
+  ],
+  "internal_information": "Server-side job, driver, spooler crash. Client-only clear insufficient when server holds job."
+}

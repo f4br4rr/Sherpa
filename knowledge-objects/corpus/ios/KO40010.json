@@ -1,0 +1,23 @@
+{
+  "ko_number": "KO40010",
+  "subject": "iPhone not receiving text messages (SMS/iMessage)",
+  "configuration_item": "iPhone (iOS Messages)",
+  "state": "Published",
+  "description": "User reports missed texts — some contacts' messages never arrive while iMessages from other iPhone users work fine.",
+  "ts_steps": [
+    { "step": 1, "title": "iMessage on", "action": "Settings → Messages." },
+    { "step": 2, "title": "Send Receive", "action": "Correct number and Apple ID checked." },
+    { "step": 3, "title": "Start new conversations from", "action": "Prefer phone number if SMS mix issues." },
+    { "step": 4, "title": "SMS cellular bars", "action": "Not Wi-Fi-only mode." },
+    { "step": 5, "title": "MMS Group on", "action": "If carrier supports — Settings → Messages." },
+    { "step": 6, "title": "Blocked list", "action": "Settings → Messages → Blocked — verify sender absent." },
+    { "step": 7, "title": "Filter unknown senders", "action": "Disable test — see if messages in unknown tab." },
+    { "step": 8, "title": "Airplane off", "action": "Full off." },
+    { "step": 9, "title": "Toggle iMessage", "action": "Off → restart → On — wait activation." },
+    { "step": 10, "title": "Physical SIM reseat", "action": "Power off, reseat SIM." },
+    { "step": 11, "title": "eSIM", "action": "Cellular — line active; carrier refresh if needed." },
+    { "step": 12, "title": "Deregister iMessage", "action": "If switched from Android — Apple web tool with number." },
+    { "step": 13, "title": "Carrier SMS", "action": "Carrier resets SMSC or provisioning rarely." }
+  ],
+  "internal_information": "Green SMS vs blue iMessage; Android deregister; carrier filter; blocked tab."
+}

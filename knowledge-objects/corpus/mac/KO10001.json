@@ -1,0 +1,20 @@
+{
+  "ko_number": "KO10001",
+  "subject": "Safari cannot open most websites",
+  "configuration_item": "macOS (Apple Silicon)",
+  "state": "Published",
+  "description": "User reports Safari spins or shows 'cannot connect' on multiple sites; other browsers not tried.",
+  "ts_steps": [
+    { "step": 1, "title": "Clarify failure scope", "action": "Ask whether every HTTPS site fails or only intranet, captive portal, or specific domains. Record exact error text (cannot connect, certificate, timeout)." },
+    { "step": 2, "title": "Baseline reachability", "action": "In Safari try https://www.apple.com and one other major HTTPS site. Optionally Terminal: ping -c 4 1.1.1.1 and ping -c 4 a known DNS name to separate L3 vs DNS vs TLS." },
+    { "step": 3, "title": "Captive portal and VPN", "action": "Open a deliberate http:// URL to trigger guest Wi-Fi portal if present. Disconnect VPN and retest. Note menu bar Wi-Fi for limited connectivity warnings." },
+    { "step": 4, "title": "Date and time", "action": "System Settings → General → Date & Time → enable Set time and date automatically; confirm time zone. Wrong clock breaks TLS handshakes." },
+    { "step": 5, "title": "Wi-Fi and DNS", "action": "System Settings → Network → Wi-Fi → Details → TCP/IP → Renew DHCP Lease. Under DNS add a public resolver temporarily for test (e.g. 1.1.1.1) if policy allows, Apply, retest Safari, then revert if required." },
+    { "step": 6, "title": "Toggle network interface", "action": "Toggle Wi-Fi off 10 seconds on, or unplug/replug Ethernet. Disable other active interfaces briefly if multiple routes confuse traffic." },
+    { "step": 7, "title": "Safari website data", "action": "Safari → Settings → Privacy → Manage Website Data — remove failing domains or Remove All for broad test. Quit Safari fully, reopen." },
+    { "step": 8, "title": "Private Window and cache", "action": "File → New Private Window — load same URLs. Safari → Clear History for last hour if policy allows." },
+    { "step": 9, "title": "Extensions off", "action": "Safari → Settings → Extensions — disable all, quit Safari, relaunch, retest." },
+    { "step": 10, "title": "New user or escalation", "action": "Create a test user account and try Safari once to rule out profile plist issues. If all browsers fail, escalate proxy/PAC/TLS inspection with macOS version and Safari build." }
+  ],
+  "internal_information": "Time, DNS, captive portal, VPN, extensions, corrupt site data. Apple Silicon only. Corporate TLS inspection may need cert trust — not Safari-only."
+}

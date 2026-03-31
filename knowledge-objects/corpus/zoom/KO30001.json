@@ -1,0 +1,22 @@
+{
+  "ko_number": "KO30001",
+  "subject": "Cannot join Zoom meeting — generic connection error",
+  "configuration_item": "Zoom (Windows)",
+  "state": "Published",
+  "description": "Clicking meeting link shows error before video starts; browser join also fails.",
+  "ts_steps": [
+    { "step": 1, "title": "Zoom status page", "action": "Check vendor status for incident." },
+    { "step": 2, "title": "Corporate vs hotspot", "action": "Mobile hotspot test if policy allows — isolates firewall." },
+    { "step": 3, "title": "VPN off test", "action": "Brief disconnect to compare." },
+    { "step": 4, "title": "Check for Updates", "action": "Zoom client." },
+    { "step": 5, "title": "Full reinstall", "action": "Uninstall; download MSI from zoom.us; install; reboot." },
+    { "step": 6, "title": "Join by meeting ID", "action": "Bypass broken browser handler." },
+    { "step": 7, "title": "Proxy settings", "action": "Zoom → Settings → General → Network." },
+    { "step": 8, "title": "Corporate PAC", "action": "Align with IT proxy.pac requirements." },
+    { "step": 9, "title": "Firewall allowlist", "action": "IT adds Zoom domains and UDP ranges per Zoom doc." },
+    { "step": 10, "title": "SSL inspection", "action": "If TLS break, exempt Zoom or split inspection." },
+    { "step": 11, "title": "DNS flush", "action": "ipconfig /flushdns on Windows." },
+    { "step": 12, "title": "Collect logs", "action": "Zoom Help → troubleshooting log path for ticket." }
+  ],
+  "internal_information": "Firewall, proxy, SSL break, old client. Hotspot comparison decisive."
+}

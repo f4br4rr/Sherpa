@@ -1,0 +1,22 @@
+{
+  "ko_number": "KO40009",
+  "subject": "iPhone screen rotation locked — grayed out in Control Center",
+  "configuration_item": "iPhone (iOS Display)",
+  "state": "Published",
+  "description": "Screen stays in portrait even when user rotates phone sideways; rotation lock icon may or may not appear in status bar.",
+  "ts_steps": [
+    { "step": 1, "title": "Control Center", "action": "Open CC from correct gesture for model." },
+    { "step": 2, "title": "Portrait lock icon", "action": "Tap off — not highlighted." },
+    { "step": 3, "title": "Home Screen rotate test", "action": "Note many iPhones do not rotate Home — expected." },
+    { "step": 4, "title": "Safari rotate", "action": "Landscape should work if lock off." },
+    { "step": 5, "title": "Photos rotate", "action": "Confirm hardware rotation." },
+    { "step": 6, "title": "Display Zoom", "action": "Settings → Display → Display Zoom — try Standard vs Zoomed." },
+    { "step": 7, "title": "Remove folio keyboard", "action": "If magnet holds portrait." },
+    { "step": 8, "title": "Case test", "action": "Remove thick case." },
+    { "step": 9, "title": "Force restart", "action": "Volume up, down, hold side." },
+    { "step": 10, "title": "Compass", "action": "If erratic motion — gyro suspect." },
+    { "step": 11, "title": "iOS update", "action": "Software Update." },
+    { "step": 12, "title": "Hardware service", "action": "If no software cause — accelerometer/gyro fault." }
+  ],
+  "internal_information": "Zoomed display, app no-landscape, lock confusion, sensor fault."
+}

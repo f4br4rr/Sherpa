@@ -8,6 +8,8 @@
 
 **Repo map:** For what each folder is for (`schemas/`, `fixtures/`, `knowledge-objects/`, etc.) and why those exist before Phase 1, see [REPO-LAYOUT.md](REPO-LAYOUT.md).
 
+**Developers (parallel work):** Phases 1–6, dependency order, and how **six people** can split work without contradictions — [PHASES-PARALLEL-WORK.md](PHASES-PARALLEL-WORK.md).
+
 ## Local setup (everyone)
 
 **Prerequisites:** [Node.js](https://nodejs.org/) **20 or newer** (LTS is fine). **npm** ships with Node; you do not need Yarn or pnpm for this repo.
@@ -31,13 +33,13 @@
 
 **Do not commit** `node_modules/` — it is listed in `.gitignore`. Commit changes to `package.json` / `package-lock.json` only when the team intentionally changes dependencies.
 
-**More detail:** Folder layout, scripts, and how `schemas/`, `fixtures/`, and `knowledge-objects/` fit together — [REPO-LAYOUT.md](REPO-LAYOUT.md). Phase 1 checklist and commands — [PHASE1-READINESS.md](PHASE1-READINESS.md).
+**More detail:** Folder layout, scripts, and how `schemas/`, `fixtures/`, and `knowledge-objects/` fit together — [REPO-LAYOUT.md](REPO-LAYOUT.md). **Phase readiness (Phases 1–6)** — exit criteria, dependencies, commands — [PHASE-READINESS.md](PHASE-READINESS.md).
 
 ---
 
 ### Two ways to practice (product direction)
 
-The desktop app is planned to offer **two equal modes** once the second milestone ships: **Chat Practice** (random scenario, dual-persona chat, AI grading against the bound article) and **Written ATS Drill** (you pick a case, timed free-text in structured sections, **deterministic** keyword-based scoring — **no chat bot on that grading path**). Same KO library; **Written Drill** only lists articles that include a validated **rubric**. **Pass threshold and ATS weights match** the chat rubric on paper, but **written scores measure rubric coverage** — they are **not the same** as live chat scores; the scorecard and export carry a short disclaimer. **Saved files differ:** Chat Practice demo export uses **`exportSchemaVersion: "1.0"`** (official transcript + scores); Written Drill uses a **separate** JSON contract (**`ghd-export-v2`**, **`mode: "written_drill"`**) — see the architecture doc. Until **Written Drill** is built, work focuses on **Chat Practice** first.
+The desktop app is planned to offer **two equal modes** once the second milestone ships: **Chat Practice** (random scenario, dual-persona chat, AI grading against the bound article) and **Written ATS Drill** (you pick a case, timed free-text in structured sections, **AI grading with the same ATS matrix and evaluator stack** as chat — **no simulated customer chat** on that path). Same KO library; **Written Drill** lists **Published** articles by category; an optional **`rubric`** only helps **UI scaffolding** (sections / follow-ups), not keyword-only scoring. **MCP `get_ko`**, optional **`search_kb`**, and **Exa** (when enabled) follow the **same closed-book / mentor-only rules** as chat. **Pass threshold and ATS weights** are the same framework; scores still **differ by modality** (dialogue vs written prose), so the scorecard and export carry a short disclaimer. **Saved files differ:** Chat Practice demo export uses **`exportSchemaVersion: "1.0"`** (official transcript + scores); Written Drill uses **`ghd-export-v2`**, **`mode: "written_drill"`** — see the architecture doc. Until **Written Drill** is built, work focuses on **Chat Practice** first.
 
 ---
 
@@ -46,7 +48,7 @@ The desktop app is planned to offer **two equal modes** once the second mileston
 Before the numbered “deep” concepts below, here is the **actual flow** we are designing:
 
 1. You click **Start Random Scenario**. The app picks **one** of our Knowledge Objects at random and builds a **fake ticket** like the ones you see in ServiceNow. If you were **already** in a practice ticket, that old session is **thrown away** (no saved score) and a new one starts — same idea as closing a tab and opening a fresh ticket.
-2. You see a **ticket header** at the top: **ticket number** (**ko_number**), **persona name**, and **issue description** (**issueSummary**). The **name** usually comes from optional metadata on the article (**persona**, like “Karen - Accounting”); if the article has no persona, the app picks a **random name** from a **fixed list of ten** generic full names shipped with the app (predictable demos). The chat area below is **empty**.
+2. You see a **ticket header** at the top: **ticket number** (**ko_number**), **persona name**, and **issue description** (**issueSummary**). The **name** usually comes from optional metadata on the article (**persona**, like “Karen - Accounting”); if the article has no persona, the app builds a **random full name** each scenario by combining a random **first name** and a random **last name** from two curated lists (see **`src/pickDisplayName.ts`** in the repo). The chat area below is **empty**.
 3. **You (the technician) always send the first message** — for example, introducing yourself and offering help. The **simulated customer does not type until you do.**
 4. After your intro, the **fake end-user** describes their problem in plain language. From there, the chat works like a real ticket: you ask questions, they answer **only** what you asked. **Export note:** The **official scored transcript** — the **same** conversation the mentor uses for **final grading** and the **demo JSON** includes — **starts at your first valid introduction**; failed opening attempts and the bot’s recovery line live in a **debug-only** audit path, not in that scored export. Rules: [Export Rules](project-architecture-and-plan.md#5-export-rules) in the architecture doc (Session state management, heading **5. Export Rules**).
 5. If you ask for their **FMNO** (our internal employee number), the simulation will answer with a **random 5-digit number** and will **keep using that same number** if you ask again — like a stable ID for that session.
@@ -110,7 +112,7 @@ An **API** (Application Programming Interface) is a **structured way for program
 
 Our **mock ServiceNow** knowledge articles are **Knowledge Objects (KOs)** stored as JSON. Each KO is one “article” with a number, title, configuration item, state, description, troubleshooting steps, internal notes, and **optionally** a **`persona`** string (fake **name and department** for the ticket header).
 
-**Example shape** (illustrative only): The **Zoom / gray boxes** scenario below is **made-up sample text** to teach what JSON looks like. It is **not** the only kind of issue we will ship — the real project uses **many different KOs** (Mac, Windows, Zoom, Office Apps) with their own subjects and steps. Your real files will replace this content with reviewed articles.
+**Example shape** (illustrative only): The **Zoom / gray boxes** scenario below is **made-up sample text** to teach what JSON looks like. It is **not** the only kind of issue we will ship — the real project uses **many different KOs** (Mac, Windows, Zoom, iOS) with their own subjects and steps. Your real files will replace this content with reviewed articles.
 
 Severity is intentionally excluded from this product. Scenarios are presented without severity framing.
 
@@ -133,7 +135,7 @@ Severity is intentionally excluded from this product. Scenarios are presented wi
 }
 ```
 
-**How to read this:** Top-level fields describe the ticket/article. `ts_steps` is a **list** of steps; each step has its own `title` and `action`. This nesting is normal — programs walk the structure tree the same way every time.
+**How to read this:** Top-level fields describe the ticket/article. `ts_steps` is a **list** of steps; each step has its own `title` and `action`. The sample above is **short**; **production** articles in **`knowledge-objects/corpus/`** usually have **many steps** (detailed troubleshooting — often roughly **9–15** per KO). This nesting is normal — programs walk the structure tree the same way every time.
 
 ---
 
@@ -177,7 +179,7 @@ In the app, those voices should **look different** in the UI (for example **diff
 We are building a **desktop app** with a **menu bar / system tray** presence and a **chat console** — not “only a website” — for several practical reasons:
 
 - **It feels like a real technician tool** — something you keep at hand while working, not another browser tab lost in the noise.
-- **Local-first knowledge** — our **Phase 1** mock ServiceNow articles (**40** JSON KOs, **10** per core area: Mac, Windows, Zoom, Office Apps) ship as files in the repo under **`knowledge-objects/corpus/`** (templates stay in **`knowledge-objects/examples/`** — see [REPO-LAYOUT.md](REPO-LAYOUT.md)). At runtime they live **on the machine** with the app; **MCP** exposes them in a **controlled** way. Scenarios aim to be **generic and demo-safe** (see the architecture doc’s **KO generation strategy**).
+- **Local-first knowledge** — our **Phase 1** mock ServiceNow articles (**40** JSON KOs, **10** per core area: Mac, Windows, Zoom, iOS) ship as files in the repo under **`knowledge-objects/corpus/`** (templates stay in **`knowledge-objects/examples/`** — see [REPO-LAYOUT.md](REPO-LAYOUT.md)). At runtime they live **on the machine** with the app; **MCP** exposes them in a **controlled** way. Scenarios aim to be **generic and demo-safe** (see the architecture doc’s **KO generation strategy**).
 - **Clear demo story** — “Practice incidents that **start like a real ticket** (random scenario + header), **you open the chat** with **no runbook search**, the **customer** stays in character, the **mentor** grades against the **bound internal article** (**MVP**), with **Exa and off-KO fairness** as a **later** upgrade, and optional **learning links after** the grade when we add them.”
 - **Less premature platform complexity** — A full cloud-hosted product means accounts, hosting bills, compliance conversations, and DevOps work we do not need for **v1**.
 

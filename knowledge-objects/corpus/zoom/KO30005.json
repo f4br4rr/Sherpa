@@ -1,0 +1,21 @@
+{
+  "ko_number": "KO30005",
+  "subject": "Virtual background does not appear",
+  "configuration_item": "Zoom (macOS)",
+  "state": "Published",
+  "description": "User selects virtual background; video shows only blur or original room.",
+  "ts_steps": [
+    { "step": 1, "title": "Confirm Apple Silicon Mac", "action": "Zoom VB supported on current M-series with current Zoom." },
+    { "step": 2, "title": "Lighting", "action": "Face well lit vs background for segmentation." },
+    { "step": 3, "title": "Green screen option", "action": "Enable only if physical green screen in use." },
+    { "step": 4, "title": "Camera privacy", "action": "macOS Camera on for Zoom." },
+    { "step": 5, "title": "Close other camera apps", "action": "Release exclusive use." },
+    { "step": 6, "title": "Built-in backgrounds", "action": "Test Zoom-provided image first." },
+    { "step": 7, "title": "Custom image rules", "action": "PNG/JPG small file size; reasonable resolution." },
+    { "step": 8, "title": "Quit Zoom", "action": "Cmd+Q; relaunch." },
+    { "step": 9, "title": "Zoom update", "action": "Latest macOS build." },
+    { "step": 10, "title": "Blur-only test", "action": "If blur works but images fail — asset pipeline." },
+    { "step": 11, "title": "Admin policy", "action": "IT may disable VB — confirm template." }
+  ],
+  "internal_information": "Apple Silicon performance adequate; policy may disable. No Intel CPU requirement text."
+}

@@ -1,0 +1,22 @@
+{
+  "ko_number": "KO40001",
+  "subject": "iPhone Wi-Fi keeps disconnecting or forgets saved network",
+  "configuration_item": "iPhone (iOS)",
+  "state": "Published",
+  "description": "User reports iPhone drops Wi-Fi every few minutes or saved corporate network disappears from the list after locking the screen.",
+  "ts_steps": [
+    { "step": 1, "title": "Forget network", "action": "Settings → Wi-Fi → (i) → Forget This Network." },
+    { "step": 2, "title": "Rejoin", "action": "Select SSID; enter password; accept captive or 802.1x prompts." },
+    { "step": 3, "title": "Wi-Fi Assist off", "action": "Settings → Cellular → Wi-Fi Assist → Off." },
+    { "step": 4, "title": "VPN off test", "action": "Disconnect all VPN profiles; retest stability." },
+    { "step": 5, "title": "Private Wi-Fi Address", "action": "Per-SSID (i) — toggle off temporarily if NAC ties to stable MAC; coordinate with network team." },
+    { "step": 6, "title": "Low Data Mode off", "action": "Per Wi-Fi SSID details if enabled." },
+    { "step": 7, "title": "Restart iPhone", "action": "Power off/on." },
+    { "step": 8, "title": "Reset Network Settings", "action": "Settings → General → Transfer or Reset → Reset Network Settings — warn wipes Wi-Fi/BT/VPN." },
+    { "step": 9, "title": "Re-pair accessories", "action": "After reset, re-pair Watch and car Bluetooth." },
+    { "step": 10, "title": "Router band steering", "action": "If dual SSID 2.4/5 GHz confusion, IT adjusts or user picks stable band." },
+    { "step": 11, "title": "iOS update", "action": "Settings → General → Software Update." },
+    { "step": 12, "title": "Site-wide check", "action": "If all devices drop, escalate NOC not phone only." }
+  ],
+  "internal_information": "Assist handoff, VPN, private MAC, iOS regression, AP issues."
+}

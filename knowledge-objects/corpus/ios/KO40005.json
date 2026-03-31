@@ -1,0 +1,22 @@
+{
+  "ko_number": "KO40005",
+  "subject": "iPhone keyboard lagging or freezing in apps",
+  "configuration_item": "iPhone (iOS Keyboard)",
+  "state": "Published",
+  "description": "Typing in Messages, Mail, or other apps shows noticeable delay between keypress and character appearing; sometimes keyboard dismisses itself mid-sentence.",
+  "ts_steps": [
+    { "step": 1, "title": "Check storage", "action": "General → iPhone Storage — free space if critically low." },
+    { "step": 2, "title": "Low Power Mode off", "action": "Settings → Battery." },
+    { "step": 3, "title": "Close apps", "action": "App switcher — swipe up all nonessential." },
+    { "step": 4, "title": "Third-party keyboards", "action": "Settings → General → Keyboard → Keyboards — remove one by one." },
+    { "step": 5, "title": "Full Access off", "action": "Per third-party keyboard if kept." },
+    { "step": 6, "title": "Reset Keyboard Dictionary", "action": "General → Transfer or Reset → Reset Keyboard Dictionary." },
+    { "step": 7, "title": "Test stock keyboard", "action": "Messages new thread." },
+    { "step": 8, "title": "Single app reinstall", "action": "If only one app lags — delete reinstall from App Store." },
+    { "step": 9, "title": "iOS update", "action": "Software Update." },
+    { "step": 10, "title": "Accessibility Slow Keys", "action": "Settings → Accessibility — ensure not enabled accidentally." },
+    { "step": 11, "title": "Force restart", "action": "Volume up, volume down, hold side to Apple logo." },
+    { "step": 12, "title": "Backup restore", "action": "Last resort if system-wide after update corruption suspected." }
+  ],
+  "internal_information": "Low storage, third-party keyboard leak, iOS bug, app-specific."
+}

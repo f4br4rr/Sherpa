@@ -1,0 +1,23 @@
+{
+  "ko_number": "KO40006",
+  "subject": "iPhone battery draining rapidly after update",
+  "configuration_item": "iPhone (iOS)",
+  "state": "Published",
+  "description": "Battery drops from 100 % to under 50 % within a few hours of normal use; started right after the latest iOS update.",
+  "ts_steps": [
+    { "step": 1, "title": "Battery screen", "action": "Settings → Battery — Last 24h / 10d." },
+    { "step": 2, "title": "Background Activity", "action": "Tap app rows — note high background." },
+    { "step": 3, "title": "Background App Refresh", "action": "Off for heavy offenders; or global test off." },
+    { "step": 4, "title": "Location Services", "action": "Settings → Privacy → Location — set apps to While Using unless needed Always." },
+    { "step": 5, "title": "Display", "action": "Lower brightness; Auto-Brightness on; shorter Auto-Lock." },
+    { "step": 6, "title": "Always-On Display", "action": "Pro models — disable temporarily." },
+    { "step": 7, "title": "Wi-Fi Assist off", "action": "Cellular — reduces radio dual-use." },
+    { "step": 8, "title": "Hotspot off", "action": "When not needed." },
+    { "step": 9, "title": "Wait indexing window", "action": "24–48h on charger Wi-Fi after major upgrade." },
+    { "step": 10, "title": "Force restart", "action": "Volume up, down, hold side." },
+    { "step": 11, "title": "Battery Health", "action": "Settings → Battery → Battery Health — capacity and Peak Performance." },
+    { "step": 12, "title": "Patch iOS", "action": "Dot release if known drain bug." },
+    { "step": 13, "title": "Erase setup as new", "action": "Last resort compare bare OS — backup first." }
+  ],
+  "internal_information": "Indexing, background GPS, bad app, failing battery hardware, iOS bug."
+}

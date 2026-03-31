@@ -1,0 +1,22 @@
+{
+  "ko_number": "KO40003",
+  "subject": "iPhone storage full — cannot update apps",
+  "configuration_item": "iPhone (iOS)",
+  "state": "Published",
+  "description": "User sees 'Not Enough Storage' when trying to update apps or take photos; phone feels slow.",
+  "ts_steps": [
+    { "step": 1, "title": "iPhone Storage open", "action": "Settings → General → iPhone Storage — wait for list." },
+    { "step": 2, "title": "Photos Recently Deleted", "action": "Empty album." },
+    { "step": 3, "title": "Delete large videos", "action": "From Camera roll." },
+    { "step": 4, "title": "Offload large apps", "action": "Tap app → Offload App." },
+    { "step": 5, "title": "Delete unused games", "action": "User approves." },
+    { "step": 6, "title": "iCloud Photos optimize", "action": "Settings → Photos → Optimize Storage with enough iCloud plan." },
+    { "step": 7, "title": "Safari data", "action": "Clear History and Website Data." },
+    { "step": 8, "title": "Messages retention", "action": "Keep Messages 1 Year or 30 Days." },
+    { "step": 9, "title": "Music offline", "action": "Remove downloaded songs not needed." },
+    { "step": 10, "title": "System Data", "action": "If huge — backup and restore discussion with support." },
+    { "step": 11, "title": "OTA vs Finder update", "action": "Computer update may need less transient free space." },
+    { "step": 12, "title": "Target free space", "action": "Aim well above update size plus buffer (~10–15% total)." }
+  ],
+  "internal_information": "OTA unpack, System Data, media hoarding. Low storage slows whole OS."
+}
