@@ -142,13 +142,39 @@ These are **not** all required to treat the Phase 3 **checklist rows above** as 
 
 ### Must complete for Phase 4
 
-- [ ] **Closed-book:** no internal KB browser and no Exa in **technician** UI during the graded attempt.
-- [ ] **Persona A** prompts and guardrails (no tools); **Persona B** mentor + evaluator paths with agreed prompt isolation.
-- [ ] **FMNO:** random **5-digit**, **session-stable** per architecture.
-- [ ] **I’m stuck** and **nuclear / disproportionate** sentinel behavior per [Dual persona architecture](project-architecture-and-plan.md#dual-persona-architecture-the-chat-experience) and **Runtime behavioral rules** (single **nuclear keyword list owner** per release).
-- [ ] **Evaluation** on **End Session / Grade Me** only (no auto-grade on “resolved” in MVP); **evaluator** uses **bound KO** via `get_ko`, **ATS three-factor** rubric, **no Exa** on scoring path for MVP.
-- [ ] **Degraded grading** if `get_ko` fails (e.g. **Incomplete — KO unavailable**, `gradingIntegrity`) per [Session state management design — Final evaluation step](project-architecture-and-plan.md#session-state-management-design).
-- [ ] **End-to-end:** one full scenario from random start through scorecard with export shape aligned to [Demo export snapshot (minimum v1)](project-architecture-and-plan.md#6-demo-export-snapshot-minimum-v1) (`exportSchemaVersion: "1.0"` for Chat Practice).
+- [x] **Closed-book:** no internal KB browser and no Exa in **technician** UI during the graded attempt.
+- [x] **Persona A** prompts and guardrails (no tools); **Persona B** mentor + evaluator paths with agreed prompt isolation.
+- [x] **FMNO:** random **5-digit**, **session-stable** per architecture.
+- [x] **I’m stuck** and **nuclear / disproportionate** sentinel behavior per [Dual persona architecture](project-architecture-and-plan.md#dual-persona-architecture-the-chat-experience) and **Runtime behavioral rules** (single **nuclear keyword list owner** per release).
+- [x] **Evaluation** on **End Session / Grade Me** only (no auto-grade on “resolved” in MVP); **evaluator** uses **bound KO** via `get_ko`, **ATS three-factor** rubric, **no Exa** on scoring path for MVP.
+- [x] **Degraded grading** if `get_ko` fails (e.g. **Incomplete — KO unavailable**, `gradingIntegrity`) per [Session state management design — Final evaluation step](project-architecture-and-plan.md#session-state-management-design).
+- [x] **End-to-end:** one full scenario from random start through scorecard with export shape aligned to [Demo export snapshot (minimum v1)](project-architecture-and-plan.md#6-demo-export-snapshot-minimum-v1) (`exportSchemaVersion: "1.0"` for Chat Practice).
+
+### Phase 4 — implementation summary (repo state)
+
+| Area | Implemented |
+|------|----------------|
+| **LLM routing** | `src/llm/env.ts` — **Gemini**, **OpenAI-compatible** (NVIDIA integrate), or **Ollama** (`SHERPA_LLM_PROVIDER=ollama` / local URL); `.env` loaded via `electron/loadEnv.ts` + `scripts/run-electron.mjs`. |
+| **Chat completions** | `src/llm/client.ts` — OpenAI-shaped `/v1/chat/completions`; `message.reasoning` fallback for Ollama/Qwen3; optional omit `max_tokens` for Persona B. `src/llm/geminiClient.ts` for Gemini. |
+| **Persona A / B** | `src/llm/prompts.ts`, `src/llm/chatOrchestration.ts` — isolated system prompts; Persona A nuclear hesitation when keywords fire + shallow troubleshooting depth; FMNO in Persona A prompt. |
+| **Nuclear sentinel** | `src/llm/nuclear.ts` (regex list) + `electron/main.ts` `chat:personaTurn` — mentor **nuclear** pass after Persona A when last technician line matches. |
+| **I’m stuck** | IPC `chat:mentorStuck` → Persona B mentor (`kind: stuck`). |
+| **Evaluator** | `src/llm/evaluator.ts` — `mentorGetKo` for bound KO, JSON ATS output, app **recomputes** weighted score (40/35/25) + Pass threshold; Gemini JSON mode when applicable. |
+| **Demo export v1** | `src/export/demoExportV1.ts` + `chat:evaluate` returns `demoExport`; scorecard **Copy demo export JSON** in `renderer/src/App.tsx`. |
+| **IPC** | `electron/preload.ts` — `chatPersonaTurn`, `chatMentorStuck`, `chatEvaluate` (no mentor tools on `window.app`). |
+
+### Phase 4 — remaining / follow-ups (human or later)
+
+| Item | Notes |
+|------|--------|
+| **Product QA / sign-off** | Treat checklist rows above as **engineering-complete**; run **scenario QA** (personas, nuclear, grading, export) and record **named acceptance** if your org requires it. |
+| **Nuclear keyword owner** | `src/llm/nuclear.ts` is the canonical list for MVP — architecture asks for a **named owner** to review/QA per release. |
+| **MCP `search_kb` on LLM tool-calling** | Evaluator uses **`get_ko`**; optional **`search_kb`** for mentor deep analysis is **not** wired as model tool calls (MVP scoring is KO + transcript). |
+| **`turnIndex` on EvidenceEvents** | Still not populated on mentor tool events — architecture optional for richer audit. |
+| **stdio MCP ↔ EvidenceEvents** | Unchanged from Phase 3 — corpus MCP process does not write the in-app evidence store. |
+| **Exa** | **Not** on scoring or technician paths — remains **post-MVP** per roadmap. |
+| **Architecture edge cases** | e.g. **unified teardown** on abandon mid-eval, cancel in-flight LLM — verify behavior under manual QA. |
+| **Phase 5 overlap** | Scorecard shows Pass / weighted ATS; **Phase 5** still owns fuller **scorecard UX polish**, **Windows** pass, **demo freeze**, and stricter **export** vs architecture **§5 Export Rules** if gaps remain. |
 
 ---
 
@@ -199,3 +225,4 @@ These are **not** all required to treat the Phase 3 **checklist rows above** as 
 - [PHASES-PARALLEL-WORK.md](PHASES-PARALLEL-WORK.md) — parallel lanes and merge order  
 - [SME-SIGNOFF-PHASE1.md](SME-SIGNOFF-PHASE1.md) — Phase 1 corpus attestation  
 - [project-architecture-and-plan.md](project-architecture-and-plan.md) — full specification  
+- [OLLAMA-SETUP.md](OLLAMA-SETUP.md) — local Ollama + Qwen3 for LLM inference  
