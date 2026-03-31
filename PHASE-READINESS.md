@@ -72,11 +72,11 @@ npm test               # serializer golden tests
 
 ### Must complete for Phase 2
 
-- [ ] **Electron** app boots with **tray / menu bar** and show/hide main window (per architecture [Recommended system architecture](project-architecture-and-plan.md#recommended-system-architecture)).
-- [ ] **Start Random Scenario** binds a KO from **`knowledge-objects/corpus/**/*.json`** only (not `examples/`); **abandon** or supersede prior session when starting a new scenario.
-- [ ] **Mock ticket header:** ticket id / `ko_number`, persona display name, issue description — **`resolveTicketDisplayName`** / `src/pickDisplayName.ts` when `persona` missing.
-- [ ] **Chat UI:** dual-styled transcript roles (technician vs Persona A vs Persona B), **technician-first** empty chat until first technician message.
-- [ ] **Controls present:** **End Session / Grade Me** and **I’m stuck — mentor hint** (wiring to real Persona B / MCP may wait for Phases 3–4; shell and session state hooks must exist).
+- [x] **Electron** app boots with **tray / menu bar** and show/hide main window (per architecture [Recommended system architecture](project-architecture-and-plan.md#recommended-system-architecture)).
+- [x] **Start Random Scenario** binds a KO from **`knowledge-objects/corpus/**/*.json`** only (not `examples/`); **abandon** or supersede prior session when starting a new scenario.
+- [x] **Mock ticket header:** ticket id / `ko_number`, persona display name, issue description — **`resolveTicketDisplayName`** / `src/pickDisplayName.ts` when `persona` missing.
+- [x] **Chat UI:** dual-styled transcript roles (technician vs Persona A vs Persona B), **technician-first** empty chat until first technician message.
+- [x] **Controls present:** **End Session / Grade Me** and **I’m stuck — mentor hint** (wiring to real Persona B / MCP may wait for Phases 3–4; shell and session state hooks must exist).
 
 **Practical first step:** Loader enumerating `corpus/`, parse JSON, lookup by `ko_number`, then wire **Start Random Scenario** to that list.
 

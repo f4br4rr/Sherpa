@@ -84,11 +84,11 @@ Run from repo root: **`npm run validate:kos`**.
 
 | File | Purpose |
 |------|---------|
-| `package.json` | Scripts: **`npm test`** (serializer), **`npm run validate:kos`** (KO corpus). |
+| `package.json` | Scripts: **`npm test`** (serializer), **`npm run validate:kos`** (KO corpus), **`npm run dev`** / **`npm run build:desktop`** (Electron + React — Phase 2). |
 | `package-lock.json` | Locked dependency tree for reproducible installs. |
 | `tsconfig.json` | TypeScript settings for `src/`. |
 | `jest.config.cjs` | Jest + ESM + ts-jest for tests. |
-| `.gitignore` | Ignores `node_modules/`, `dist/`. |
+| `.gitignore` | Ignores `node_modules/`, `dist/`, `dist-electron/`. |
 
 ---
 
@@ -110,6 +110,24 @@ Git metadata — **`git init`** has been run; **remote** and **first commit** ar
 npm install
 npm run validate:kos   # corpus/ (production) + examples/ (schema only)
 npm test               # serializer vs fixtures/
+npm run dev            # Electron + Vite (Phase 2 chat shell)
 ```
 
-No desktop app or Electron code lives here yet — that starts in later phases per the architecture roadmap.
+## `assets/`
+
+| File | Purpose |
+|------|---------|
+| `tray.png` | Tray icon for Electron **Tray** (main process loads from repo-relative path in dev). |
+
+---
+
+## Desktop app (Phase 2+)
+
+| Path | Purpose |
+|------|---------|
+| [electron/](electron/) | **Main process** (`main.ts`): **Tray** + show/hide (close hides unless Quit), IPC **`corpus:list`** and **`session:startRandom`** over **`knowledge-objects/corpus/**/*.json`** only; bundles **`resolveTicketDisplayName`** from `src/pickDisplayName.ts` via esbuild. **Preload** (`preload.ts`): `contextBridge` → `window.app.listCorpusKos()`, **`startRandomSession`**. |
+| [renderer/](renderer/) | **React + Vite** chat shell: **Start Random Scenario** (abandon confirm), ticket header (`ko_number`, `fmno`, `displayName`, `issueSummary`), dual bubbles (technician / customer / mentor stubs), technician-first empty state, **I’m stuck** (enabled in `live`) and **End Session / Grade Me** (stub alert + clear) until Phase 4 wiring. |
+| [vite.config.ts](vite.config.ts) | Vite root `renderer/`; production build → **`dist/renderer/`**. |
+| [scripts/build-electron.mjs](scripts/build-electron.mjs) | Bundles `electron/*.ts` → **`dist-electron/*.cjs`** (esbuild). |
+
+**Run from repo root:** `npm run dev` (Vite + watch + Electron) or `npm run build:desktop` then `npm start` for a production-style load (`dist/renderer` + `dist-electron`).
