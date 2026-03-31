@@ -1,6 +1,6 @@
 # Phase 1 corpus — SME sign-off record
 
-This file satisfies the **SME sign-off** exit criterion in [PHASE1-READINESS.md](PHASE1-READINESS.md).
+This file satisfies the **SME sign-off** exit criterion in [PHASE-READINESS.md](PHASE-READINESS.md).
 
 ## Scope signed off
 

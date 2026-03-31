@@ -33,7 +33,7 @@
 
 **Do not commit** `node_modules/` — it is listed in `.gitignore`. Commit changes to `package.json` / `package-lock.json` only when the team intentionally changes dependencies.
 
-**More detail:** Folder layout, scripts, and how `schemas/`, `fixtures/`, and `knowledge-objects/` fit together — [REPO-LAYOUT.md](REPO-LAYOUT.md). **Phase readiness (Phases 1–6)** — exit criteria, dependencies, commands — [PHASE1-READINESS.md](PHASE1-READINESS.md).
+**More detail:** Folder layout, scripts, and how `schemas/`, `fixtures/`, and `knowledge-objects/` fit together — [REPO-LAYOUT.md](REPO-LAYOUT.md). **Phase readiness (Phases 1–6)** — exit criteria, dependencies, commands — [PHASE-READINESS.md](PHASE-READINESS.md).
 
 ---
 

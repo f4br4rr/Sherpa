@@ -29,4 +29,4 @@ npm run validate:kos
 
 See `examples/KO99999.example.json` for **minimal field shape** only — add **as many `ts_steps` as needed** (see bullets above) when authoring real KOs under **`corpus/`** with a unique `KO…` id.
 
-Phase 2+ implementers: [Handoff to Phase 2](../PHASE1-READINESS.md#handoff-to-phase-2-engineering) (corpus path, loader assumptions).
+Phase 2+ implementers: [Handoff to Phase 2](../PHASE-READINESS.md#handoff-to-phase-2-engineering) (corpus path, loader assumptions).
