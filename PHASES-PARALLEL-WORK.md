@@ -97,7 +97,7 @@ Split by feature: dashboard shell, KO picker, written flow UI + timer, **shared 
 
 ## Related docs
 
-- Phase 1 checklist: [PHASE1-READINESS.md](PHASE1-READINESS.md)  
+- Phase readiness (Phases 1–6) — what “done” means per phase: [PHASE1-READINESS.md](PHASE1-READINESS.md)  
 - Repo layout and commands: [REPO-LAYOUT.md](REPO-LAYOUT.md)  
 - Onboarding: [team-pre-reads.md](team-pre-reads.md)
 

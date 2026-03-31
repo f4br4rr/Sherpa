@@ -460,7 +460,7 @@ The JSON below uses **one fictional Zoom-related symptom** only to show **field 
 ### Automation in repo (Phase 1+)
 
 - `**schemas/knowledge-object.schema.json`** — JSON Schema for the canonical KO shape above; pair with [Validation rules (for humans and later automation)](#validation-rules-for-humans-and-later-automation).
-- `**npm run validate:kos**` — `**knowledge-objects/corpus/**/*.json`:** schema, duplicate `ko_number` within corpus, contiguous `ts_steps.step` starting at 1. `**knowledge-objects/examples/**/*.json`:** schema + `ts_steps` only. See `**knowledge-objects/README.md`** and `**PHASE1-READINESS.md**`.
+- `**npm run validate:kos**` — `**knowledge-objects/corpus/**/*.json`:** schema, duplicate `ko_number` within corpus, contiguous `ts_steps.step` starting at 1. `**knowledge-objects/examples/**/*.json`:** schema + `ts_steps` only. See `**knowledge-objects/README.md`** and `**PHASE1-READINESS.md`** (phase readiness and exit criteria for Phases 1–6).
 - **Export / serializer goldens (Chat Practice transcript):** `**fixtures/`** + `**fixtures/test-contract.md**`; reference implementation `**src/serializeExportTranscript.ts**` (Jest: `**npm test**`). **Onboarding map of all folders:** `**REPO-LAYOUT.md`**.
 
 ---

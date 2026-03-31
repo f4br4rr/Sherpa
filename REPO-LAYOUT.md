@@ -12,7 +12,7 @@ This page explains **top-level folders and key files** in this repo, including w
 |------|---------|
 | [project-architecture-and-plan.md](project-architecture-and-plan.md) | Single technical blueprint — behavior, phases, schemas described in prose. |
 | [team-pre-reads.md](team-pre-reads.md) | Short, non-technical overview for the wider team. |
-| [PHASE1-READINESS.md](PHASE1-READINESS.md) | Checklist: Phase 1 steps + exit criteria + **Handoff to Phase 2** (loader assumptions). |
+| [PHASE1-READINESS.md](PHASE1-READINESS.md) | **Phase readiness (Phases 1–6):** exit criteria per phase, dependencies, **Handoff to Phase 2** (corpus contract). Architecture doc remains canonical. |
 | [SME-SIGNOFF-PHASE1.md](SME-SIGNOFF-PHASE1.md) | Phase 1 **SME sign-off** record for the 40-KO corpus (links from exit criteria). |
 | [PHASES-PARALLEL-WORK.md](PHASES-PARALLEL-WORK.md) | All phases at a glance + **how six devs parallelize** without merge conflicts (lanes, DRIs, merge order). |
 | [REPO-LAYOUT.md](REPO-LAYOUT.md) | This file — map of folders. |
