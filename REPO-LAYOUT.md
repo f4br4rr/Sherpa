@@ -113,12 +113,20 @@ npm test               # serializer vs fixtures/
 npm run dev            # Electron + Vite (Phase 2 chat shell)
 ```
 
+## `assets/`
+
+| File | Purpose |
+|------|---------|
+| `tray.png` | Tray icon for Electron **Tray** (main process loads from repo-relative path in dev). |
+
+---
+
 ## Desktop app (Phase 2+)
 
 | Path | Purpose |
 |------|---------|
-| [electron/](electron/) | **Main process** (`main.ts`): tray, window lifecycle, IPC **`corpus:list`** reading **`knowledge-objects/corpus/**/*.json`**. **Preload** (`preload.ts`): hardened `contextBridge` → `window.app.listCorpusKos()`. |
-| [renderer/](renderer/) | **React + Vite** chat shell: Start random scenario (abandon confirm), ticket header + persona fallback, dual-style bubbles, technician-first empty chat, **I’m stuck** / **End session** placeholders until Phase 4. |
+| [electron/](electron/) | **Main process** (`main.ts`): **Tray** + show/hide (close hides unless Quit), IPC **`corpus:list`** and **`session:startRandom`** over **`knowledge-objects/corpus/**/*.json`** only; bundles **`resolveTicketDisplayName`** from `src/pickDisplayName.ts` via esbuild. **Preload** (`preload.ts`): `contextBridge` → `window.app.listCorpusKos()`, **`startRandomSession`**. |
+| [renderer/](renderer/) | **React + Vite** chat shell: **Start Random Scenario** (abandon confirm), ticket header (`ko_number`, `fmno`, `displayName`, `issueSummary`), dual bubbles (technician / customer / mentor stubs), technician-first empty state, **I’m stuck** (enabled in `live`) and **End Session / Grade Me** (stub alert + clear) until Phase 4 wiring. |
 | [vite.config.ts](vite.config.ts) | Vite root `renderer/`; production build → **`dist/renderer/`**. |
 | [scripts/build-electron.mjs](scripts/build-electron.mjs) | Bundles `electron/*.ts` → **`dist-electron/*.cjs`** (esbuild). |
 
