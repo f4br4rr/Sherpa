@@ -59,7 +59,7 @@
     "os": { "type": "string", "minLength": 1 },
     "rubric": {
       "type": "object",
-      "description": "Written ATS Drill only; optional free-form object until rubric sub-schema is frozen."
+      "description": "Optional Written ATS Drill UI/authoring scaffold (sections, follow-ups). Grading uses the same LLM evaluator and ATS matrix as Chat Practice—not rubric keyword matching. Free-form until rubric sub-schema is frozen."
     }
   }
 }

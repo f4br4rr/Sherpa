@@ -8,9 +8,9 @@
 
 ## Executive architecture summary
 
-This product is a **cross-platform desktop application** that gives technicians a **natiSMEve-feeling** practice environment: a **chat console** for simulated incidents, a **menu bar (macOS) / system tray (Windows)** presence, and a **dual-persona AI layer** — a **simulated end-user** plus a **background mentor/grader** — so practice mirrors real Help Desk rhythm and coaching.
+This product is a **cross-platform desktop application** that gives technicians a **native-feeling** practice environment: a **chat console** for simulated incidents, a **menu bar (macOS) / system tray (Windows)** presence, and a **dual-persona AI layer** — a **simulated end-user** plus a **background mentor/grader** — so practice mirrors real Help Desk rhythm and coaching.
 
-A **second assessment mode** — **Written ATS Drill** — adds a timed, closed-book **written** workflow with **deterministic rubric-keyword** scoring (**no LLM** on that grading path). It is **additive**, reuses the same desktop shell and KO corpus, and ships **after** the Chat Practice MVP (see [Written ATS Drill (additive assessment mode)](#written-ats-drill-additive-assessment-mode)). It does **not** remove MCP, dual personas, or the chat evaluator.
+A **second assessment mode** — **Written ATS Drill** — adds a timed, closed-book **written** workflow graded by the **same LLM evaluator stack** and **ATS three-factor matrix** as Chat Practice (bound KO via **`get_ko`**, structured written submission instead of a chat transcript). **Optional `rubric`** on a KO is an **authoring / UI scaffold** only — **not** a keyword scoring engine. **Exa** for **tier-2 equivalent-path adjudication** and **KO enrichment** follows the **same policy and release flags** as Chat Practice (see [Written ATS Drill (additive assessment mode)](#written-ats-drill-additive-assessment-mode)). It is **additive**, reuses the same desktop shell and KO corpus, and ships **after** the Chat Practice MVP. It does **not** remove MCP, dual personas, or the chat evaluator.
 
 The architecture rests on **three pillars** for **Chat Practice**, with **two cross-cutting design requirements** woven through interface, state, and prompts:
 
@@ -413,7 +413,7 @@ Each Knowledge Object is a single JSON document with the following fields:
 | `contributor_notes`    | **Optional (post-MVP).** **String** (free-form, **max 500 chars**). Added by human SME during enrichment review. **Not** used at runtime (see [KO Auto-Enrichment (post-MVP)](#ko-auto-enrichment-post-mvp)). Not used for automated scoring.                                                                                   |
 | `device`               | **Optional.** Shown on Written Drill **case brief** when present; **omit** the row if absent.                                                                                                                                                                                                                                   |
 | `os`                   | **Optional.** Shown on Written Drill **case brief** when present; **omit** the row if absent.                                                                                                                                                                                                                                   |
-| `rubric`               | **Optional.** **Written ATS Drill only** — structured rubric for deterministic scoring (see [Written ATS Drill](#written-ats-drill-additive-assessment-mode)). **Chat Practice ignores** `rubric` at runtime.                                                                                                                   |
+| `rubric`               | **Optional.** **Written ATS Drill only** — structured scaffold for **section copy / follow-up prompts** (see [Written ATS Drill](#written-ats-drill-additive-assessment-mode)). **Grading** uses the **LLM evaluator + ATS matrix** (same as chat), not rubric keyword matching. **Chat Practice ignores** `rubric` at runtime.                                                                                                                   |
 
 
 **Product note:** Severity is **intentionally excluded** from this product. KO scenarios are presented **without** severity framing — the technician sees **only** the ticket number, persona name, and Issue Description (see [Chat UI / UX strategy](#chat-ui--ux-strategy-persona-distinction) and [Session initiation and persona flow](#session-initiation-and-persona-flow)).
@@ -495,7 +495,7 @@ Phase 1 scenarios should be **reproducible on typical corporate end-user devices
 3. **Review** — Human sign-off on technical accuracy and **plausible distractors** (wrong-but-common steps).
 4. **Validate** — Schema checklist (required fields, `ts_steps` order and contiguity, uniqueness); run **`npm run validate:kos`** locally or in CI.
 5. **Dedupe** — Merge near-duplicates; differentiate by **root cause** or **trigger**.
-6. **Tag for scoring** — Optional metadata (difficulty, correct root cause keyword, escalation threshold) to support automated rubrics later.
+6. **Tag for scoring** — Optional metadata (difficulty, correct root cause keyword, escalation threshold) for **corpus analytics or future tooling** — **not** a plan for deterministic rubric scoring; **Chat Practice** and **Written ATS Drill** both use the **LLM evaluator + ATS matrix** (optional KO `rubric` is **UI scaffold** only for Written — see [Written ATS Drill](#written-ats-drill-additive-assessment-mode)).
 7. `**persona`** — Optional; add realistic **name + department** strings for richer ticket headers. If skipped, the app still supplies `**displayName`** via **random first + last** (see `src/pickDisplayName.ts`).
 
 ### Quality guardrails
@@ -801,7 +801,9 @@ The evaluator assigns a score from **1 to 5** for each factor (**3.5** allowed w
 
 ## Written ATS Drill (additive assessment mode)
 
-**Scope:** **Post–Chat MVP** (recommended **Phase 6** after Phase 5 demo freeze). **Chat Practice** (dual persona, MCP, LLM evaluator) is **unchanged**. Written Drill reuses the **Electron + TypeScript + React** shell, design tokens, KO corpus, and the **same nuclear keyword list** as chat (single canonical module; **same named owner** per release as Phase 2 prompt engineer). **No LLM** and **no MCP** on the Written Drill **grading** path.
+**Scope:** **Post–Chat MVP** (recommended **Phase 6** after Phase 5 demo freeze). **Chat Practice** (dual persona, MCP, LLM evaluator) is **unchanged**. Written Drill reuses the **Electron + TypeScript + React** shell, design tokens, KO corpus, and the **same nuclear keyword list** as chat where applicable (single canonical module; **same named owner** per release as Phase 2 prompt engineer).
+
+**Grading path (parity with Chat Practice):** Written Drill uses the **LLM evaluator** with the **same ATS three-factor matrix**, weights, and **Pass / Needs Improvement** threshold as chat. **MCP** on the evaluation path includes at minimum **`get_ko(bound_ko_number)`** and optionally **`search_kb`** — **mentor/evaluator only**; **closed-book** for the technician (no KO or Exa UI during the attempt). **EvidenceEvents** log tool calls on the Written Drill evaluation path the **same way** as Chat Practice. **Exa** for **tier-2 equivalent-path adjudication** follows [Knowledge and external validation policy](#knowledge-and-external-validation-policy-mcp-exa-scoring) — **KO canonical** for procedure and safety; Exa for **equivalence and freshness**, not blind override. **KO auto-enrichment** (`flaggedForKoEnrichment`, SME review) follows the **same pipeline** as Chat Practice — **no** auto-merge without sign-off.
 
 **Session model:** Top-level `**sessionKind`:** `'chat' | 'written_drill'`. Written Drill uses its **own** state machine — e.g. `atsStep`: `null` | `'picker'` | `'brief'` | `'writing'` | `'followUp'` | `'scorecard'` — **not** chat `phase` (`awaiting_tech_intro` … `closed`). Switching modes with an active session → **confirmation dialog** → **unified teardown** → enter the other mode.
 
@@ -809,32 +811,26 @@ The evaluator assigns a score from **1 to 5** for each factor (**3.5** allowed w
 
 ### Flow (technician-facing)
 
-1. **KO picker** — Technician **chooses** a KO (**no random assignment** in Written Drill; random scenario remains **Chat Practice** only). Filter by technology (**Mac / Windows / Zoom / iOS**) using `getCategory(configuration_item)` (see below). **Only KOs with a valid `rubric`** appear in the picker.
-2. **Case brief** — Read-only: **Ticket ID** = `**ko_number`** (synthetic `SIM-…` `**ticketId**` is internal/export only, not shown in UI). **Category** badge, `**device` / `os`** rows if present on KO, **issue** text, **user-reported** quote from `**description`** (trimmed; prefer future `**userReportedQuote**` if added). **Do not** show `**internal_information`**, rubric keywords, or answer key during timed writing. **No persona name / department** on this brief (product choice for this mode).
+1. **KO picker** — Technician **chooses** a KO (**no random assignment** in Written Drill; random scenario remains **Chat Practice** only). Filter by technology (**Mac / Windows / Zoom / iOS**) using `getCategory(configuration_item)` (see below). **Eligibility:** **`state: Published`** and category **not** `Other`. **`rubric` is optional** — when present, it **enriches** section framing and follow-ups; when absent, the UI still offers the four sections using **`description`** and **`ts_steps`** as **scaffold hints** only (no answer key).
+2. **Case brief** — Read-only: **Ticket ID** = `**ko_number`** (synthetic `SIM-…` `**ticketId**` is internal/export only, not shown in UI). **Category** badge, `**device` / `os`** rows if present on KO, **issue** text, **user-reported** quote from `**description`** (trimmed; prefer future `**userReportedQuote**` if added). **Do not** show `**internal_information`**, evaluator prompts, or full rubric answer key during timed writing. **No persona name / department** on this brief (product choice for this mode).
 3. **Timed writing** — Four sections: **Pre-checks**, **Root causes / hypotheses**, **Troubleshooting steps**, **Escalation path**. Timer: **180 s** default; **+2 min** control, **max 2** uses → **7:00** cap. **No pause** on blur, background tab, or window switch. **Auto-submit** at **0**; **partial text preserved**. `**clearInterval`** on mode switch, abandon, unmount, post-submit.
-4. **Follow-up questions** — Free-text answers; **keyword match** informs **coaching lines only** — **do not** change the three ATS factor scores. If `**rubric.followUpQuestions.length === 0`** at runtime (stale bundle): **auto-skip Step 4** → scorecard; `**gradingIntegrity`** forced to `**incomplete_rubric_missing**`; muted coaching line: *Follow-up questions were unavailable for this session.*; export `**followUpAnswers: []*`* (always present).
-5. **Scorecard** — Deterministic coaching (no LLM). **Download Results** → JSON (`exportSchemaVersion`: `**ghd-export-v2`**, `**mode: "written_drill"**`).
+4. **Follow-up questions** — If `**rubric.followUpQuestions`** is non-empty, collect free-text answers; they are **part of the evaluator input bundle** (holistic LLM judgment — **no** keyword-only score lock). If empty, **skip** this step (or one generic product-default question). Export `**followUpAnswers`** when applicable.
+5. **Scorecard** — **LLM-generated** ATS scores and coaching (same semantics as Chat Practice). **Download Results** → JSON (`exportSchemaVersion`: `**ghd-export-v2`**, `**mode: "written_drill"**`).
 
 **Submit idempotency:** On first submit (manual or auto), **disable** submit and extension controls immediately; second submit is a **no-op**. If manual submit is in flight when timer hits 0, **discard** duplicate auto-submit.
 
-### `rubric` shape (documentation)
+### `rubric` shape (documentation — optional scaffold)
 
-Optional on any KO; **required** for Written Drill picker eligibility when validated:
+Optional on any KO. Supports **UI copy** and **follow-up questions**; **grading** uses the **LLM + ATS matrix**, not rubric keyword coverage.
 
-- `**preChecks`**, `**rootCauses**`, `**tsSteps`:** arrays of `{ text: string; critical: boolean }`
-- `**escalationPath`:** **required non-empty string** (at least one non-whitespace character). **Coaching-only in v1** — **not** included in the three ATS factor scores. **No separate scoring-metadata field** (e.g. `scoringRole`) in JSON — enforcement is **code + spec only**. **Do not remove `escalationPath` from the rubric shape.**
-- `**followUpQuestions`:** `{ question: string; keywords: string[] }[]` — **minimum length 1** for a valid rubric.
-- `**rubricVersion`:** string — **export audit only**; not shown in UI; no cache invalidation logic in v1.
+- `**preChecks`**, `**rootCauses`**, `**tsSteps`:** arrays of `{ text: string; critical?: boolean }` — authoring hints; **evaluator** applies [Flexibility guardrail (not rote step-matching)](#flexibility-guardrail-not-rote-step-matching).
+- `**escalationPath`:** optional string — exemplar for authors; not shown as the answer key.
+- `**followUpQuestions`:** `{ question: string; keywords?: string[] }[]` — **keywords** optional; **not** used for deterministic scoring; legacy author hints only.
+- `**rubricVersion`:** string — **export audit** when rubric present.
 
-### Rubric validator (picker gate)
+### Optional rubric lint (authoring / CI)
 
-A KO is **excluded** from the Written Drill picker if **any** check fails:
-
-- `**escalationPath`:** non-empty string (≥1 non-whitespace character).
-- `**followUpQuestions`:** array with **length ≥ 1**.
-- **Each scored category** (`preChecks`, `rootCauses`, `tsSteps`): **at least one** item with `**critical: true`**.
-
-These rules are **authoritative** in this document — implement the same logic in code and CI.
+When a KO includes `rubric`, CI **may** warn on malformed JSON. **Picker eligibility** does **not** require a rubric.
 
 ### Technology filter — `getCategory` (canonical module)
 
@@ -851,37 +847,19 @@ Single **canonical source file** (e.g. `categoryMap.ts`): **import everywhere**;
 
 **Phase 1 Chat Practice corpus (this repo):** Implementations of `getCategory` should classify the live `configuration_item` strings under `knowledge-objects/corpus/` (e.g. **`macOS (Apple Silicon)`**, **`Windows 11`**, **`Microsoft Teams (Windows)`**, **`Zoom (macOS)`**, **`iPhone (iOS)`**) into **Mac**, **Windows**, **Zoom**, or **iOS** per the rules above — add regression tests when new label patterns appear.
 
-### Scoring (deterministic) — alignment with [ATS assessment matrix](#ats-assessment-matrix-simulator-rubric)
+### Scoring (LLM evaluator — parity with [ATS assessment matrix](#ats-assessment-matrix-simulator-rubric))
 
-**Coverage → factor raw score (integers 1–5):** map **critical-item match ratio** per category to buckets: **0–20% → 1**, **21–40% → 2**, **41–60% → 3**, **61–80% → 4**, **81–100% → 5**. **Keyword matching:** ASCII normalization only — **lowercase**, **trim**, **collapse whitespace**; **no** accent folding or stemming in v1.
+**Input bundle:** (1) **Bound KO** loaded via **`get_ko(bound_ko_number)`** (same authoritative ground truth as Chat Practice). (2) **Written submission** — the four timed section texts plus any follow-up answers, presented to the evaluator as **labeled structured prose** (not a chat `Message[]`). (3) **Optional `search_kb`** and, when the **Exa feature flag** is on, **`exa_search`** — **same mentor-only and tier-2 adjudication rules** as [Tooling during evaluation](#tooling-during-evaluation) and [Knowledge and external validation policy](#knowledge-and-external-validation-policy-mcp-exa-scoring). **EvidenceEvents** record each tool call on the Written Drill evaluation path.
 
-**Rubric row → ATS factor (internal rubric keys vs plan weights):**
+**Model outputs:** The evaluator returns **the same ATS factor scores and coaching shape** as Chat Practice (valid values **1–5** in **0.5** steps per factor; floating-point-safe validation). The **app recomputes `weightedScore`** and **`outcomeLabel`** using the **40% / 35% / 25%** weights and **≥ 4.0** Pass threshold — **do not** trust raw model arithmetic (same discipline as chat export).
 
+**Flexibility:** The [Flexibility guardrail (not rote step-matching)](#flexibility-guardrail-not-rote-step-matching) applies **equally** to Written Drill and Chat Practice — valid reasoning that does not verbatim reproduce `ts_steps` or rubric lines must still be scoreable; penalize **critical safety omissions** and **gross logical gaps**, not phrasing alone.
 
-| Rubric key   | ATS meaning (plan)                      | Weight   |
-| ------------ | --------------------------------------- | -------- |
-| `tsSteps`    | Technical Knowledge                     | **0.40** |
-| `rootCauses` | Logical and Critical Thinking           | **0.35** |
-| `preChecks`  | Root Cause and Integral Troubleshooting | **0.25** |
+**`get_ko` failure:** Follow the same **degraded evaluation** behavior as Chat Practice ([Session state management design — §4 Final evaluation step](#4-final-evaluation-step) — e.g. **Incomplete — KO unavailable**, `gradingIntegrity` flags).
 
+**`gradingIntegrity`:** **Align with Chat Practice** where possible; Written Drill may add **mode-specific** flags in **`ghd-export-v2`** when the schema is formalized.
 
-`**tsSteps.docked`** and `**preChecks.docked**` always equal `**raw**`. **Order violation dock:** `**−0.5`** to `**rootCauses**` only (Logical & Critical Thinking), **floor 1.0**, round to **nearest 0.5**, **only** when `**orderViolation`** and `**rootCauses**` is **available**. If `**rootCauses`** is **excluded** from scoring, **skip** the numeric dock; still set `**orderViolation: true`** on export for audit.
-
-`**computeWeightedScore**` receives **already-docked** `FactorScore` objects; it **does not** apply the dock internally — **caller** sets `rootCauses.docked = applyOrderDock(rootCauses.raw)` when applicable.
-
-**Weighted score:** **recompute** from available factors; weights **renormalize** to sum **1.0** when one or more factors are excluded. **Single remaining factor:** `weightedScore = that factor’s docked × 1.0`; `**appliedWeights`** shows `{ [factor]: 1.0 }`. **All factors missing (defensive):** `weightedScore: null`, `outcomeLabel: "Unavailable"`, `atsScores: {}`, fixed coaching string, `**gradingIntegrity: incomplete_rubric_missing`** — **no NaN**, **no throw**.
-
-**Pass threshold:** **≥ 4.0** (same as chat). `**outcomeLabel`** derived only from recomputed `**weightedScore**` (and `**Unavailable**` when score is null).
-
-**Written Drill `gradingIntegrity` enum:** `**"ok" | "incomplete_rubric_missing"`** — **not** shared with chat’s `gradingIntegrity` values. `**computeWeightedScore`** sets `**incomplete_rubric_missing**` when `**available.length < 3**`. The **orchestrator** **also** forces `**incomplete_rubric_missing`** when Step 4 was skipped due to missing follow-ups — **even if** all three factor scores are `**ok`**.
-
-**Stakeholder rule:** `**incomplete_rubric_missing` does not imply fail.** It flags **degraded rubric or follow-up data** only. `**outcomeLabel`** (**Pass** / **Needs Improvement**) is determined **solely** from the three factor scores and remains **valid** when this flag is set. Reviewers must **not** treat the flag as a score modifier.
-
-**Strip `atsScores` for export:** emit **only** keys where `**available === true`**; omit unavailable factors (**not** zero).
-
-**Disclaimer (scorecard + export):** *Scores reflect rubric keyword coverage — not equivalent to live chat session scores.*
-
-**Coaching text (100% deterministic, no LLM):** (1) per factor, bullets of **missed critical** items; (2) one line per follow-up — *Relevant answer detected* / *No relevant keywords found*; (3) if order violation, fixed note on escalation-level remediation before standard steps; (4) escalation textarea: **two-condition** utility — trimmed length **≥ 20** **and** case-insensitive substring hit on an allowlist (e.g. `escalat`, `L2`, `L3`, `vendor`, `support`, `manager`, `ticket`, `senior`, `specialist`) → *Escalation path provided* / else *No escalation path provided.* **Escalation path string in rubric** is not keyword-scored for ATS factors in v1.
+**Disclaimer (scorecard + export):** *Written and chat sessions use the same ATS framework and evaluator stack; evidence differs (structured prose vs dialogue), so numeric scores are **not** directly comparable across modalities.*
 
 ### Export — Written Drill (`ghd-export-v2`)
 
@@ -889,17 +867,7 @@ Single **canonical source file** (e.g. `categoryMap.ts`): **import everywhere**;
 
 `**weightedScore`:** `number | null` (**null** when all factors unavailable). `**outcomeLabel`:** `**Pass` | `Needs Improvement` | `Unavailable`** — use `**Unavailable**` when `**weightedScore**` is **null**; **never omit** the field.
 
-`**atsScores` in JSON:** use **ATS keys** (`**technicalKnowledge`**, `**logicalThinking**`, `**rootCause**`) — **not** internal rubric keys. **Mapping (serializer only):**
-
-
-| Rubric key   | Export `atsScores` key | Weight |
-| ------------ | ---------------------- | ------ |
-| `tsSteps`    | `technicalKnowledge`   | 0.40   |
-| `rootCauses` | `logicalThinking`      | 0.35   |
-| `preChecks`  | `rootCause`            | 0.25   |
-
-
-Internal scoring uses `**preChecks` / `rootCauses` / `tsSteps`** throughout; **only** the export serializer translates to ATS names — keeps parity with Chat Practice export and the ATS table in this document.
+`**atsScores` in JSON:** use the **same ATS keys** as Chat Practice (`**technicalKnowledge`**, `**logicalThinking**`, `**rootCause**`) — the **LLM evaluator** emits scores under those factors directly; **no** rubric-key → ATS mapping layer (legacy deterministic path removed).
 
 **Other fields** (e.g. `**extensionsUsed`**, `**orderViolation**`, section texts, `**followUpAnswers**`, coaching payload, `**gradingIntegrity**`, `**rubricVersion**`, `**learningBehavior**` e.g. `"n/a — written drill"` per product choice) should remain **present** in a valid export object for debugging — exact minimum schema may be formalized alongside Phase 6.
 
@@ -910,20 +878,20 @@ Internal scoring uses `**preChecks` / `rootCauses` / `tsSteps`** throughout; **o
 ### Build order (implementation hint)
 
 1. `**getCategory` + tests**
-2. **Scoring engine** (`types`, `applyOrderDock`, `computeWeightedScore`) + tests
-3. **Rubric validator** (picker gate)
-4. **Written Drill state machine** + **timer** module
-5. **Scorecard + coaching renderer** (deterministic)
+2. **Written Drill state machine** + **timer** module
+3. **Evaluator integration** — shared **weighted score** / validation helpers with Chat Practice (`**computeWeightedScore`** discipline, parse guards) + **MCP** tool wiring on evaluation path
+4. **Scorecard + coaching renderer** (LLM output)
+5. **`ghd-export-v2`** serializer + tests
 
 ### Flexibility guardrail scope
 
-The [Flexibility guardrail (not rote step-matching)](#flexibility-guardrail-not-rote-step-matching) applies to the **LLM chat evaluator**, not to Written Drill keyword coverage.
+The [Flexibility guardrail (not rote step-matching)](#flexibility-guardrail-not-rote-step-matching) applies to **both** the **Chat Practice** and **Written ATS Drill** **LLM evaluators**.
 
 ---
 
 ## Security and privacy guardrails (local demo)
 
-- **Secrets:** API keys for Claude and Exa **never** committed; use OS-level secret storage or local environment configuration documented internally (not in public README). **Exa API key** must **not** be provisioned or initialized in any **MVP** binary. **No Exa client initialization** in MVP builds — feature flag must **default off** and be **testable**. Provision **only** when the **first post-MVP Exa feature** ships (tier-2 adjudication, debrief, or KO enrichment — whichever comes first).
+- **Secrets:** API keys for Claude and Exa **never** committed; use OS-level secret storage or local environment configuration documented internally (not in public README). **Exa API key** must **not** be provisioned or initialized in any **MVP** binary. **No Exa client initialization** in MVP builds — feature flag must **default off** and be **testable**. Provision **only** when the **first post-MVP Exa feature** ships (tier-2 adjudication, debrief, or KO enrichment — whichever comes first). **When Exa is enabled**, **Written ATS Drill** uses the **same flag and policy** as **Chat Practice** on the **evaluator** path (not technician-facing).
 - **MCP least privilege:** Server can read **only** the KO directory; reject path traversal; optional rate limits on `search_kb`.
 - **Renderer isolation:** Follow Electron security baselines — no direct Node APIs in renderer unless via hardened preload bridges.
 - **Telemetry:** Default **off** for demo; if enabled later, explicit consent and redaction policy.
@@ -976,7 +944,7 @@ The [Flexibility guardrail (not rote step-matching)](#flexibility-guardrail-not-
 | **Phase 3** | MCP server base                       | `**get_ko` + optional `search_kb`**, **mentor-only** wiring; **EvidenceEvents** for replay/audit                                                                                                                                                                                                                                        |
 | **Phase 4** | AI validation                         | **Closed-book** UX; **Persona A / B** prompts; **KO-only evaluator** for MVP (`**get_ko`**; no Exa required for scores); **FMNO**; **End Session / Grade Me** + **I’m stuck** wired to Persona B; end-to-end scenario; **Exa adjudication post-MVP**                                                                                    |
 | **Phase 5** | UI integration and scoring refinement | Scorecards, polish, Windows pass, demo freeze                                                                                                                                                                                                                                                                                           |
-| **Phase 6** | Written ATS Drill (additive)          | Dashboard landing, KO picker + rubric-gated list, timed written flow, deterministic scoring + export `**ghd-export-v2`**; **no change** to Chat Practice contract                                                                                                                                                                       |
+| **Phase 6** | Written ATS Drill (additive)          | Dashboard landing, KO picker (Published + category filter; **optional `rubric`** for UI scaffold), timed written flow, **LLM evaluator + same ATS matrix / MCP / Exa policy as Chat Practice** + export `**ghd-export-v2`**; **no change** to Chat Practice export `**1.0`** contract                                                                                                                                                                       |
 
 
 ### Phase dependencies (explicit)
@@ -984,7 +952,7 @@ The [Flexibility guardrail (not rote step-matching)](#flexibility-guardrail-not-
 - **Phase 2 → Phase 3:** Desktop shell and baseline session UX (**Start Random Scenario**, ticket header, dual-persona chat) should exist before **MCP** and **EvidenceEvents** are exercised end-to-end.
 - **Phase 3 → Phase 4:** `**get_ko` / `search_kb`** on mentor-only paths precede **closed-book** prompts and the **KO-only evaluator** loop.
 - **Phase 4 → Phase 5:** After the AI path is proven, invest in scorecard polish, Windows validation, and demo freeze.
-- **Phase 5 → Phase 6:** Written ATS Drill builds on a stable Chat MVP; rubric JSON authoring may run **in parallel** with Phase 4–5 but **does not block** chat delivery.
+- **Phase 5 → Phase 6:** Written ATS Drill builds on a stable Chat MVP; **optional** rubric JSON authoring (**UI scaffold** for Written Drill sections / follow-ups) may run **in parallel** with Phase 4–5 but **does not block** chat delivery.
 - **Phase 1 → Phase 2 and Phase 4:** The KO corpus and schema validators (Phase 1) must exist before meaningful sim UX (Phase 2) or evaluator prompts (Phase 4) can be tested end-to-end.
 - **KO Auto-Enrichment → Exa tier 2:** Enrichment flow requires the Exa evaluator path to be live (post-MVP Phase 4+). Do not attempt enrichment pipeline before Exa adjudication is stable.
 
@@ -1017,7 +985,7 @@ The [Flexibility guardrail (not rote step-matching)](#flexibility-guardrail-not-
 - Any **Exa** integration that affects **score math** until post-MVP (stubs without grade impact are optional)
 - Multi-user accounts, cloud sync, admin analytics dashboard
 - Voice/video, real ServiceNow APIs
-- Perfect deterministic scoring for **chat** — aim for **directionally correct** mentor feedback (**Written Drill** uses **deterministic keyword coverage** by design — see [Written ATS Drill](#written-ats-drill-additive-assessment-mode))
+- Perfect deterministic scoring for **chat** — aim for **directionally correct** mentor feedback (**Written Drill** uses the **same LLM evaluator architecture** as chat — see [Written ATS Drill](#written-ats-drill-additive-assessment-mode); both modes allow model variance)
 - **[Phase 5 TODO — C4/D4 + Chat-only union]** Max sentinel hints per session cap (`sentinel_cap`): define numeric limit and behavior when cap is reached. `**sentinel_cap` applies only to Chat Practice** (`phase` union in [Session state management design](#session-state-management-design)); Written Drill does **not** use Persona B sentinels. **Risk accept (Chat MVP):** hints are **uncapped** in the internal demo — accepted for **demo scope**; **define `sentinel_cap` before** any broader production rollout or **shared** reuse of the sentinel module with Written Drill shell.
 - **[Phase 5 TODO]** Golden transcript schema: format and storage spec for ground-truth evaluation references.
 - **[Post-MVP] Auto-save results on scorecard render:** Immediately when the scorecard renders (`phase === closed` and evaluator output is parsed), automatically trigger a JSON file save to the user’s local machine — no button click required. In **Electron**, use the main-process file write or `**webContents`** download API; do **not** rely solely on browser anchor-click download. File payload shape:

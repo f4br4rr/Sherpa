@@ -20,7 +20,7 @@
 | **3** | MCP server base | **`get_ko`** plus optional **`search_kb`**, mentor-only wiring, **EvidenceEvents** |
 | **4** | AI validation | Closed-book UX, Persona A/B prompts, KO-only evaluator, FMNO, end-to-end chat scenario; Exa adjudication post-MVP |
 | **5** | UI integration and scoring refinement | Scorecards, polish, Windows pass, demo freeze |
-| **6** | Written ATS Drill (additive) | Dashboard, KO picker plus rubric-gated list, timed written flow, deterministic scoring, **`ghd-export-v2`** — **no change** to Chat Practice export contract |
+| **6** | Written ATS Drill (additive) | Dashboard, KO picker (Published + category; optional rubric for UI), timed written flow, **LLM evaluator + same ATS / MCP / Exa policy as chat**, **`ghd-export-v2`** — **no change** to Chat Practice **`1.0`** export contract |
 
 ---
 
@@ -30,7 +30,7 @@
 - **Phase 2 → Phase 3:** Shell and baseline session UX before MCP is exercised end-to-end.
 - **Phase 3 → Phase 4:** `get_ko` / `search_kb` on mentor paths before closed-book evaluator loop.
 - **Phase 4 → Phase 5:** AI path working before heavy scorecard and demo freeze.
-- **Phase 5 → Phase 6:** Stable Chat MVP before Written Drill ships; **rubric JSON authoring** may run **in parallel** with Phases 4–5 per the architecture doc (does not block chat delivery).
+- **Phase 5 → Phase 6:** Stable Chat MVP before Written Drill ships; **optional rubric JSON authoring** (UI scaffold) may run **in parallel** with Phases 4–5 per the architecture doc (does not block chat delivery).
 - **KO Auto-Enrichment:** After Exa adjudication is stable (post-MVP Phase 4+). Do **not** build the enrichment pipeline before that.
 
 ---
@@ -78,7 +78,7 @@ Phase 3 **full** end-to-end still waits on Phase 2 shell — **D** can implement
 
 ### Phase 6 (after Phase 5 freeze)
 
-Split by feature: dashboard shell, KO picker plus rubric gate, written flow UI, deterministic scorer, `ghd-export-v2` writer, tests.
+Split by feature: dashboard shell, KO picker, written flow UI + timer, **shared evaluator / MCP wiring** with chat team, `ghd-export-v2` writer, tests.
 
 **Hard rule:** Do **not** change Chat Practice export contract or Persona A/B behavior except through reviewed shared modules.
 
